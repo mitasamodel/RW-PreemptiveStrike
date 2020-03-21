@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
-using Harmony;
+using HarmonyLib;
 using RimWorld;
 using Verse;
 
@@ -12,11 +12,13 @@ namespace PreemptiveStrike.Harmony
     [StaticConstructorOnStartup]
     class HarmonyMain
     {
-        public static HarmonyInstance instance;
+        //public static HarmonyInstance instance;	//Lt. Bob: 1.1 - Replaced with below
+		public static HarmonyLib.Harmony instance;	//Lt. Bob: 1.1
 
-        static HarmonyMain()
+		static HarmonyMain()
         {
-            instance = HarmonyInstance.Create("DrCarlLuo.Rimworld.PreemptiveStrike");
+			//instance = HarmonyInstance.Create("DrCarlLuo.Rimworld.PreemptiveStrike");	//Lt. Bob: 1.1 - Replaced with below
+			instance = new HarmonyLib.Harmony("DrCarlLuo.Rimworld.PreemptiveStrike");   //Lt. Bob: 1.1
             instance.PatchAll(Assembly.GetExecutingAssembly());
             ManualPatchings();
         }

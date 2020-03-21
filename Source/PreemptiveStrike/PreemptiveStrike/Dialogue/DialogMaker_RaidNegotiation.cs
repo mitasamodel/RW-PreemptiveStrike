@@ -112,8 +112,9 @@ namespace PreemptiveStrike.Dialogue
             DiaOption option = new DiaOption("PES_SimpleConfirm".Translate());
             option.action = rebuffAction;
             option.resolveTree = true;
-            if (pawn.story.WorkTagIsDisabled(WorkTags.Violent))
-                option.Disable("PES_RaidNeg_Rebuff_Rescue_Fail".Translate());
+			//if (pawn.story.WorkTagIsDisabled(WorkTags.Violent))	//Lt. Bob: 1.1 - Replaced with below
+			if (pawn.WorkTagIsDisabled(WorkTags.Violent))           //Lt. Bob: 1.1
+				option.Disable("PES_RaidNeg_Rebuff_Rescue_Fail".Translate());
             diaNode.options.Add(option);
             diaNode.options.Add(DialogUtilities.CurtOption("PES_Cancel", null, null, true));
             return diaNode;

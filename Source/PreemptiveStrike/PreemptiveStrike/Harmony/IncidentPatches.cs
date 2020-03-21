@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
-using Harmony;
+using HarmonyLib;
 using RimWorld;
 using PreemptiveStrike.Interceptor;
 using Verse;
@@ -22,8 +22,8 @@ namespace PreemptiveStrike.Harmony
             //'cause the incidentworker for shippart is an internal class
             //and manual patching doesn't work
             var def = __instance.def;
-            if (def != DefDatabase<IncidentDef>.GetNamed("PsychicEmanatorShipPartCrash") && def != DefDatabase<IncidentDef>.GetNamed("PoisonShipPartCrash"))
-                return true;
+            if (def != DefDatabase<IncidentDef>.GetNamed("PsychicEmanatorShipPartCrash") && def != DefDatabase<IncidentDef>.GetNamed("DefoliatorShipPartCrash"))    //Lt. Bob: 1.1 - Replaced PoisonShipPartCrash with DefoliatorShipPartCrash
+				return true;
             if (IncidentInterceptorUtility.IsIntercepting_ShipPart == WorkerPatchType.ExecuteOrigin)
                 return true;
             else
