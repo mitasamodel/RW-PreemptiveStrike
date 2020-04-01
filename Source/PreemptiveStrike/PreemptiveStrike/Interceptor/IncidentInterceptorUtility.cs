@@ -145,6 +145,11 @@ namespace PreemptiveStrike.Interceptor
 
         public static bool CreateIncidentCaraven_HumanNeutral<T>(IncidentDef incidentDef,  IncidentParms parms) where T : InterceptedIncident, new()
         {
+			if(incidentDef.defName == "CaravanArrivalTributeCollector")	//"Temporary" bypass fix for Tribute Collector 
+			{
+				Log.Error("CaravanArrivalTributeCollector caught - Exiting CreateIncidentCaraven_HumanNeutral as false");
+				return false;
+			}
             InterceptedIncident incident = new T();
             incident.incidentDef = incidentDef;
             incident.parms = parms;
