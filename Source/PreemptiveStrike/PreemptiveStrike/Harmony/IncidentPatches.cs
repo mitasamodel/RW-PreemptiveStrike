@@ -248,7 +248,14 @@ namespace PreemptiveStrike.Harmony
         [HarmonyPrefix]
         static bool Prefix(IncidentWorker_ManhunterPack __instance, ref bool __result, IncidentParms parms)
         {
-            if (IncidentInterceptorUtility.isIntercepting_ManhunterPack == WorkerPatchType.ExecuteOrigin)
+			//Lt. Bob - ******PLACE QUESTCHECK HERE******
+			if (parms != null && parms.questTag != null)    //Lt. Bob - "Temporary" bypass fix? for Quest handling
+			{
+				Log.Message("-=PS=- Patch_IncidentWorker_ManhunterPack_TryExecuteWorker - questTag!=Null == " + parms.questTag);
+				Log.Message("-=PS=- Returning true");
+				return true;
+			}
+			if (IncidentInterceptorUtility.isIntercepting_ManhunterPack == WorkerPatchType.ExecuteOrigin)
                 return true;
             if (IncidentInterceptorUtility.isIntercepting_ManhunterPack == WorkerPatchType.Forestall)
             {

@@ -113,7 +113,12 @@ namespace PreemptiveStrike.Interceptor
 
         public static bool Intercept_Raid(IncidentParms parms, bool splitInGroups = false)
         {
-            if (parms.faction.PlayerRelationKind != FactionRelationKind.Hostile)
+			/*if (parms != null && parms.questTag != null) //Lt. Bob - "Temporary" bypass fix? for Quest handling
+			{
+				Log.Error("Intercept_Raid - questTag!=Null == " + parms.questTag);
+				return false;
+			}*/
+			if (parms.faction.PlayerRelationKind != FactionRelationKind.Hostile)
                 return false;
             InterceptedIncident incident;
             if (splitInGroups)
@@ -145,12 +150,13 @@ namespace PreemptiveStrike.Interceptor
 
         public static bool CreateIncidentCaraven_HumanNeutral<T>(IncidentDef incidentDef,  IncidentParms parms) where T : InterceptedIncident, new()
         {
-			if(incidentDef.defName == "CaravanArrivalTributeCollector")	//"Temporary" bypass fix for Tribute Collector 
+			if(incidentDef.defName == "CaravanArrivalTributeCollector")	//Lt. Bob - "Temporary" bypass fix for Tribute Collector 
 			{
-				Log.Error("CaravanArrivalTributeCollector caught - Exiting CreateIncidentCaraven_HumanNeutral as false");
+				Log.Message("-=PS=- CaravanArrivalTributeCollector caught - Exiting CreateIncidentCaraven_HumanNeutral as false");
+				Log.Message("-=PS=- questTag == " + parms.questTag);
 				return false;
 			}
-            InterceptedIncident incident = new T();
+			InterceptedIncident incident = new T();
             incident.incidentDef = incidentDef;
             incident.parms = parms;
             if (!incident.ManualDeterminParams())
@@ -188,7 +194,7 @@ namespace PreemptiveStrike.Interceptor
 
         public static bool Intercept_SkyFaller<T>(IncidentDef incidentDef, IncidentParms parms, bool needHoaxing = false, bool checkHostileFaction = false) where T : InterceptedIncident_SkyFaller, new()
         {
-            if (checkHostileFaction && parms.faction.PlayerRelationKind != FactionRelationKind.Hostile)
+			if (checkHostileFaction && parms.faction.PlayerRelationKind != FactionRelationKind.Hostile)
                 return false;
 
             if (incidentDef == null)
@@ -224,7 +230,7 @@ namespace PreemptiveStrike.Interceptor
 
         public static bool Intercept_Infestation(IncidentParms parms)
         {
-            if (!PESDefOf.PES_InfestationDetection.IsFinished)
+			if (!PESDefOf.PES_InfestationDetection.IsFinished)
                 return false;
             Map map = parms.target as Map;
             if (!map.listerBuildings.allBuildingsColonist.Any(b => b.def == DefDatabase<ThingDef>.GetNamed("GroundPenetratingScanner")))
@@ -250,7 +256,7 @@ namespace PreemptiveStrike.Interceptor
 
         public static bool Intercept_SolarFlare(IncidentParms parms)
         {
-            if (DetectDangerUtilities.LastSolarFlareDetectorTick != Find.TickManager.TicksGame)
+			if (DetectDangerUtilities.LastSolarFlareDetectorTick != Find.TickManager.TicksGame)
                 return false;
 
             InterceptedIncident_SolarFlare incident = new InterceptedIncident_SolarFlare();
