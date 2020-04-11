@@ -113,11 +113,8 @@ namespace PreemptiveStrike.Interceptor
 
         public static bool Intercept_Raid(IncidentParms parms, bool splitInGroups = false)
         {
-			/*if (parms != null && parms.questTag != null) //Lt. Bob - "Temporary" bypass fix? for Quest handling
-			{
-				Log.Error("Intercept_Raid - questTag!=Null == " + parms.questTag);
-				return false;
-			}*/
+			if (parms != null && parms.questTag != null) //Lt. Bob - "Temporary" bypass fix? for Quest handling
+				Log.Message("-=PS=- Intercept_Raid - questTag!=Null == " + parms.questTag);
 			if (parms.faction.PlayerRelationKind != FactionRelationKind.Hostile)
                 return false;
             InterceptedIncident incident;
@@ -175,7 +172,9 @@ namespace PreemptiveStrike.Interceptor
 
         public static bool CreateIncidentCaravan_Animal<T>(IncidentDef incidentDef, IncidentParms parms) where T : InterceptedIncident, new()
         {
-            InterceptedIncident incident = new T();
+			if (parms != null && parms.questTag != null) //Lt. Bob - "Temporary" bypass fix? for Quest handling
+				Log.Message("-=PS=- CreateIncidentCaravan_Animal - questTag!=Null == " + parms.questTag);
+			InterceptedIncident incident = new T();
             incident.incidentDef = incidentDef;
             incident.parms = parms;
             if (!incident.ManualDeterminParams())
@@ -194,6 +193,9 @@ namespace PreemptiveStrike.Interceptor
 
         public static bool Intercept_SkyFaller<T>(IncidentDef incidentDef, IncidentParms parms, bool needHoaxing = false, bool checkHostileFaction = false) where T : InterceptedIncident_SkyFaller, new()
         {
+			if (parms != null && parms.questTag != null) //Lt. Bob - "Temporary" bypass fix? for Quest handling
+				Log.Message("-=PS=- Intercept_SkyFaller - questTag!=Null == " + parms.questTag);
+
 			if (checkHostileFaction && parms.faction.PlayerRelationKind != FactionRelationKind.Hostile)
                 return false;
 
@@ -230,6 +232,9 @@ namespace PreemptiveStrike.Interceptor
 
         public static bool Intercept_Infestation(IncidentParms parms)
         {
+			if (parms != null && parms.questTag != null) //Lt. Bob - "Temporary" bypass fix? for Quest handling
+				Log.Message("-=PS=- Intercept_Infestation - questTag!=Null == " + parms.questTag);
+
 			if (!PESDefOf.PES_InfestationDetection.IsFinished)
                 return false;
             Map map = parms.target as Map;
@@ -256,6 +261,9 @@ namespace PreemptiveStrike.Interceptor
 
         public static bool Intercept_SolarFlare(IncidentParms parms)
         {
+			if (parms != null && parms.questTag != null) //Lt. Bob - "Temporary" bypass fix? for Quest handling
+				Log.Message("-=PS=- Intercept_SolarFlare - questTag!=Null == " + parms.questTag);
+
 			if (DetectDangerUtilities.LastSolarFlareDetectorTick != Find.TickManager.TicksGame)
                 return false;
 
@@ -276,7 +284,10 @@ namespace PreemptiveStrike.Interceptor
 
         public static List<Pawn> GenerateRaidPawns(IncidentParms parms)
         {
-            IsIntercepting_PawnGeneration = GeneratorPatchFlag.Generate;
+			if (parms != null && parms.questTag != null) //Lt. Bob - "Temporary" bypass fix? for Quest handling
+				Log.Message("-=PS=- GenerateRaidPawns - questTag!=Null == " + parms.questTag);
+
+			IsIntercepting_PawnGeneration = GeneratorPatchFlag.Generate;
 
             PawnGroupKindDef combat = PawnGroupKindDefOf.Combat;
             parms.points = IncidentWorker_Raid.AdjustedRaidPoints(parms.points, parms.raidArrivalMode, parms.raidStrategy, parms.faction, combat);
@@ -289,7 +300,10 @@ namespace PreemptiveStrike.Interceptor
 
         public static List<Pawn> GenerateNeutralPawns(PawnGroupKindDef pawnGroupKind, IncidentParms parms)
         {
-            IsIntercepting_PawnGeneration = GeneratorPatchFlag.Generate;
+			if (parms != null && parms.questTag != null) //Lt. Bob - "Temporary" bypass fix? for Quest handling
+				Log.Message("-=PS=- GenerateNeutralPawns - questTag!=Null == " + parms.questTag);
+
+			IsIntercepting_PawnGeneration = GeneratorPatchFlag.Generate;
 
             PawnGroupMakerParms defaultPawnGroupMakerParms = IncidentParmsUtility.GetDefaultPawnGroupMakerParms(pawnGroupKind, parms, true);
             List<Pawn> list = PawnGroupMakerUtility.GeneratePawns(defaultPawnGroupMakerParms, false).ToList<Pawn>();

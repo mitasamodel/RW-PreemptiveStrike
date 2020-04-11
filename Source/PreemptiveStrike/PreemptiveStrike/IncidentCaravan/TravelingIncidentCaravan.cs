@@ -273,8 +273,11 @@ namespace PreemptiveStrike.IncidentCaravan
 
         protected void Arrive()
         {
-            if (PES_Settings.DebugModeOn)
-                Log.Message("Carravan try arrive");
+			if (PES_Settings.DebugModeOn)
+			{
+				Log.Message("Carravan try arrive");
+				Log.Message("arrived==" + arrived + " Should be FALSE");
+			}
             if (arrived) return;
             arrived = true;
             if (!confirmed) incident.RevealAllInformation();
