@@ -99,9 +99,9 @@ namespace PreemptiveStrike.Interceptor
                 availables.Add(RevealIntention);
             if (!spawnPosition_revealed)
                 availables.Add(RevealSpawnPosition);
-            if (!animalType_revealed)
-                availables.Add(RevealAnimalType);
-            if (!animalNum_revealed && !PES_Settings.DifficultDetect)	//Lt.Bob - DifficultDetect
+            if (!animalType_revealed && !PES_Settings.DifficultDetect)  //Lt.Bob - DifficultDetect
+				availables.Add(RevealAnimalType);
+            if (!animalNum_revealed)
                 availables.Add(RevealAnimalNum);
             if (availables.Count != 0)
             {

@@ -11,6 +11,7 @@ namespace PreemptiveStrike.Jobs
 {
     class WorkGiver_PES_Refuel : WorkGiver_Refuel
     {
+		/*
         public override ThingRequest PotentialWorkThingRequest => ThingRequest.ForGroup(ThingRequestGroup.BuildingArtificial);
 
         public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
@@ -85,5 +86,6 @@ namespace PreemptiveStrike.Jobs
             Log.Error("Refuel in Tower shouldn't be atomic");
             return null;
         }
+		*/
     }
 }
