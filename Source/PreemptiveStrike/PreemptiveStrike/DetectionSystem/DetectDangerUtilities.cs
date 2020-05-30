@@ -74,14 +74,24 @@ namespace PreemptiveStrike.DetectionSystem
             odds *= 2;
             odds = Mathf.Clamp(odds, 0.2f, 0.95f);
             if (new FloatRange(0f, 1f).RandomInRange <= odds)
-            {
-                if (PES_Settings.DebugModeOn)
-                    Log.Message("Try Detect Detail with odds " + odds + " : Success");
-                return true;
-            }
-            if (PES_Settings.DebugModeOn)
-                Log.Message("Try Detect Detail with odds " + odds + " : Fail");
-            return false;
+			{
+				if (PES_Settings.DebugModeOn)
+				{
+					if (!PES_Settings.DifficultDetect)  //Lt.Bob - DifficultDetect
+						Log.Message("Try Detect Detail with odds " + odds + " : Success", false);
+					else
+						Log.Message("Try Detect Detail (Difficult) with odds " + odds + " : Success", false);
+				}
+				return true;
+			}
+			if (PES_Settings.DebugModeOn)
+			{
+				if (!PES_Settings.DifficultDetect)  //Lt.Bob - DifficultDetect
+					Log.Message("Try Detect Detail with odds " + odds + " : Fail", false);
+				else
+					Log.Message("Try Detect Detail (Difficult) with odds " + odds + " : Fail", false);
+			}
+			return false;
         }
 
         public static bool TryConfirmCaravanWithinVision(TravelingIncidentCaravan caravan)

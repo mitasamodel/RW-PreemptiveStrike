@@ -95,13 +95,13 @@ namespace PreemptiveStrike.Interceptor
         public override void RevealRandomInformation()
         {
             List<Action> availables = new List<Action>();
-            if (!intention_revealed)
+            if (!intention_revealed && !PES_Settings.DifficultDetect)	//Lt.Bob - DifficultDetect
                 availables.Add(RevealIntention);
             if (!spawnPosition_revealed)
                 availables.Add(RevealSpawnPosition);
             if (!animalType_revealed)
                 availables.Add(RevealAnimalType);
-            if (!animalNum_revealed)
+            if (!animalNum_revealed && !PES_Settings.DifficultDetect)	//Lt.Bob - DifficultDetect
                 availables.Add(RevealAnimalNum);
             if (availables.Count != 0)
             {

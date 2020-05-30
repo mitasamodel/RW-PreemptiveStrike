@@ -113,6 +113,19 @@ namespace PreemptiveStrike.Interceptor
 
         public static bool Intercept_Raid(IncidentParms parms, bool splitInGroups = false)
         {
+			if (PES_Settings.DebugModeOn)
+			{
+				Log.Message("-=PS=- Intercept_Raid Start", false);
+			}
+			if (parms.faction == null)
+			{
+				if (parms.traderKind != null)
+				{
+					Log.Message("-=PS=- parms.traderKind=" + parms.traderKind.ToString(), false);
+				}
+				Log.Message("-=PS=- parms.faction == null", false);
+				return false;
+			}
 			if (parms != null && parms.questTag != null) //Lt. Bob - "Temporary" bypass fix? for Quest handling
 				Log.Message("-=PS=- Intercept_Raid - questTag!=Null == " + parms.questTag);
 			if (parms.faction.PlayerRelationKind != FactionRelationKind.Hostile)
@@ -147,10 +160,15 @@ namespace PreemptiveStrike.Interceptor
 
         public static bool CreateIncidentCaraven_HumanNeutral<T>(IncidentDef incidentDef,  IncidentParms parms) where T : InterceptedIncident, new()
         {
-			if(incidentDef.defName == "CaravanArrivalTributeCollector")	//Lt. Bob - "Temporary" bypass fix for Tribute Collector 
+			if (PES_Settings.DebugModeOn)
+			{
+				Log.Message("-=PS=- CreateIncidentCaraven_HumanNeutral Start", false);
+				IncidentInterceptorUtility.DebugParms(parms, incidentDef);
+			}
+			if (incidentDef.defName == "CaravanArrivalTributeCollector")	//Lt. Bob - "Temporary" bypass fix for Tribute Collector 
 			{
 				Log.Message("-=PS=- CaravanArrivalTributeCollector caught - Exiting CreateIncidentCaraven_HumanNeutral as false");
-				Log.Message("-=PS=- questTag == " + parms.questTag);
+				Log.Message("   PS=- questTag == " + parms.questTag);
 				return false;
 			}
 			InterceptedIncident incident = new T();
@@ -172,6 +190,11 @@ namespace PreemptiveStrike.Interceptor
 
         public static bool CreateIncidentCaravan_Animal<T>(IncidentDef incidentDef, IncidentParms parms) where T : InterceptedIncident, new()
         {
+			if (PES_Settings.DebugModeOn)
+			{
+				Log.Message("-=PS=- CreateIncidentCaravan_Animal Start", false);
+				IncidentInterceptorUtility.DebugParms(parms, incidentDef);
+			}
 			if (parms != null && parms.questTag != null) //Lt. Bob - "Temporary" bypass fix? for Quest handling
 				Log.Message("-=PS=- CreateIncidentCaravan_Animal - questTag!=Null == " + parms.questTag);
 			InterceptedIncident incident = new T();
@@ -193,6 +216,11 @@ namespace PreemptiveStrike.Interceptor
 
         public static bool Intercept_SkyFaller<T>(IncidentDef incidentDef, IncidentParms parms, bool needHoaxing = false, bool checkHostileFaction = false) where T : InterceptedIncident_SkyFaller, new()
         {
+			if (PES_Settings.DebugModeOn)
+			{
+				Log.Message("-=PS=- Intercept_SkyFaller Start", false);
+				IncidentInterceptorUtility.DebugParms(parms, incidentDef);
+			}
 			if (parms != null && parms.questTag != null) //Lt. Bob - "Temporary" bypass fix? for Quest handling
 				Log.Message("-=PS=- Intercept_SkyFaller - questTag!=Null == " + parms.questTag);
 
@@ -232,6 +260,8 @@ namespace PreemptiveStrike.Interceptor
 
         public static bool Intercept_Infestation(IncidentParms parms)
         {
+			if (PES_Settings.DebugModeOn)
+				Log.Message("-=PS=- Intercept_Infestation Start", false);
 			if (parms != null && parms.questTag != null) //Lt. Bob - "Temporary" bypass fix? for Quest handling
 				Log.Message("-=PS=- Intercept_Infestation - questTag!=Null == " + parms.questTag);
 
@@ -261,6 +291,8 @@ namespace PreemptiveStrike.Interceptor
 
         public static bool Intercept_SolarFlare(IncidentParms parms)
         {
+			if (PES_Settings.DebugModeOn)
+				Log.Message("-=PS=- Intercept_SolarFlare Start", false);
 			if (parms != null && parms.questTag != null) //Lt. Bob - "Temporary" bypass fix? for Quest handling
 				Log.Message("-=PS=- Intercept_SolarFlare - questTag!=Null == " + parms.questTag);
 
@@ -284,6 +316,8 @@ namespace PreemptiveStrike.Interceptor
 
         public static List<Pawn> GenerateRaidPawns(IncidentParms parms)
         {
+			if (PES_Settings.DebugModeOn)
+				Log.Message("-=PS=- GenerateRaidPawns Start", false);
 			if (parms != null && parms.questTag != null) //Lt. Bob - "Temporary" bypass fix? for Quest handling
 				Log.Message("-=PS=- GenerateRaidPawns - questTag!=Null == " + parms.questTag);
 
@@ -300,6 +334,8 @@ namespace PreemptiveStrike.Interceptor
 
         public static List<Pawn> GenerateNeutralPawns(PawnGroupKindDef pawnGroupKind, IncidentParms parms)
         {
+			if (PES_Settings.DebugModeOn)
+				Log.Message("-=PS=- GenerateNeutralPawns Start", false);
 			if (parms != null && parms.questTag != null) //Lt. Bob - "Temporary" bypass fix? for Quest handling
 				Log.Message("-=PS=- GenerateNeutralPawns - questTag!=Null == " + parms.questTag);
 
@@ -319,6 +355,73 @@ namespace PreemptiveStrike.Interceptor
             }
             return false;
         }
-        
-    }
+
+		/// <summary>
+		/// Lt.Bob - Unifies debug information to central command (__instance)
+		/// </summary>
+		/// <param name="parms"></param>
+		/// <param name="__instance"></param>
+		public static void DebugParms(IncidentParms parms, string __instance = null)
+		{
+			Log.Message("   PS=- parms= " + parms.ToString(), false);
+			if (parms.quest != null)
+			{
+				Log.Message("   PS=- parms.quest= " + parms.quest.ToString(), false);
+				Log.Message("   PS=- parms.quest.PartsListForReading= " + parms.quest.PartsListForReading, false);
+			}
+			else
+				Log.Message("   PS=- parms.quest= NULL", false);
+			if (parms.questTag != null)
+				Log.Message("   PS=- parms.questTag= " + parms.questTag.ToString(), false);
+			else
+				Log.Message("   PS=- parms.questTag= NULL", false);
+			if (parms.questScriptDef != null)
+				Log.Message("   PS=- parms.questScriptDef= " + parms.questScriptDef.ToString(), false);
+			else
+				Log.Message("   PS=- parms.questScriptDef= NULL", false);
+			if (__instance != null)
+			{
+				Log.Message("   PS=- __instance= " + __instance, false);
+				return;
+			}
+			Log.Message("   PS=- __instance= NULL", false);
+		}
+
+		/// <summary>
+		/// Lt.Bob - Unifies debug information to central command (__instance)
+		/// </summary>
+		/// <param name="parms"></param>
+		/// <param name="IncDef"></param>
+		public static void DebugParms(IncidentParms parms, IncidentDef IncDef = null)
+		{
+			Log.Message("   PS=- parms= " + parms.ToString(), false);
+			if (parms.quest != null)
+			{
+				Log.Message("   PS=- parms.quest= " + parms.quest.ToString(), false);
+				Log.Message("   PS=- parms.quest.PartsListForReading= " + parms.quest.PartsListForReading, false);
+			}
+			else
+				Log.Message("   PS=- parms.quest= NULL", false);
+			if (parms.questTag != null)
+				Log.Message("   PS=- parms.questTag= " + parms.questTag.ToString(), false);
+			else
+				Log.Message("   PS=- parms.questTag= NULL", false);
+			if (parms.questScriptDef != null)
+				Log.Message("   PS=- parms.questScriptDef= " + parms.questScriptDef.ToString(), false);
+			else
+				Log.Message("   PS=- parms.questScriptDef= NULL", false);
+			if (IncDef == null)
+			{
+				Log.Message("   PS=- IncidentDef= NULL", false);
+				return;
+			}
+			Log.Message("   PS=- IncidentDef= " + IncDef.ToString(), false);
+			if (IncDef.defName != null)
+			{
+				Log.Message("   PS=- IncidentDef.defName= " + IncDef.defName, false);
+				return;
+			}
+			Log.Message("   PS=- IncidentDef.defName= NULL", false);
+		}
+	}
 }

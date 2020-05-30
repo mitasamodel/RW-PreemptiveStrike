@@ -6,6 +6,7 @@ using System.Reflection;
 using HarmonyLib;
 using RimWorld;
 using PreemptiveStrike.Interceptor;
+using PreemptiveStrike.Mod;
 using Verse;
 
 namespace PreemptiveStrike.Harmony
@@ -17,25 +18,28 @@ namespace PreemptiveStrike.Harmony
 		[HarmonyPrefix]
 		static bool Prefix(IncidentWorker __instance, ref bool __result, IncidentParms parms)
 		{
-			if (PreemptiveStrike.Mod.PES_Settings.DebugModeOn)
+			if (PES_Settings.DebugModeOn)
 			{
-				Log.Message("-=PS=- Patch_IncidentWorker_TryExecute Prefix"); //Lt. Bob - Logging
-				Log.Message("-=PS=- parms: " + parms.ToString());
-				if (parms.quest != null)
-					Log.Message("-=PS=- parms.quest: " + parms.quest.ToString());
-				if (parms.questScriptDef != null)
-					Log.Message("-=PS=- parms.questScriptDef: " + parms.questScriptDef.ToString());
-				if (parms.questScriptDef != null)
-					Log.Message("-=PS=- parms.questTag: " + parms.questTag.ToString());
-				Log.Message("-=PS=- __instance= " + __instance.ToString());
+				Messages.Message("-=PS=- Caught Patch_IncidentWorker_TryExecute Prefix", MessageTypeDefOf.NeutralEvent, true);
+				Log.Message("-=PS=- Patch_IncidentWorker_TryExecute Prefix", false);
+				IncidentInterceptorUtility.DebugParms(parms, __instance.ToString());
 			}
-
-			if (parms != null && parms.questTag != null) //Lt. Bob - "Temporary" bypass fix? for Quest handling
-				Log.Message("-=PS=- Patch_IncidentWorker_TryExecute - questTag!=Null == " + parms.questTag);
-			if (parms.quest != null)
+			if (parms.quest != null || parms.questScriptDef != null)
 			{
-				Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!");
-				//__result = true;
+				Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!", false);
+				return true;
+			}
+			if (__instance.def == null)
+			{
+				Log.Error("-=PS=- __instance.def=NULL", false);
+				Log.Error("   PS=- Returning true", false);
+				return true;
+			}
+			Log.Message("   PS=- __instance.def= " + __instance.def.ToString(), false);
+			if (__instance.def.ToString() == "RRY_PowerCut_Xenomorph")  //Lt.Bob - Handling for AvP powercut event
+			{
+				Log.Message("-=PS=- AVP PowerCut event", false);
+				Log.Message("   PS=- Returning true", false);
 				return true;
 			}
 
@@ -59,8 +63,11 @@ namespace PreemptiveStrike.Harmony
 
         static void Postfix(ref bool __result)
         {
-			if (PreemptiveStrike.Mod.PES_Settings.DebugModeOn)
-				Log.Message("-=PS=- Patch_IncidentWorker_TryExecute Postfix"); //Lt. Bob - Logging
+			if (PES_Settings.DebugModeOn)
+			{
+				Log.Message("-=PS=- Patch_IncidentWorker_TryExecute Postfix", false);
+				Log.Message("   PS=- IsHoaxingStoryTeller=" + IncidentInterceptorUtility.IsHoaxingStoryTeller.ToString(), false);
+			}
 
 			if (IncidentInterceptorUtility.IsHoaxingStoryTeller)
             {
@@ -97,25 +104,13 @@ namespace PreemptiveStrike.Harmony
 			if (PreemptiveStrike.Mod.PES_Settings.DebugModeOn)
 			{
 				Log.Message("-=PS=- Patch_EdgeWalkIn_TryResolveRaidSpawnCenter Postfix"); //Lt. Bob - Logging
-				Log.Message("-=PS=- parms: " + parms.ToString());
-				if(parms.quest != null)
-					Log.Message("-=PS=- parms.quest: " + parms.quest.ToString());
-				if(parms.questScriptDef != null)
-					Log.Message("-=PS=- parms.questScriptDef: " + parms.questScriptDef.ToString());
-				if(parms.questScriptDef != null)
-					Log.Message("-=PS=- parms.questTag: " + parms.questTag.ToString());
-				Log.Message("-=PS=- __instance= " + __instance.ToString());
-				/*foreach (Quest questInt in Find.QuestManager.QuestsListForReading)
-				{
-					Log.Message(questInt.PartsListForReading.ToString());
-				}*/
+				IncidentInterceptorUtility.DebugParms(parms, __instance.ToString());
 			}
 			if (parms != null && parms.questTag != null) //Lt. Bob - "Temporary" bypass fix? for Quest handling
-				Log.Message("-=PS=- Patch_EdgeWalkIn_TryResolveRaidSpawnCenter - questTag!=Null == " + parms.questTag);
-			if (parms.faction == null || parms.faction.PlayerRelationKind != FactionRelationKind.Hostile)	//Lt. Bob - bypass handler for quest given neutral pawns; Why is faction ==null?
 			{
-				Log.Message("-=PS=- parms.faction == null or faction is nonhostile");
+				Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!", false);
 				return;
+
 			}
 
 			//This is a temporary fix for refugee chased
@@ -136,10 +131,16 @@ namespace PreemptiveStrike.Harmony
         [HarmonyPostfix]
         static void Postfix(PawnsArrivalModeWorker_EdgeWalkIn __instance, IncidentParms parms, ref bool __result)
         {
-			if (PreemptiveStrike.Mod.PES_Settings.DebugModeOn)
-				Log.Message("-=PS=- Patch_EdgeWalkInGroups_TryResolveRaidSpawnCenter Postfix"); //Lt. Bob - Logging
-			if (parms != null && parms.questTag != null) //Lt. Bob - "Temporary" bypass fix? for Quest handling
-				Log.Message("-=PS=- Patch_EdgeWalkInGroups_TryResolveRaidSpawnCenter - questTag!=Null == " + parms.questTag);
+			if (PES_Settings.DebugModeOn)
+			{
+				Log.Message("-=PS=- Patch_EdgeWalkInGroups_TryResolveRaidSpawnCenter Prefix", false);
+				IncidentInterceptorUtility.DebugParms(parms, __instance.ToString());
+			}
+			if (parms.quest != null || parms.questScriptDef != null)
+			{
+				Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!", false);
+				return;
+			}
 
 			if (IncidentInterceptorUtility.IsIntercepting_IncidentExcecution)
             {
@@ -200,10 +201,23 @@ namespace PreemptiveStrike.Harmony
         [HarmonyPrefix]
         static bool Prefix(IncidentWorker_TraderCaravanArrival __instance, ref bool __result, IncidentParms parms)
         {
-			if (PreemptiveStrike.Mod.PES_Settings.DebugModeOn)
-				Log.Message("-=PS=- Patch_IncidentWorker_TraderCaravanArrival_TryExecuteWorker Prefix"); //Lt. Bob - Logging
-			if (parms != null && parms.questTag != null) //Lt. Bob - "Temporary" bypass fix? for Quest handling
-				Log.Message("-=PS=- Patch_IncidentWorker_TraderCaravanArrival_TryExecuteWorker - questTag!=Null == " + parms.questTag);
+			if (PES_Settings.DebugModeOn)
+			{
+				Log.Message("-=PS=- Patch_IncidentWorker_TraderCaravanArrival_TryExecuteWorker Prefix", false);
+				IncidentInterceptorUtility.DebugParms(parms, __instance.ToString());
+			}
+			if (parms.quest != null || parms.questScriptDef != null)
+			{
+				Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!", false);
+				return true;
+			}
+			if (parms != null && parms.questTag != null)	//Lt.Bob - May be redundant
+			{
+				Log.Error("-=PS=- Not redundant", false);
+				Log.Message("-=PS=- Patch_IncidentWorker_TraderCaravanArrival_TryExecuteWorker - questTag!=Null == " + parms.questTag, false);
+				Log.Message("-=PS=- Returning true", false);
+				return true;
+			}
 
 			if (IncidentInterceptorUtility.isIntercepting_TraderCaravan_Worker)
                 return !IncidentInterceptorUtility.CreateIncidentCaraven_HumanNeutral<InterceptedIncident_HumanCrowd_TraderCaravan>(__instance.def, parms);
@@ -217,12 +231,21 @@ namespace PreemptiveStrike.Harmony
         [HarmonyPrefix]
         static bool Prefix(IncidentWorker_TravelerGroup __instance, ref bool __result, IncidentParms parms)
         {
-			if (PreemptiveStrike.Mod.PES_Settings.DebugModeOn)
-				Log.Message("-=PS=- Patch_IncidentWorker_TravelerGroup_TryExecuteWorker Prefix"); //Lt. Bob - Logging
-			if (parms != null && parms.questTag != null)    //Lt. Bob - "Temporary" bypass fix? for Quest handling
+			if (PES_Settings.DebugModeOn)
 			{
-				Log.Message("-=PS=- Patch_IncidentWorker_TravelerGroup_TryExecuteWorker - questTag!=Null == " + parms.questTag);
-				Log.Message("-=PS=- Returning true");
+				Log.Message("-=PS=- Patch_IncidentWorker_VisitorGroup_TryExecuteWorker Prefix", false);
+				IncidentInterceptorUtility.DebugParms(parms, __instance.ToString());
+			}
+			if (parms.quest != null || parms.questScriptDef != null)
+			{
+				Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!", false);
+				return true;
+			}
+			if (parms != null && parms.questTag != null)	//Lt.Bob - May be redundant
+			{
+				Log.Error("-=PS=- Not redundant", false);
+				Log.Message("-=PS=- Patch_IncidentWorker_TravelerGroup_TryExecuteWorker - questTag!=Null == " + parms.questTag, false);
+				Log.Message("-=PS=- Returning true", false);
 				return true;
 			}
 			if (IncidentInterceptorUtility.isIntercepting_TravelerGroup)
@@ -259,8 +282,11 @@ namespace PreemptiveStrike.Harmony
         [HarmonyPrefix]
         static bool Prefix(IncidentWorker_FarmAnimalsWanderIn __instance, ref bool __result, IncidentParms parms)
         {
-			if (parms != null && parms.questTag != null) //Lt. Bob - "Temporary" bypass fix? for Quest handling
-				Log.Message("-=PS=- Patch_IncidentWorker_FarmAnimalsWanderIn_TryExecuteWorker - questTag!=Null == " + parms.questTag);
+			if (PES_Settings.DebugModeOn)
+			{
+				Log.Message("-=PS=- Patch_IncidentWorker_FarmAnimalsWanderIn_TryExecuteWorker Prefix", false);
+				IncidentInterceptorUtility.DebugParms(parms, __instance.ToString());
+			}
 
 			if (IncidentInterceptorUtility.isIntercepting_FarmAnimalsWanderIn == WorkerPatchType.ExecuteOrigin)
                 return true;
@@ -281,8 +307,11 @@ namespace PreemptiveStrike.Harmony
         [HarmonyPrefix]
         static bool Prefix(IncidentWorker_HerdMigration __instance, ref bool __result, IncidentParms parms)
         {
-			if (parms != null && parms.questTag != null) //Lt. Bob - "Temporary" bypass fix? for Quest handling
-				Log.Message("-=PS=- Patch_IncidentWorker_HerdMigration_TryExecuteWorker - questTag!=Null == " + parms.questTag);
+			if (PES_Settings.DebugModeOn)
+			{
+				Log.Message("-=PS=- Patch_IncidentWorker_HerdMigration_TryExecuteWorker Prefix", false);
+				IncidentInterceptorUtility.DebugParms(parms, __instance.ToString());
+			}
 
 			if (IncidentInterceptorUtility.isIntercepting_HerdMigration == WorkerPatchType.ExecuteOrigin)
                 return true;
@@ -303,8 +332,11 @@ namespace PreemptiveStrike.Harmony
         [HarmonyPrefix]
         static bool Prefix(IncidentWorker_ThrumboPasses __instance, ref bool __result, IncidentParms parms)
         {
-			if (parms != null && parms.questTag != null) //Lt. Bob - "Temporary" bypass fix? for Quest handling
-				Log.Message("-=PS=- Patch_IncidentWorker_ThrumboPasses_TryExecuteWorker - questTag!=Null == " + parms.questTag);
+			if (PES_Settings.DebugModeOn)
+			{
+				Log.Message("-=PS=- Patch_IncidentWorker_ThrumboPasses_TryExecuteWorker Prefix", false);
+				IncidentInterceptorUtility.DebugParms(parms, __instance.ToString());
+			}
 
 			if (IncidentInterceptorUtility.isIntercepting_ThrumboPasses == WorkerPatchType.ExecuteOrigin)
                 return true;
@@ -323,8 +355,11 @@ namespace PreemptiveStrike.Harmony
     {
         public static bool Prefix(IncidentWorker __instance, ref bool __result, IncidentParms parms)
         {
-			if (parms != null && parms.questTag != null) //Lt. Bob - "Temporary" bypass fix? for Quest handling
-				Log.Message("-=PS=- Patch_IncidentWorker_Alphabeavers_TryExecuteWorker - questTag!=Null == " + parms.questTag);
+			if (PES_Settings.DebugModeOn)
+			{
+				Log.Message("-=PS=- Patch_IncidentWorker_Alphabeavers_TryExecuteWorker Prefix", false);
+				IncidentInterceptorUtility.DebugParms(parms, __instance.ToString());
+			}
 
 			if (IncidentInterceptorUtility.isIntercepting_Alphabeavers == WorkerPatchType.ExecuteOrigin)
                 return true;
@@ -345,29 +380,14 @@ namespace PreemptiveStrike.Harmony
         [HarmonyPrefix]
         static bool Prefix(IncidentWorker_ManhunterPack __instance, ref bool __result, IncidentParms parms)
         {
-			if (PreemptiveStrike.Mod.PES_Settings.DebugModeOn)
+			if (PES_Settings.DebugModeOn)
 			{
-				Log.Message("-=PS=- Patch_IncidentWorker_ManhunterPack_TryExecuteWorker Prefix"); //Lt. Bob - Logging
-				Log.Message("-=PS=- parms: " + parms.ToString());
-				if (parms.quest != null)
-					Log.Message("-=PS=- parms.quest: " + parms.quest.ToString());
-				if (parms.questScriptDef != null)
-					Log.Message("-=PS=- parms.questScriptDef: " + parms.questScriptDef.ToString());
-				if (parms.questScriptDef != null)
-					Log.Message("-=PS=- parms.questTag: " + parms.questTag.ToString());
-				Log.Message("-=PS=- __instance= " + __instance.ToString());
+				Log.Message("-=PS=- Patch_IncidentWorker_ManhunterPack_TryExecuteWorker Prefix", false);
+				IncidentInterceptorUtility.DebugParms(parms, __instance.ToString());
 			}
-			if (parms != null && parms.questTag != null) //Lt. Bob - "Temporary" bypass fix? for Quest handling
-				Log.Message("-=PS=- Patch_IncidentWorker_ManhunterPack_TryExecuteWorker - questTag!=Null == " + parms.questTag);
-			if (parms != null && parms.questTag != null)    //Lt. Bob - "Temporary" bypass fix? for Quest handling
+			if (parms.quest != null || parms.questScriptDef != null)
 			{
-				Log.Message("-=PS=- Patch_IncidentWorker_ManhunterPack_TryExecuteWorker - questTag!=Null == " + parms.questTag);
-				Log.Message("-=PS=- Returning true");
-				return true;
-			}
-			if (parms.quest != null)
-			{
-				Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!");
+				Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!", false);
 				return true;
 			}
 			if (IncidentInterceptorUtility.isIntercepting_ManhunterPack == WorkerPatchType.ExecuteOrigin)

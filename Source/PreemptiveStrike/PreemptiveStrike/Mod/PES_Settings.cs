@@ -11,8 +11,9 @@ namespace PreemptiveStrike.Mod
     class PES_Settings : ModSettings
     {
         public static bool DebugModeOn = false;
+		public static bool DifficultDetect = true;	//Lt.Bob - DifficultDetect
 
-        public static float DetectionCoefficient = 1f;
+		public static float DetectionCoefficient = 1f;
         public static int TickForIncidentCaravanCoverOneTile = 2500; //default: 2500 for one hour
 
         //SkyFaller Ticks
@@ -173,8 +174,10 @@ namespace PreemptiveStrike.Mod
             if (ls.ButtonText("PES_setting_default".Translate()))
                 SetToDefault();
 
-            ls.CheckboxLabeled("Debug Mode", ref DebugModeOn, "DONT turn this on plz, this is only for the developer of this mod.");
-            ls.Label("PES_setting_notes".Translate());
+            ls.CheckboxLabeled("PES_setting_debug".Translate(), ref DebugModeOn, "PES_setting_debug_Tooltip".Translate());	//Lt.Bob - Added translation option
+			ls.CheckboxLabeled("PES_setting_DifficultDetection".Translate(), ref DifficultDetect, "PES_setting_DifficultDetection_Tooltip".Translate());	//Lt.Bob - DifficultDetect
+			ls.Label("PES_setting_notes".Translate());
+
             
             //coefficient
             ls.GapLine(20f);

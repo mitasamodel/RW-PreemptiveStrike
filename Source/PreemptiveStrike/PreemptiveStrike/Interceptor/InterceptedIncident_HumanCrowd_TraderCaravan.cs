@@ -87,10 +87,10 @@ namespace PreemptiveStrike.Interceptor
         public override void RevealRandomInformation()
         {
             List<Action> availables = new List<Action>();
-            if (!intention_revealed)
+            if (!intention_revealed && !PES_Settings.DifficultDetect)	//Lt.Bob - DifficultDetect
                 availables.Add(RevealIntention);
-            if (!faction_revealed)
-                availables.Add(RevealFaction);
+            if (!faction_revealed && !PES_Settings.DifficultDetect)	 //Lt.Bob - DifficultDetect
+				availables.Add(RevealFaction);
             if (!crowdSize_revealed)
                 availables.Add(RevealCrowdSize);
             if (!spawnPosition_revealed)
