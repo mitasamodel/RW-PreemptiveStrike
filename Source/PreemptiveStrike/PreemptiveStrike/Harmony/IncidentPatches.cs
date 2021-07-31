@@ -106,8 +106,8 @@ namespace PreemptiveStrike.Harmony
 				Log.Message("-=PS=- Patch_EdgeWalkIn_TryResolveRaidSpawnCenter Postfix"); //Lt. Bob - Logging
 				IncidentInterceptorUtility.DebugParms(parms, __instance.ToString());
 			}
-			if (parms != null && parms.questTag != null) //Lt. Bob - "Temporary" bypass fix? for Quest handling
-			{
+            if (parms != null && parms.questTag != null || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest") //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
+            {
 				Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!", false);
 				return;
 
@@ -133,7 +133,7 @@ namespace PreemptiveStrike.Harmony
         {
 			if (PES_Settings.DebugModeOn)
 			{
-				Log.Message("-=PS=- Patch_EdgeWalkInGroups_TryResolveRaidSpawnCenter Prefix", false);
+				Log.Message("-=PS=- Patch_EdgeWalkInGroups_TryResolveRaidSpawnCenter Postfix", false);
 				IncidentInterceptorUtility.DebugParms(parms, __instance.ToString());
 			}
 			if (parms.quest != null || parms.questScriptDef != null)
@@ -262,8 +262,8 @@ namespace PreemptiveStrike.Harmony
         {
 			if (PreemptiveStrike.Mod.PES_Settings.DebugModeOn)
 				Log.Message("-=PS=- Patch_IncidentWorker_VisitorGroup_TryExecuteWorker Prefix"); //Lt. Bob - Logging
-			if (parms != null && parms.questTag != null)    //Lt. Bob - "Temporary" bypass fix? for Quest handling
-			{
+            if (parms != null && parms.questTag != null || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest") //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
+            {
 				Log.Message("-=PS=- Patch_IncidentWorker_VisitorGroup_TryExecuteWorker - questTag!=Null == " + parms.questTag);
 				Log.Message("-=PS=- Returning true");
 				return true;

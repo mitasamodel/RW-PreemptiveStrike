@@ -48,8 +48,8 @@ namespace PreemptiveStrike.UI
             Text.Font = GameFont.Tiny;
             string timeStr = "";
             if (PES_Settings.DebugModeOn)
-                timeStr = "PES_UI_ETA".Translate() + Caravan.remainingTick;
-            else
+                timeStr = "PES_UI_ETA".Translate() + Caravan.remainingTick + " (" + GenDate.ToStringTicksToPeriod(Caravan.remainingTick) + ")"; //Lt.Bob - Added Friendly time
+			else
                 timeStr = "PES_UI_ETA".Translate() + GenDate.ToStringTicksToPeriod(Caravan.remainingTick);
             float timeWidth = Text.CurFontStyle.CalcSize(new GUIContent(timeStr)).x;
             Widgets.Label(new Rect(x, y, timeWidth + 5f, UIConstants.TinyLabelHeight), timeStr);

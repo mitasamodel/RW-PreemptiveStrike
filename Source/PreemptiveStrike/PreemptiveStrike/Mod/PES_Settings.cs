@@ -87,6 +87,7 @@ namespace PreemptiveStrike.Mod
         {
             base.ExposeData();
             Scribe_Values.Look(ref DebugModeOn, "DebugModeOn", false);
+            Scribe_Values.Look(ref DifficultDetect, "DifficultDetect", true); //Lt.Bob - DifficultDetect
             Scribe_Values.Look(ref DetectionCoefficient, "DetectionCoefficient", 1f);
             Scribe_Values.Look(ref TickForIncidentCaravanCoverOneTile, "TickForIncidentCaravanCoverOneTile", 2500);
             Scribe_Values.Look(ref LargeSkyFallerDuration, "LargeSkyFallerDuration", 5000);
@@ -127,6 +128,7 @@ namespace PreemptiveStrike.Mod
         public static void SetToDefault()
         {
             DebugModeOn = false;
+            DifficultDetect = true; //Lt.Bob - DifficultDetect
             DetectionCoefficient = 1f;
             TickForIncidentCaravanCoverOneTile = 2500;
             LargeSkyFallerDuration = 5000;

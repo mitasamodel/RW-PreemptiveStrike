@@ -24,7 +24,7 @@ namespace PreemptiveStrike.Jobs
                 if (allBuildingsColonist[i] is TowerBuildingBase)
                 {
                     CompDetection_ManualDevice comp = allBuildingsColonist[i].GetComp<CompDetection_ManualDevice>();
-                    if (comp != null && comp.CanUseNow)
+                    if (!allBuildingsColonist[i].IsForbidden(pawn) && comp != null && comp.CanUseNow)   //Added check for forbidden buildings in an attempt to speed up cycles
                         return false;
                 }
             }

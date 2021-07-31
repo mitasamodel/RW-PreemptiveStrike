@@ -56,6 +56,11 @@ namespace PreemptiveStrike.Interceptor
             }
             pawnList = ManhunterPackIncidentUtility.GenerateAnimals(AnimalType, map.Tile, parms.points * 1f);
             AnimalNum = pawnList.Count;
+            //11/12 Adding Scaria to Manhunter animals
+            for(int x=0; x<AnimalNum; x++)
+            {
+                pawnList[x].health.AddHediff(HediffDefOf.Scaria, null, null, null);
+            }
             lookTargets = new TargetInfo(intVec, map, false);
             return true;
         }

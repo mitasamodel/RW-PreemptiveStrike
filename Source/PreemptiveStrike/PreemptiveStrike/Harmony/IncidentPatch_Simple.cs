@@ -16,6 +16,16 @@ namespace PreemptiveStrike.Harmony
         [HarmonyPostfix]
         static void PostFix(IncidentParms parms, ref bool __result)
         {
+            if (PreemptiveStrike.Mod.PES_Settings.DebugModeOn)
+            {
+                Log.Message("-=PS=- Patch_EdgeDrop_TryResolveRaidSpawnCenter Postfix"); //Lt. Bob - Logging
+                IncidentInterceptorUtility.DebugParms(parms, IncidentInterceptorUtility.CurrentIncidentDef);
+            }
+            if (parms != null && parms.questTag != null || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest") //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
+            {
+                Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!", false);
+                return;
+            }
             if (IncidentInterceptorUtility.isIntercepting_EdgeDrop)
                 __result = !IncidentInterceptorUtility.Intercept_SkyFaller<InterceptedIncident_SkyFaller_EdgeDrop>(IncidentInterceptorUtility.CurrentIncidentDef, parms, true, true);
         }
@@ -27,6 +37,16 @@ namespace PreemptiveStrike.Harmony
         [HarmonyPostfix]
         static void PostFix(IncidentParms parms, ref bool __result)
         {
+            if (PreemptiveStrike.Mod.PES_Settings.DebugModeOn)
+            {
+                Log.Message("-=PS=- Patch_CenterDrop_TryResolveRaidSpawnCenter Postfix"); //Lt. Bob - Logging
+                IncidentInterceptorUtility.DebugParms(parms, IncidentInterceptorUtility.CurrentIncidentDef);
+            }
+            if (parms != null && parms.questTag != null || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest") //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
+            {
+                Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!", false);
+                return;
+            }
             if (IncidentInterceptorUtility.isIntercepting_CenterDrop)
                 __result = !IncidentInterceptorUtility.Intercept_SkyFaller<InterceptedIncident_SkyFaller_CenterDrop>(IncidentInterceptorUtility.CurrentIncidentDef, parms, true, true);
         }
@@ -38,6 +58,16 @@ namespace PreemptiveStrike.Harmony
         [HarmonyPostfix]
         static void PostFix(IncidentParms parms, ref bool __result)
         {
+            if (PreemptiveStrike.Mod.PES_Settings.DebugModeOn)
+            {
+                Log.Message("-=PS=- Patch_EdgeDropGroups_TryResolveRaidSpawnCenter Postfix"); //Lt. Bob - Logging
+                IncidentInterceptorUtility.DebugParms(parms, IncidentInterceptorUtility.CurrentIncidentDef);
+            }
+            if (parms != null && parms.questTag != null || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest") //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
+            {
+                Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!", false);
+                return;
+            }
             if (IncidentInterceptorUtility.isIntercepting_EdgeDropGroup)
                 __result = !IncidentInterceptorUtility.Intercept_SkyFaller<InterceptedIncident_SkyFaller_EdgeDropGroup>(IncidentInterceptorUtility.CurrentIncidentDef, parms, true);
         }
@@ -49,6 +79,16 @@ namespace PreemptiveStrike.Harmony
         [HarmonyPostfix]
         static void PostFix(IncidentParms parms, ref bool __result)
         {
+            if (PreemptiveStrike.Mod.PES_Settings.DebugModeOn)
+            {
+                Log.Message("-=PS=- Patch_RandomDrop_TryResolveRaidSpawnCenter Postfix"); //Lt. Bob - Logging
+                IncidentInterceptorUtility.DebugParms(parms, IncidentInterceptorUtility.CurrentIncidentDef);
+            }
+            if (parms != null && parms.questTag != null  || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest") //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
+            {
+                Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!", false);
+                return;
+            }
             if (IncidentInterceptorUtility.isIntercepting_RandomDrop)
                 __result = !IncidentInterceptorUtility.Intercept_SkyFaller<InterceptedIncident_SkyFaller_RandomDrop>(IncidentInterceptorUtility.CurrentIncidentDef, parms, true, true);
         }

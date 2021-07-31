@@ -10,6 +10,8 @@ using PreemptiveStrike.Interceptor;
 
 namespace PreemptiveStrike.Harmony.Compatibility
 {
+	/*
+	 //Lt.Bob - RimQuest.DoPatch throwing errors for some but RimQuest not v1.1 updated; Disabling
     class RimQuest
     {
         static Type RimQuest_HarmonyPatches = null;
@@ -43,4 +45,5 @@ namespace PreemptiveStrike.Harmony.Compatibility
             Execute_RimQuest_HarmonyPatches_AddQuestGiverTwo = false;
         }
     }
+	*/
 }

@@ -126,7 +126,7 @@ namespace PreemptiveStrike.Interceptor
 				Log.Message("-=PS=- parms.faction == null", false);
 				return false;
 			}
-			if (parms != null && parms.questTag != null) //Lt. Bob - "Temporary" bypass fix? for Quest handling
+			if (parms != null && parms.questTag != null  || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest") //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
 				Log.Message("-=PS=- Intercept_Raid - questTag!=Null == " + parms.questTag);
 			if (parms.faction.PlayerRelationKind != FactionRelationKind.Hostile)
                 return false;
@@ -138,7 +138,7 @@ namespace PreemptiveStrike.Interceptor
 
             if (CurrentIncidentDef == null)
             {
-                Log.Error("PES: A raid incident that is not compatible with Preemptive Strike is trying to execute. So this incident won't be intercepted by PES and will be executed in it vanilla way");
+                Log.Message("PES: A raid incident that is not compatible with Preemptive Strike is trying to execute. So this incident won't be intercepted by PES and will be executed in it vanilla way");    //Lt.Bob: Changed to message
                 return false; //Fix v1.1.4: In some mods, their raids are implemented without a incidentworker
             }
 
@@ -195,8 +195,8 @@ namespace PreemptiveStrike.Interceptor
 				Log.Message("-=PS=- CreateIncidentCaravan_Animal Start", false);
 				IncidentInterceptorUtility.DebugParms(parms, incidentDef);
 			}
-			if (parms != null && parms.questTag != null) //Lt. Bob - "Temporary" bypass fix? for Quest handling
-				Log.Message("-=PS=- CreateIncidentCaravan_Animal - questTag!=Null == " + parms.questTag);
+            if (parms != null && parms.questTag != null || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest") //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
+                Log.Message("-=PS=- CreateIncidentCaravan_Animal - questTag!=Null == " + parms.questTag);
 			InterceptedIncident incident = new T();
             incident.incidentDef = incidentDef;
             incident.parms = parms;
@@ -221,17 +221,21 @@ namespace PreemptiveStrike.Interceptor
 				Log.Message("-=PS=- Intercept_SkyFaller Start", false);
 				IncidentInterceptorUtility.DebugParms(parms, incidentDef);
 			}
-			if (parms != null && parms.questTag != null) //Lt. Bob - "Temporary" bypass fix? for Quest handling
-				Log.Message("-=PS=- Intercept_SkyFaller - questTag!=Null == " + parms.questTag);
-
-			if (checkHostileFaction && parms.faction.PlayerRelationKind != FactionRelationKind.Hostile)
-                return false;
-
-            if (incidentDef == null)
+            if (parms != null && parms.questTag != null || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest") //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
             {
-                Log.Error("PES: A raid incident that is not compatible with Preemptive Strike is trying to execute. So this incident won't be intercepted by PES and will be executed in it vanilla way");
+                Log.Message("-=PS=- Intercept_SkyFaller - questTag!=Null == " + parms.questTag);
                 return false;
             }
+
+            //Lt.Bob - Moved null check in front of hostile faction check.  Attempt to resolve issue with quest rewards of pawns.
+            if (incidentDef == null)
+            {
+                Log.Message("PES: A raid incident that is not compatible with Preemptive Strike is trying to execute. So this incident won't be intercepted by PES and will be executed in it vanilla way");    //Lt.Bob: Changed to message
+                return false;
+            }
+
+            if (checkHostileFaction && parms.faction.PlayerRelationKind != FactionRelationKind.Hostile)
+                return false;
 
             InterceptedIncident_SkyFaller incident = new T();
             incident.incidentDef = incidentDef;
@@ -262,8 +266,8 @@ namespace PreemptiveStrike.Interceptor
         {
 			if (PES_Settings.DebugModeOn)
 				Log.Message("-=PS=- Intercept_Infestation Start", false);
-			if (parms != null && parms.questTag != null) //Lt. Bob - "Temporary" bypass fix? for Quest handling
-				Log.Message("-=PS=- Intercept_Infestation - questTag!=Null == " + parms.questTag);
+            if (parms != null && parms.questTag != null || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest") //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
+                Log.Message("-=PS=- Intercept_Infestation - questTag!=Null == " + parms.questTag);
 
 			if (!PESDefOf.PES_InfestationDetection.IsFinished)
                 return false;
@@ -293,8 +297,8 @@ namespace PreemptiveStrike.Interceptor
         {
 			if (PES_Settings.DebugModeOn)
 				Log.Message("-=PS=- Intercept_SolarFlare Start", false);
-			if (parms != null && parms.questTag != null) //Lt. Bob - "Temporary" bypass fix? for Quest handling
-				Log.Message("-=PS=- Intercept_SolarFlare - questTag!=Null == " + parms.questTag);
+            if (parms != null && parms.questTag != null || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest") //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
+                Log.Message("-=PS=- Intercept_SolarFlare - questTag!=Null == " + parms.questTag);
 
 			if (DetectDangerUtilities.LastSolarFlareDetectorTick != Find.TickManager.TicksGame)
                 return false;
@@ -318,8 +322,8 @@ namespace PreemptiveStrike.Interceptor
         {
 			if (PES_Settings.DebugModeOn)
 				Log.Message("-=PS=- GenerateRaidPawns Start", false);
-			if (parms != null && parms.questTag != null) //Lt. Bob - "Temporary" bypass fix? for Quest handling
-				Log.Message("-=PS=- GenerateRaidPawns - questTag!=Null == " + parms.questTag);
+            if (parms != null && parms.questTag != null || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest") //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
+                Log.Message("-=PS=- GenerateRaidPawns - questTag!=Null == " + parms.questTag);
 
 			IsIntercepting_PawnGeneration = GeneratorPatchFlag.Generate;
 
@@ -336,8 +340,8 @@ namespace PreemptiveStrike.Interceptor
         {
 			if (PES_Settings.DebugModeOn)
 				Log.Message("-=PS=- GenerateNeutralPawns Start", false);
-			if (parms != null && parms.questTag != null) //Lt. Bob - "Temporary" bypass fix? for Quest handling
-				Log.Message("-=PS=- GenerateNeutralPawns - questTag!=Null == " + parms.questTag);
+            if (parms != null && parms.questTag != null || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest") //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
+                Log.Message("-=PS=- GenerateNeutralPawns - questTag!=Null == " + parms.questTag);
 
 			IsIntercepting_PawnGeneration = GeneratorPatchFlag.Generate;
 
@@ -387,12 +391,12 @@ namespace PreemptiveStrike.Interceptor
 			Log.Message("   PS=- __instance= NULL", false);
 		}
 
-		/// <summary>
-		/// Lt.Bob - Unifies debug information to central command (__instance)
-		/// </summary>
-		/// <param name="parms"></param>
-		/// <param name="IncDef"></param>
-		public static void DebugParms(IncidentParms parms, IncidentDef IncDef = null)
+        /// <summary>
+        /// Lt.Bob - Unifies debug information to central command (IncDef)
+        /// </summary>
+        /// <param name="parms"></param>
+        /// <param name="IncDef"></param>
+        public static void DebugParms(IncidentParms parms, IncidentDef IncDef = null)
 		{
 			Log.Message("   PS=- parms= " + parms.ToString(), false);
 			if (parms.quest != null)
