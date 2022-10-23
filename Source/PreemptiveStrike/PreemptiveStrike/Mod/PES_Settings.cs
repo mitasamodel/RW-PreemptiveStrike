@@ -171,7 +171,8 @@ namespace PreemptiveStrike.Mod
                 string ss = num.ToString();
                 ls.TextFieldNumericLabeled(label.Translate(), ref num, ref ss, min, max);
             }
-            ls.BeginScrollView(inRect, ref ScrollerPos, ref rect);
+            //ls.BeginScrollView(inRect, ref ScrollerPos, ref rect);    //Disabled for V1.3
+            ls.Begin(inRect);
 
             if (ls.ButtonText("PES_setting_default".Translate()))
                 SetToDefault();
@@ -246,7 +247,8 @@ namespace PreemptiveStrike.Mod
             ls.Label("PES_setting_mesExp".Translate(), -1, "PES_setting_megTip".Translate());
             simpleField("PES_setting_mesOffset", ref MessageRecieveOffset, 0f, 1f);
 
-            ls.EndScrollView(ref rect);
+            //ls.EndScrollView(ref rect);   //V1.3 Changes
+            ls.End();
         }
 
 

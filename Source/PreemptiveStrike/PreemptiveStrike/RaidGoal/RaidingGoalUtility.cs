@@ -80,7 +80,7 @@ namespace PreemptiveStrike.RaidGoal
                 RaidingGoal_Rescue goal = incident.goal as RaidingGoal_Rescue;
                 foreach (var p in goal.Prisoners)
                 {
-                    p.guilt.lastGuiltyTick = Find.TickManager.TicksGame;
+                    //p.guilt.lastGuiltyTick = Find.TickManager.TicksGame;  //Disabled for V1.3
                     ExecutionUtility.DoExecutionByCut(pawn, p);
                 }
             }

@@ -18,13 +18,24 @@ namespace PreemptiveStrike.Jobs
 
         public override bool ShouldSkip(Pawn pawn, bool forced = false)
         {
-            List<Building> allBuildingsColonist = pawn.Map.listerBuildings.allBuildingsColonist;
+            /*List<Building> allBuildingsColonist = pawn.Map.listerBuildings.allBuildingsColonist;
             for (int i = 0; i < allBuildingsColonist.Count; i++)
             {
                 if (allBuildingsColonist[i] is TowerBuildingBase)
                 {
                     CompDetection_ManualDevice comp = allBuildingsColonist[i].GetComp<CompDetection_ManualDevice>();
                     if (!allBuildingsColonist[i].IsForbidden(pawn) && comp != null && comp.CanUseNow)   //Added check for forbidden buildings in an attempt to speed up cycles
+                        return false;
+                }
+            }*/
+            //Lt. Bob: Test for better performance - Credit to "Hate me" on Steam for idea
+            List<Building> PESBuildings = pawn.Map.GetComponent<PESMapComponent>().PESDetectors.ToList();
+            for (int x=0; x<PESBuildings.Count; x++)
+            {
+                if(PESBuildings[x] is TowerBuildingBase)
+                {
+                    CompDetection_ManualDevice comp = PESBuildings[x].GetComp<CompDetection_ManualDevice>();
+                    if (!PESBuildings[x].IsForbidden(pawn) && comp != null && comp.CanUseNow)
                         return false;
                 }
             }

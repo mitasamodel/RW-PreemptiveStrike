@@ -203,7 +203,8 @@ namespace PreemptiveStrike.Harmony
         }
     }
 
-    [HarmonyPatch(typeof(IncidentWorker_TransportPodCrash), "TryExecuteWorker")]
+    //Disabled for V1.3
+    /*[HarmonyPatch(typeof(IncidentWorker_TransportPodCrash), "TryExecuteWorker")]
     class Patch_TransportPod_TryExecuteWorker
     {
         [HarmonyPrefix]
@@ -219,7 +220,7 @@ namespace PreemptiveStrike.Harmony
                 return false;
             }
         }
-    }
+    }*/
 
     [HarmonyPatch(typeof(IncidentWorker_ResourcePodCrash), "TryExecuteWorker")]
     class Patch_ResourcePod_TryExecuteWorker

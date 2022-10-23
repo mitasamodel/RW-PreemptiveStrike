@@ -59,7 +59,7 @@ namespace PreemptiveStrike.Things
                 thingFilter = selStoreSettingsParent.GetParentStoreSettings().filter;
             }
             Rect rect2 = new Rect(0f, 40f, rect.width, rect.height - 40f);
-            ThingFilterUI.DoThingFilterConfigWindow(rect2, ref scrollPosition, storeSettings.filter, thingFilter, 8, null, null, false, null, null);
+            ThingFilterUI.DoThingFilterConfigWindow(rect2, null, storeSettings.filter, thingFilter, 8, null, null, false, null, null);  //Replaced ref scrollPosition with null; second variable
             GUI.EndGroup();
         }
     }

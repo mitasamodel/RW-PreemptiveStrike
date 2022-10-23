@@ -67,7 +67,7 @@ namespace PreemptiveStrike.IncidentCaravan
             detectionRange = Math.Max(detectionRange, DetectDangerUtilities.GetVisionRangeOfMap(targetTile));
             detectionRange = Math.Max(detectionRange, 6);
             IntRange banditCampQuestSiteDistanceRange = new IntRange(detectionRange,detectionRange + 5);
-            if(!TileFinder.TryFindNewSiteTile(out tile, banditCampQuestSiteDistanceRange.min, banditCampQuestSiteDistanceRange.max, false, true, -1))
+            if(!TileFinder.TryFindNewSiteTile(out tile, banditCampQuestSiteDistanceRange.min, banditCampQuestSiteDistanceRange.max, false, TileFinderMode.Random, -1))
             {
                 return ForceFindTile_Dfs(targetTile, targetTile, detectionRange + 1, out tile);
             }
