@@ -67,7 +67,6 @@ namespace PreemptiveStrike.Things
 
         public void Notify_SettingsChanged()
         {
-            throw new NotImplementedException();
         }
     }
 
