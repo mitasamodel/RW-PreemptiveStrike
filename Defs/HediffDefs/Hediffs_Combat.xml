@@ -3,6 +3,7 @@
   <HediffDef>
     <defName>PES_CombatFervor</defName>
     <label>Combat Fervor</label>
+    <description>The thrill of combat.</description>
     <initialSeverity>1</initialSeverity>
     <defaultLabelColor>(0.514, 0.886, 0.922)</defaultLabelColor>      
     <hediffClass>HediffWithComps</hediffClass>
@@ -54,6 +55,7 @@
   <HediffDef>
     <defName>PES_CombatTiredness</defName>
     <label>Combat Tiredness</label>
+    <description>Combat fatigue.</description>
     <initialSeverity>1</initialSeverity>
     <defaultLabelColor>(0.451, 0.141, 0.157)</defaultLabelColor>      
     <hediffClass>HediffWithComps</hediffClass>

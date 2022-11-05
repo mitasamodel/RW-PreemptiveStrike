@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
+    <PES_RefuelTab>Storage Settings</PES_RefuelTab>
     <PES_UI_Title>Security Report</PES_UI_Title>
     <PES_UI_Ranges>Current Vision Range: {0}   Detection Range: {1}</PES_UI_Ranges>
     <PES_UI_Bulletins>Danger: {0}  Neutral: {1} Unidentified: {2}</PES_UI_Bulletins>

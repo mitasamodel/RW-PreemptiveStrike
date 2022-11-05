@@ -14,6 +14,7 @@ namespace PreemptiveStrike.Things
 
         private static readonly Vector2 WinSize = new Vector2(300f, 480f);
 
+        private ThingFilterUI.UIState thingFilterState = new ThingFilterUI.UIState();
         private IStoreSettingsParent SelStoreSettingsParent
         {
             get
@@ -59,7 +60,8 @@ namespace PreemptiveStrike.Things
                 thingFilter = selStoreSettingsParent.GetParentStoreSettings().filter;
             }
             Rect rect2 = new Rect(0f, 40f, rect.width, rect.height - 40f);
-            ThingFilterUI.DoThingFilterConfigWindow(rect2, null, storeSettings.filter, thingFilter, 8, null, null, false, null, null);  //Replaced ref scrollPosition with null; second variable
+
+            ThingFilterUI.DoThingFilterConfigWindow(rect2, thingFilterState, storeSettings.filter, thingFilter, 8, null, null, false, null, null);  //Replaced ref scrollPosition with null; second variable
             GUI.EndGroup();
         }
     }
