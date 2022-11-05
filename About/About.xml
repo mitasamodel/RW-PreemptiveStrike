@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
-	<name>Preemptive Strike (v1.1 Fork)</name>
-	<author>v1.0: DrCarl, v1.1: Lt.Bob</author>
+	<name>Preemptive Strike (v1.4 Fork)</name>
+	<author>v1.0: DrCarl, v1.1: Lt.Bob, v1.4: Ogliss</author>
 	<supportedVersions>
-		<li>1.1</li>
+		<li>1.4</li>
 	</supportedVersions>
 	<modDependencies>
 		<li>
@@ -23,5 +23,6 @@ Known Incompatibilities:
 Enemy Self Preservation: https://steamcommunity.com/sharedfiles/filedetails/?id=2006638530
 Contributing work:
 Lt. Bob: v1.1 updates
+Ogliss: v1.4 updates
 	</description>
 </ModMetaData>

@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{05A15A7A-3D2F-42E2-A534-694B57DE73DB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PreemptiveStrike</RootNamespace>
+    <AssemblyName>PreemptiveStrike</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFramework>net472</TargetFramework>
+    <FileAlignment>512</FileAlignment>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>portable</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Assemblies\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Assemblies\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DefOf\PESDefOf.cs" />
+    <Compile Include="DetectionSystem\DetectDangerUtilities.cs" />
+    <Compile Include="Dialogue\DialogMaker_Friendly.cs" />
+    <Compile Include="Dialogue\DialogMaker_RaidNegotiation.cs" />
+    <Compile Include="Dialogue\DialogMaker_TryToContact.cs" />
+    <Compile Include="Dialogue\DialogUtilities.cs" />
+    <Compile Include="EventManger.cs" />
+    <Compile Include="Harmony\Compatibility\OtherModPatchMain.cs" />
+    <Compile Include="Harmony\Compatibility\RimQuest.cs" />
+    <Compile Include="Harmony\DialogPatches.cs" />
+    <Compile Include="Harmony\HarmonyMain.cs" />
+    <Compile Include="Harmony\IncidentPatches.cs" />
+    <Compile Include="Harmony\IncidentPatch_Simple.cs" />
+    <Compile Include="Harmony\WorldObjectsHolderPatches.cs" />
+    <Compile Include="IncidentCaravan\IncidentCaravanUtility.cs" />
+    <Compile Include="IncidentCaravan\TravelingIncidentCaravan_Simple.cs" />
+    <Compile Include="Interceptor\GroupListStorage.cs" />
+    <Compile Include="Interceptor\InterceptedIncident_Infestation.cs" />
+    <Compile Include="Interceptor\InterceptedIncident_SkyFaller.cs" />
+    <Compile Include="Interceptor\InterceptedIncident_SkyFaller_CenterDrop.cs" />
+    <Compile Include="Interceptor\InterceptedIncident_SkyFaller_EdgeDrop.cs" />
+    <Compile Include="Interceptor\InterceptedIncident_SkyFaller_EdgeDropGroup.cs" />
+    <Compile Include="Interceptor\InterceptedIncident_SkyFaller_MeteoriteImpact.cs" />
+    <Compile Include="Interceptor\InterceptedIncident_SkyFaller_RandomDrop.cs" />
+    <Compile Include="Interceptor\InterceptedIncident_SkyFaller_ResourcePod.cs" />
+    <Compile Include="Interceptor\InterceptedIncident_SkyFaller_ShipChunk.cs" />
+    <Compile Include="Interceptor\InterceptedIncident_SkyFaller_ShipPartCrash.cs" />
+    <Compile Include="Interceptor\InterceptedIncident_SkyFaller_TransportPod.cs" />
+    <Compile Include="Interceptor\InterceptedIncident_SolarFlare.cs" />
+    <Compile Include="Jobs\JobDriver_PES_RefuelByNutrition.cs" />
+    <Compile Include="Mod\Main.cs" />
+    <Compile Include="Mod\NameGenerator.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="RaidGoal\RaidingGoal.cs" />
+    <Compile Include="RaidGoal\RaidingGoalUtility.cs" />
+    <Compile Include="IncidentCaravan\TravelingIncidentCaravan.cs" />
+    <Compile Include="Interceptor\IncidentInterceptorUtility.cs" />
+    <Compile Include="Interceptor\InterceptedIncident.cs" />
+    <Compile Include="Interceptor\InterceptedIncident_AnimalHerd.cs" />
+    <Compile Include="Interceptor\InterceptedIncident_AnimalHerd_Alphabeavers.cs" />
+    <Compile Include="Interceptor\InterceptedIncident_AnimalHerd_FarmAnimalsWanderIn.cs" />
+    <Compile Include="Interceptor\InterceptedIncident_AnimalHerd_HerdMigration.cs" />
+    <Compile Include="Interceptor\InterceptedIncident_AnimalHerd_ManhunterPack.cs" />
+    <Compile Include="Interceptor\InterceptedIncident_AnimalHerd_ThrumboPasses.cs" />
+    <Compile Include="Interceptor\InterceptedIncident_HumanCrowd.cs" />
+    <Compile Include="Interceptor\InterceptedIncident_HumanCrowd_Neutral.cs" />
+    <Compile Include="Interceptor\InterceptedIncident_HumanCrowd_RaidEnemy_Groups.cs" />
+    <Compile Include="Interceptor\InterceptedIncident_HumanCrowd_TraderCaravan.cs" />
+    <Compile Include="Interceptor\InterceptedIncident_HumanCrowd_TravelerGroup.cs" />
+    <Compile Include="Interceptor\InterceptedIncident_HumanCrowd_RaidEnemy.cs" />
+    <Compile Include="Interceptor\InterceptedIncident_HumanCrowd_VisitorGroup.cs" />
+    <Compile Include="Jobs\JobDriver_PES_InstallUpgrade.cs" />
+    <Compile Include="Jobs\JobDriver_PES_OperateSentryArray.cs" />
+    <Compile Include="Jobs\JobDriver_PES_StandGuard.cs" />
+    <Compile Include="Jobs\WorkGiver_PES_InstallUpgrade.cs" />
+    <Compile Include="Jobs\WorkGiver_PES_OperateSentryArray.cs" />
+    <Compile Include="Jobs\WorkGiver_PES_StandGuard.cs" />
+    <Compile Include="Mod\PES_Settings.cs" />
+    <Compile Include="DefOf\Textures.cs" />
+    <Compile Include="RaidGoal\RaidingGoal_Conquer.cs" />
+    <Compile Include="RaidGoal\RaidingGoal_Enslave.cs" />
+    <Compile Include="RaidGoal\RaidingGoal_Extermination.cs" />
+    <Compile Include="RaidGoal\RaidingGoal_Extortion.cs" />
+    <Compile Include="RaidGoal\RaidingGoal_Rescue.cs" />
+    <Compile Include="RaidGoal\RaidingGoal_Smite.cs" />
+    <Compile Include="Things\CompAffectedBySolarFlareEarly.cs" />
+    <Compile Include="Things\CompBuildingAlarm.cs" />
+    <Compile Include="Things\CompBuildingAlarm_Primitive.cs" />
+    <Compile Include="Things\CompDetection.cs" />
+    <Compile Include="Things\CompDetection_AutoDevice.cs" />
+    <Compile Include="Things\CompDetection_ManualDevice.cs" />
+    <Compile Include="Things\CompNeedSustain.cs" />
+    <Compile Include="Things\CompProperties_AffectedBySolarFlareEarly.cs" />
+    <Compile Include="Things\CompProperties_BuildingAlarm_Primitive.cs" />
+    <Compile Include="Things\CompProperties_Detection.cs" />
+    <Compile Include="Things\CompProperties_NeedSustain.cs" />
+    <Compile Include="Things\CompProperties_TowerFoodRefuelable.cs" />
+    <Compile Include="Things\CompProperties_Upgrade.cs" />
+    <Compile Include="Things\CompTowerFoodRefuelable.cs" />
+    <Compile Include="Things\CompUpgrade.cs" />
+    <Compile Include="Things\ITab_TowerFood.cs" />
+    <Compile Include="Things\MedievalWatchTower.cs" />
+    <Compile Include="Things\ModernWatchTower.cs" />
+    <Compile Include="Things\PrimitiveWatchTower.cs" />
+    <Compile Include="Things\TowerBuildingBase.cs" />
+    <Compile Include="Things\UpgradeUtilities.cs" />
+    <Compile Include="Jobs\WorkGiver_PES_Refuel.cs" />
+    <Compile Include="UI\Bulletin.cs" />
+    <Compile Include="UI\Bulletin_Animal.cs" />
+    <Compile Include="UI\Bulletin_Flare.cs" />
+    <Compile Include="UI\Bulletin_Human.cs" />
+    <Compile Include="UI\Bulletin_Infestation.cs" />
+    <Compile Include="UI\Bulletin_SkyFaller.cs" />
+    <Compile Include="UI\ColonySecurityDashBoard_Window.cs" />
+    <Compile Include="Dialogue\OpenUILetter.cs" />
+    <Compile Include="UI\PES_UIComponent.cs" />
+    <Compile Include="UI\TinyReportWindow.cs" />
+    <Compile Include="UI\UIConstants.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Krafs.Rimworld.Ref" Version="1.4.3525" GeneratePathProperty="true" />
+    <PackageReference Include="Lib.Harmony">
+      <Version>2.2.2</Version>
+    </PackageReference>
+    <PackageReference Include="TaskPubliciser">
+      <Version>1.0.3</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Target Name="MyCode" BeforeTargets="UpdateReferences">
+    <PropertyGroup>
+      <AssemblyCSharp>$(PkgKrafs_Rimworld_Ref)\ref\net472\Assembly-CSharp.dll</AssemblyCSharp>
+      <PubliciseOutputPath>$(PkgKrafs_Rimworld_Ref)\ref\net472\</PubliciseOutputPath>
+      <AssemblyCSharp_Publicised>$(PubliciseOutputPath)Assembly-CSharp_publicised.dll</AssemblyCSharp_Publicised>
+    </PropertyGroup>
+    <Publicise TargetAssemblyPath="$(AssemblyCSharp)" OutputPath="$(PkgKrafs_Rimworld_Ref)\ref\net472\" Condition="Exists('$(AssemblyCSharp)')" />
+    <ItemGroup>
+      <Reference Include="$(AssemblyCSharp_Publicised)">
+        <SpecificVersion>false</SpecificVersion>
+        <HintPath>$(AssemblyCSharp_Publicised)</HintPath>
+        <Implicit>true</Implicit>
+        <Private>false</Private>
+      </Reference>
+    </ItemGroup>
+  </Target>
+  <Target Name="UpdateReferences" AfterTargets="ResolveLockFileReferences">
+    <ItemGroup>
+      <Reference Remove="$(PkgKrafs_Rimworld_Ref)\ref\net472\Assembly-CSharp.dll" />
+    </ItemGroup>
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
