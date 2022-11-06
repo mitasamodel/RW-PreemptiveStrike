@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- <PES_StandGuard_Primitive.label>Стоит на страже Примитивная сторожевая башня</PES_StandGuard_Primitive.label>
+  <PES_StandGuard_Primitive.verb>стоит на страже</PES_StandGuard_Primitive.verb>
+  <PES_StandGuard_Primitive.gerund>стоящий на страже</PES_StandGuard_Primitive.gerund> -->
+
+  <PES_StandGuard.label>Стоит на страже сторожевой башни</PES_StandGuard.label>
+  <PES_StandGuard.verb>стоит на страже</PES_StandGuard.verb>
+  <PES_StandGuard.gerund>разведка</PES_StandGuard.gerund>
+
+  <PES_OperateSentryArray.label>Мониторит на станции разведывательных дронов</PES_OperateSentryArray.label>
+  <PES_OperateSentryArray.verb>мониторит</PES_OperateSentryArray.verb>
+  <PES_OperateSentryArray.gerund>мониторинг на</PES_OperateSentryArray.gerund>
+
+  <PES_InstallUpgrade.label>устанавливает улучшение на строении разведки</PES_InstallUpgrade.label>
+  <PES_InstallUpgrade.verb>обновляет</PES_InstallUpgrade.verb>
+  <PES_InstallUpgrade.gerund>обновление</PES_InstallUpgrade.gerund>
+
+  <PES_Refuel.label>снабжает объекты разведки</PES_Refuel.label>
+  <PES_Refuel.verb>снабжает</PES_Refuel.verb>
+  <PES_Refuel.gerund>снабжение</PES_Refuel.gerund>
+
+
+</LanguageData>

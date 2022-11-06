@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <PES_CombatFervor.label>Боевая ярость</PES_CombatFervor.label>
+  <PES_CombatFervor.stages.0.label>Боевая ярость</PES_CombatFervor.stages.0.label>
+  <PES_CombatFervor.description>Боевая ярость</PES_CombatFervor.description>
+  
+  <PES_CombatTiredness.label>Боевая усталость</PES_CombatTiredness.label>
+  <PES_CombatTiredness.stages.0.label>Боевая усталость</PES_CombatTiredness.stages.0.label>
+  <PES_CombatTiredness.description>Боевая усталость</PES_CombatTiredness.description>
+
+
+</LanguageData>

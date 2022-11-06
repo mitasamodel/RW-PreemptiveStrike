@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <PES_PremitiveWatchtower_new.label>Примитивная башня</PES_PremitiveWatchtower_new.label>
+  <PES_PremitiveWatchtower_new.description>Примитивная высокая башня, где один колонист может нести караульное дежурство, бдительно наблюдая за окружением, а при приближении опасности вовремя оповещая колонию подачей дымового сигнала.</PES_PremitiveWatchtower_new.description>
+  <PES_PremitiveWatchtower_new.comps.1.name>Хранение продуктов питания</PES_PremitiveWatchtower_new.comps.1.name>
+  <PES_PremitiveWatchtower_new.comps.1.description>Установите небольшой ящик для хранения еды, чтобы носильщики в вашей колонии могли доставлять еду (приготовленные блюда) для часового колониста.</PES_PremitiveWatchtower_new.comps.1.description>
+  <PES_PremitiveWatchtower_new_Blueprint.label>Примитивная башня (проект)</PES_PremitiveWatchtower_new_Blueprint.label>
+  <PES_PremitiveWatchtower_new_Frame.label>Примитивная башня (в разработке)</PES_PremitiveWatchtower_new_Frame.label>
+  <PES_PremitiveWatchtower_new_Frame.description>Примитивная высокая башня, где один колонист может нести караульное дежурство, бдительно наблюдая за окружением, а при приближении опасности вовремя оповещая колонию подачей дымового сигнала.</PES_PremitiveWatchtower_new_Frame.description>
+  
+  <PES_MedievalWatchtower.label>Средневековая башня</PES_MedievalWatchtower.label>
+  <PES_MedievalWatchtower.description>Средневековая высокая башня, где один колонист может нести караульное дежурство, бдительно наблюдая за окружением, а при приближении опасности вовремя оповещая колонию подачей дымового сигнала.</PES_MedievalWatchtower.description>
+  <PES_MedievalWatchtower.comps.1.name>Хранение продуктов питания </PES_MedievalWatchtower.comps.1.name>
+  <PES_MedievalWatchtower.comps.1.description>Установите небольшой ящик для хранения еды, чтобы носильщики в вашей колонии могли доставлять еду (приготовленные блюда) для часового колониста. </PES_MedievalWatchtower.comps.1.description>
+  <PES_MedievalWatchtower_Blueprint.label>Средневековая башня (проект)</PES_MedievalWatchtower_Blueprint.label>
+  <PES_MedievalWatchtower_Frame.label>Средневековая башня (в разработке)</PES_MedievalWatchtower_Frame.label>
+  <PES_MedievalWatchtower_Frame.description>Средневековая высокая башня, где один колонист может нести караульное дежурство, бдительно наблюдая за окружением, а при приближении опасности вовремя оповещая колонию подачей дымового сигнала.</PES_MedievalWatchtower_Frame.description>
+
+  <PES_watchtower_new.label>Современная башня</PES_watchtower_new.label>
+  <PES_watchtower_new.description>Современная высокая башня, где один колонист может нести караульное дежурство, бдительно наблюдая за окружением, а при приближении опасности вовремя оповещая колонию подачей дымового сигнала.</PES_watchtower_new.description>
+	  <PES_watchtower_new.comps.6.name>Мини-дозатор питательной пасты</PES_watchtower_new.comps.6.name>
+	  <PES_watchtower_new.comps.6.description>Установите дозатор питательной пасты внутри башни, чтобы носильщики в вашей колонии могли напрямую доставлять пищу для часового колониста.</PES_watchtower_new.comps.6.description>
+	  
+	  <PES_watchtower_new.comps.7.name>Радио</PES_watchtower_new.comps.7.name>
+	  <PES_watchtower_new.comps.7.description>Установите внутри сторожевой башни радио, чтобы колонист-часовой мог слушать его во время дежурства. Держите потребность в развлечении часового на умеренном уровне.</PES_watchtower_new.comps.7.description>
+	  
+	  <PES_watchtower_new.comps.8.name>Прожектор</PES_watchtower_new.comps.8.name>
+	  <PES_watchtower_new.comps.8.description>С прожектором сторожевую вышку можно использовать с эффективностью 60% в темноте за счет дополнительного энергопотребления на 500 Вт.</PES_watchtower_new.comps.8.description>
+	  
+	  <PES_watchtower_new.comps.9.name>Тактический телескоп</PES_watchtower_new.comps.9.name>
+	  <PES_watchtower_new.comps.9.description>С установленным телескопом часовой может видеть с башни еще дальше.\n+50% Дальность обзора\n+50% Дальность обнаружения.</PES_watchtower_new.comps.9.description>
+	  
+  <PES_watchtower_new_Blueprint.label>Современная  башня (проект)</PES_watchtower_new_Blueprint.label>
+  <PES_watchtower_new_Frame.label>Современная  башня (в разработке)</PES_watchtower_new_Frame.label>
+  <PES_watchtower_new_Frame.description>Современная высокая башня, где один колонист может нести караульное дежурство, бдительно наблюдая за окружением, а при приближении опасности вовремя оповещая колонию подачей дымового сигнала.</PES_watchtower_new_Frame.description>
+
+  <PES_Radar.label>Радар</PES_Radar.label>
+  <PES_Radar.description>Система обнаружения, использующая радиоволны для определения дальности, угла или скорости объектов. Может использоваться для расширения дальности обнаружения колонии.</PES_Radar.description>
+  <PES_Radar_Blueprint.label>Радар (проект)</PES_Radar_Blueprint.label>
+  <PES_Radar_Frame.label>Радар (в разработке)</PES_Radar_Frame.label>
+  <PES_Radar_Frame.description>Система обнаружения, использующая радиоволны для определения дальности, угла или скорости объектов. Может использоваться для расширения дальности обнаружения колонии.</PES_Radar_Frame.description>
+
+  <PES_SentryDroneArray.label>Станция дронов</PES_SentryDroneArray.label>
+  <PES_SentryDroneArray.description>Консоль управления и наблюдения за несколькими сторожевыми дронами, которые используются для разведки и значительно расширяют дальность обзора колонии.</PES_SentryDroneArray.description>
+  <PES_SentryDroneArray.comps.4.name>Радио</PES_SentryDroneArray.comps.4.name>
+  <PES_SentryDroneArray.comps.4.description>Установите внутри сторожевой башни радио, чтобы колонист-часовой мог слушать его во время дежурства. Держите потребность в развлечении часового на умеренном уровне.</PES_SentryDroneArray.comps.4.description>
+  <PES_SentryDroneArray_Blueprint.label>Станция разведывательных дронов (проект)</PES_SentryDroneArray_Blueprint.label>
+  <PES_SentryDroneArray_Frame.label>Станция разведывательных дронов (в разработке)</PES_SentryDroneArray_Frame.label>
+  <PES_SentryDroneArray_Frame.description>Консоль управления и наблюдения за несколькими сторожевыми дронами, которые используются для разведки и значительно расширяют дальность обзора колонии.</PES_SentryDroneArray_Frame.description>
+
+  <PES_SpySatellite.label>Спутниковый канал связи</PES_SpySatellite.label>
+  <PES_SpySatellite.description>Станция линии связи, принимающая и передающая данные между спутником-шпионом и колонией, расширяющая диапазон обнаружения колонии, чтобы покрыть огромную территорию на этой планете.</PES_SpySatellite.description>
+  <PES_SpySatellite_Blueprint.label>Спутниковый канал связи (проект)</PES_SpySatellite_Blueprint.label>
+  <PES_SpySatellite_Frame.label>Спутниковый канал связи (в разработке)</PES_SpySatellite_Frame.label>
+  <PES_SpySatellite_Frame.description>Станция линии связи, принимающая и передающая данные между спутником-шпионом и колонией, расширяющая диапазон обнаружения колонии, чтобы покрыть огромную территорию на этой планете.</PES_SpySatellite_Frame.description>
+
+
+</LanguageData>

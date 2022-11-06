@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <PES_setting_default>Восстановление значений по умолчанию</PES_setting_default>
+  <!--Lt.Bob: Added debug and Difficult Detection translation -->
+  <PES_setting_debug>Режим отладки</PES_setting_debug>
+  <PES_setting_debug_Tooltip>НЕ ВКЛЮЧАЙТЕ это, пожалуйста; это для тестирования разработчиков.</PES_setting_debug_Tooltip>
+  <PES_setting_DifficultDetection>Сложное обнаружение</PES_setting_DifficultDetection>
+  <PES_setting_DifficultDetection_Tooltip>Ограничивает фракцию, тип животного и намерение видимым диапазоном.</PES_setting_DifficultDetection_Tooltip>
+  <!--Lt.Bob: Added debug and Difficult Detection translation -->
+  <PES_setting_notes>Примечания:\n1. Подробное объяснение формул настройки приведено ниже. Наведите на него мышку и оно появится\n2. 1 час = 2500 тиков</PES_setting_notes>
+  <PES_setting_detectioncoefficient>Коэффициент обнаружения</PES_setting_detectioncoefficient>
+  <PE_setting_detectionMechanism>Настройки механизма обнаружения</PE_setting_detectionMechanism>
+  <PES_setting_detectionFormula>Формула вероятности обнаружения: P = ( c - y ) / c * k\nЗатем это значение будет зафиксировано на [0.1, 0.8] (обнаружить неизвестный караван) или [0.2, 0.95] (обнаружить подробную информацию)</PES_setting_detectionFormula>
+  <PES_setting_detectionExplain>A = Диапазон обнаружения\nB = Диапазон обзора\nC = A - B\nx = оставшиеся плитки\ny = x - B\nk = коэффициент ниже\nP это конечная вероятность</PES_setting_detectionExplain>
+
+  <PES_setting_caravanSpeed>Время прохождения караваном клетки на карте мира (в тиках)</PES_setting_caravanSpeed>
+
+  <PES_setting_skyObject>Небесные объекты:</PES_setting_skyObject>
+  <PES_setting_skyObject_Large_a>Сигнал перед встречей с крупным объектом неба (в тиках))</PES_setting_skyObject_Large_a>
+  <PES_setting_skyObject_Large_b>Время до обнаружения крупных объектов неба (в тиках)</PES_setting_skyObject_Large_b>
+  <PES_setting_skyObject_Small_a>Сигнал перед встречей небольшого объекта неба (в тиках)</PES_setting_skyObject_Small_a>
+  <PES_setting_skyObject_Small_b>Время до обнаружения небольших объектов неба (в тиках)</PES_setting_skyObject_Small_b>
+
+  <PES_setting_infestation>Время сигнала о нашествии насекомых (в тиках)</PES_setting_infestation>
+
+  <PES_setting_negotiationProb>Настройки переговоров</PES_setting_negotiationProb>
+
+  <PES_setting_negotiationIntro>Все следующие вероятности являются только базовыми значениями. Окончательные вероятности каждого события основаны на этой формуле: \nДля положительного результата: P = Base * NA\nДля отрицательного исхода: P = Base * (1 / NA); P = Base / 2 (если NA это ноль)\nИ P будет зафиксирован как [0, 1]</PES_setting_negotiationIntro>
+  <PES_setting_negotiationTip>Base = следующие базовые значения\nNA - переговорная способность пешки. Это связано с социальным уровнем пешки, и вы можете проверить это на информационной панели пешки в игре. Для нормальной здоровой пешки это 40% на уровне 1 и 190% на уровне 20. </PES_setting_negotiationTip>
+  <PES_setting_commintro>Вероятности при контакте с караваном:</PES_setting_commintro>
+  <PES_setting_commpersuation_friend>Успешное убеждение (neutral)</PES_setting_commpersuation_friend>
+  <PES_setting_commpersuation_враждебный>Успешное убеждение (враждебный)</PES_setting_commpersuation_враждебный>
+  <PES_setting_commintimidation_contact_friend>Успешное запугивание и установление контакта (нейтральный)</PES_setting_commintimidation_contact_friend>
+  <PES_setting_commintimidation_frighten_friend>Успешное запугивание и отпугивание (нейтральный)</PES_setting_commintimidation_frighten_friend>
+  <PES_setting_commintimidation_contact_враждебный>Успешное запугивание и установление контакта (враждебный)</PES_setting_commintimidation_contact_враждебный>
+  <PES_setting_commintimidation_frighten_враждебный>Успешное запугивание и отпугивание (враждебный)</PES_setting_commintimidation_frighten_враждебный>
+  <PES_setting_commbeguilment_friend>Успешное обольщение (нейтральный)</PES_setting_commbeguilment_friend>
+  <PES_setting_commbeguilment_Contact_враждебный>Успешное обольщение и установление контакта (враждебный)</PES_setting_commbeguilment_Contact_враждебный>
+  <PES_setting_commbeguildment_frighten_враждебный>Успешное обольщение и отпугивание (враждебный)</PES_setting_commbeguildment_frighten_враждебный>
+
+  <PES_setting_negintro>Вероятности при ведении переговоров о цели рейда:</PES_setting_negintro>
+  <PES_setting_neg_delay>заставить их остановиться на некоторое время:</PES_setting_neg_delay>
+  <PES_setting_delay_persuasion>Успех убеждения</PES_setting_delay_persuasion>
+  <PES_setting_delay_intimidation_s>Успех запугивания</PES_setting_delay_intimidation_s>
+  <PES_setting_delay_intimidation_b>Неудача запугивания и ответный удар</PES_setting_delay_intimidation_b>
+  <PES_setting_delay_beguilment>Обманчивый успех</PES_setting_delay_beguilment>
+  <PES_setting_neg_bargain>Торг с ними</PES_setting_neg_bargain>
+  <PES_setting_bargain_persuasion>Успех убеждения</PES_setting_bargain_persuasion>
+  <PES_setting_bargain_intimidation_s>Успех запугивания</PES_setting_bargain_intimidation_s>
+  <PES_setting_bargain_intimidation_b>Неудача запугивания и ответный удар</PES_setting_bargain_intimidation_b>
+  <PES_setting_bargain_beguilment>Обманчивый успех</PES_setting_bargain_beguilment>
+  <PES_setting_neg_remedy>Попросить их изменить цель рейда</PES_setting_neg_remedy>
+  <PES_setting_remedy_persuasion>Успех убеждения</PES_setting_remedy_persuasion>
+  <PES_setting_remedy_intimidation_s>Успех запугивания</PES_setting_remedy_intimidation_s>
+  <PES_setting_remedy_intimidation_b>Неудача запугивания и ответный удар</PES_setting_remedy_intimidation_b>
+  <PES_setting_remedy_beguilment>Обманчивый успех</PES_setting_remedy_beguilment>
+
+  <PES_setting_mesintro>При попытке установить контакт с караваном, перед проверкой вышеперечисленных вероятностей, существует вероятность того, сможет ли это широковещательное сообщение быть получено ими или нет, она рассчитывается:</PES_setting_mesintro>
+  <PES_setting_mesExp>P = 1 - 0.2 * сложность + смещение   (P будет зафиксирован [0, 1])</PES_setting_mesExp>
+  <PES_setting_megTip>сложность это 0 для мирных, 5 для безжалостного;\nсмещение является следующим значением</PES_setting_megTip>
+  <PES_setting_mesOffset>Смещение вероятности получения сообщения</PES_setting_mesOffset>
+
+</LanguageData>
