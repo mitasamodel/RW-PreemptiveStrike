@@ -36,7 +36,7 @@ namespace PreemptiveStrike.Things
         public ITab_TowerFood()
         {
             size = WinSize;
-            labelKey = "RefuelTab";
+            labelKey = "PES_RefuelTab";
         }
 
         public override void FillTab()
