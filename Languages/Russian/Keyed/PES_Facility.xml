@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <PES_Building_Installed>Установленные улучшения: </PES_Building_Installed>
+  <PES_Building_ToInstall>Установить: {0}</PES_Building_ToInstall>
+  <PES_Building_UpdateInstalling>Устанавливает улучшение: {0}\nПрогресс: {1}%</PES_Building_UpdateInstalling>
+  <PES_Building_Delivered>Доставлен: {0}</PES_Building_Delivered>
+  <PES_Building_UnUsableDark>Непригоден для использования ночью.</PES_Building_UnUsableDark>
+  <PES_Building_UnUsableSolarFlare>Сигнал заглушен солнечной вспышкой.</PES_Building_UnUsableSolarFlare>
+
+</LanguageData>

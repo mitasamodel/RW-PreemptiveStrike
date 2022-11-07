@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <PES_RefuelTab>Настройки хранения</PES_RefuelTab>
+  <PES_UI_Title>Отчет безопасности</PES_UI_Title>
+  <PES_UI_Ranges>Текущая зона видимости: {0}   Зона обнаружения: {1}</PES_UI_Ranges>
+  <PES_UI_Bulletins>Опасно: {0}  Нейтрально: {1} Неопределено: {2}</PES_UI_Bulletins>
+  <PES_UI_Unknown>Неизвестно</PES_UI_Unknown>
+  <PES_UI_UnknownIntention>Неизвестное намерение</PES_UI_UnknownIntention>
+  <PES_UI_Strategy>Стратегия: {0}</PES_UI_Strategy>
+  <PES_UI_Faction>Фракция: </PES_UI_Faction>
+  <PES_UI_Corps>Размер группы: </PES_UI_Corps>
+  <PES_UI_Herd>Размер стада: </PES_UI_Herd>
+  <PES_UI_ETA>Расчетное время прибытия: </PES_UI_ETA>
+  <PES_UI_Direction_unknown>Сторона прибытия: Неизвестно</PES_UI_Direction_unknown>
+  <PES_UI_Direction_known>Сторона прибытия (Нажать)</PES_UI_Direction_known>
+
+  <PES_UI_Letter_ReadMore>Подробнее читайте в отчете о безопасности</PES_UI_Letter_ReadMore>
+
+  <PES_UI_CaravanMoving>Движется в направлении {0}</PES_UI_CaravanMoving>
+  <PES_UI_CaravanStaging>Организация.</PES_UI_CaravanStaging>
+
+  <PES_UI_SkyFaller_Spot_Big>Прогнозируемое место удара (Нажать)</PES_UI_SkyFaller_Spot_Big>
+  <PES_UI_SkyFaller_Spot_Small>Прогнозируемая зона высадки (Нажать)</PES_UI_SkyFaller_Spot_Small>
+  <PES_UI_SkyFaller_Spot_Unknown>Невозможно предсказать зону высадки</PES_UI_SkyFaller_Spot_Unknown>
+
+  <PES_UI_Infestation_Spot>Зона появления (Нажать)</PES_UI_Infestation_Spot>
+
+</LanguageData>

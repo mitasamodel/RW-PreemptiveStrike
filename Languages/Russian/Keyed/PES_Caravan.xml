@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <PES_Intention_Raid>Атака</PES_Intention_Raid>
+  <PES_Intention_TradeCaravan>Торговый караван</PES_Intention_TradeCaravan>
+  <PES_Intention_Traveler>Проходит мимо</PES_Intention_Traveler>
+  <PES_Intention_Visitor>Гости</PES_Intention_Visitor>
+  <PES_Intention_AlphaBeavers>Альфа-бобры</PES_Intention_AlphaBeavers>
+  <PES_Intention_FarmAnimalsWanderIn>Присоединяется к колонии</PES_Intention_FarmAnimalsWanderIn>
+  <PES_Intention_HerdMigration>Стадо мигрирует</PES_Intention_HerdMigration>
+  <PES_Intention_ManHunterPack>Охотники за головами</PES_Intention_ManHunterPack>
+  <PES_Intention_ThrumboPass>Трумбо проходят мимо</PES_Intention_ThrumboPass>
+
+  <PES_Intention_RaidInGroups>(Группами)</PES_Intention_RaidInGroups>
+
+  <PES_RaidGoalName_Rescue>Спасение узника</PES_RaidGoalName_Rescue>
+  <PES_RaidGoalName_Despoil>Грабеж</PES_RaidGoalName_Despoil>
+  <PES_RaidGoalName_Revenge>Месть</PES_RaidGoalName_Revenge>
+  <PES_RaidGoalName_Enslave>Похищение колонистов</PES_RaidGoalName_Enslave>
+  <PES_RaidGoalName_Conquer>Завоевание</PES_RaidGoalName_Conquer>
+  <PES_RaidGoalName_Extortion>Вымогательство</PES_RaidGoalName_Extortion>
+  <PES_RaidGoalName_Smite>КАРА</PES_RaidGoalName_Smite>
+  <PES_RaidGoalName_Extermination>ИСТРЕБЛЕНИЕ</PES_RaidGoalName_Extermination>
+
+  <PES_Strategy_Normal>Фронтальная атака</PES_Strategy_Normal>
+  <PES_Strategy_Sapper>Подрывники</PES_Strategy_Sapper>
+  <PES_Strategy_Smart>Умная атака</PES_Strategy_Smart>
+  <PES_Strategy_Siege>Осада</PES_Strategy_Siege>
+  <PES_Strategy_Stage>Атака с задержкой</PES_Strategy_Stage>
+
+  <PES_AnimalType_Unknown>Неопознанные животные</PES_AnimalType_Unknown>
+
+  <PES_Unknown_SkyObject_Large>Неопознанный большой небесный объект</PES_Unknown_SkyObject_Large>
+  <PES_Unknown_SkyObject_Small>Неопознанный небольшой небесный объект</PES_Unknown_SkyObject_Small>
+  <PES_Skyfaller_raid>Приближающаяся высадка противника</PES_Skyfaller_raid>
+  <PES_Skyfaller_Meteorite>Падение метеорита</PES_Skyfaller_Meteorite>
+  <PES_Skyfaller_ResourcePod>Приближающаяся капсула с ресурсами</PES_Skyfaller_ResourcePod>
+  <PES_Skyfaller_RefugeePod>Приближающаяся капсула с беженцем</PES_Skyfaller_RefugeePod>
+  <PES_Skyfaller_ShipChunk>Падение осколков корабля</PES_Skyfaller_ShipChunk>
+  <PES_Skyfaller_ShipPart>Падение части древнего корабля</PES_Skyfaller_ShipPart>
+
+  <PES_Infestation_Title>Подземная тревога</PES_Infestation_Title>
+
+  <PES_Unknown_HumanCrowd>Неопознанная толпа людей</PES_Unknown_HumanCrowd>
+  <PES_Unknown_AnimalHerd>Неопознанная стая животных</PES_Unknown_AnimalHerd>
+
+</LanguageData>

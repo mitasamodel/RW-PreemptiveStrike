@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <PES_CombatFervor_Thought.stages.0.label>Боевая ярость</PES_CombatFervor_Thought.stages.0.label>
+  <PES_CombatFervor_Thought.stages.0.description>Это честь сражаться насмерть за свободу колонии.</PES_CombatFervor_Thought.stages.0.description>
+
+  <PES_CombatTiredness_Thought.stages.0.label>Боевая усталость</PES_CombatTiredness_Thought.stages.0.label>
+  <PES_CombatTiredness_Thought.stages.0.description>Мы могли бы избежать этой схватки, но теперь нас могут ранить или даже убить. Это бессмысленная борьба.</PES_CombatTiredness_Thought.stages.0.description>
+
+
+</LanguageData>

@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <PES_PrimitiveTower.label>Примитивная сторожевая башня</PES_PrimitiveTower.label>
+  <PES_PrimitiveTower.description>Позволяет строить примитивные сторожевые башни, чтобы обеспечить базовые возможности разведки.</PES_PrimitiveTower.description>
+
+  <PES_ModernTower.label>Современная сторожевая башня</PES_ModernTower.label>
+  <PES_ModernTower.description>Позволяет строить современные сторожевые башни, которые обеспечивают лучшую разведывательную способность колонии и могут быть установлены с различными улучшениями.</PES_ModernTower.description>
+
+  <PES_FoodSupply.label>Решение для снабжения продовольствием часового</PES_FoodSupply.label>
+  <PES_FoodSupply.description>Позволяет установить мини-дозатор питательных веществ в сторожевой башне, чтобы обеспечить едой часового.</PES_FoodSupply.description>
+
+  <PES_JoyRadio.label>Развлекательное радио</PES_JoyRadio.label>
+  <PES_JoyRadio.description>Позволяет установить радио в сторожевых башнях, чтобы обеспечить развлечение для часовых.</PES_JoyRadio.description>
+
+  <PES_SearchLight.label>Продвинутая технология освещения</PES_SearchLight.label>
+  <PES_SearchLight.description>Позволяет установить прожектор в сторожевой башне для использования в ночное время.</PES_SearchLight.description>
+
+  <PES_SkyIDL.label>Идентификация больших небесных объектов</PES_SkyIDL.label>
+  <PES_SkyIDL.description>Разблокирует способность колонии идентифицировать крупные небесные объекты, такие как обломки кораблей и метеориты, и предсказывать место их падения, что может помочь колонии уменьшить некоторые потери.</PES_SkyIDL.description>
+
+  <PES_RADAR.label>Радиообнаружение и определение дальности</PES_RADAR.label>
+  <PES_RADAR.description>Позволяет строить радар, автоматическое разведывательное здание, обеспечивающее большую дальность обнаружения.</PES_RADAR.description>
+
+  <PES_SkyIDS.label>Идентификация небольших небесных объектов</PES_SkyIDS.label>
+  <PES_SkyIDS.description>Разблокирует способность колонии идентифицировать небольшие объекты в небе, такие как десантные капсулы, и предсказывать место их падения, что может помочь колонии уменьшить некоторые потери.</PES_SkyIDS.description>
+
+  <PES_InfestationDetection.label>Система раннего предупреждения землетрясения</PES_InfestationDetection.label>
+  <PES_InfestationDetection.description>Добавляет возможность обнаружения нашествия паразитов в геосканере.</PES_InfestationDetection.description>
+
+  <PES_SentryArray.label>Разведывательные дроны</PES_SentryArray.label>
+  <PES_SentryArray.description>Позволяет создать группу сторожевых дронов, превосходное средство разведки, обеспечивающее большой радиус обзора.</PES_SentryArray.description>
+
+  <PES_Satellite.label>Спутниковая связь</PES_Satellite.label>
+  <PES_Satellite.description>Позволяет создать разведывательный спутниковый канал связи, превосходное разведывательное средство, обеспечивающее огромную дальность обнаружения.</PES_Satellite.description>
+
+
+</LanguageData>
