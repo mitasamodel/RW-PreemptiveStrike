@@ -13,8 +13,9 @@
 			<downloadUrl>https://github.com/pardeike/HarmonyRimWorld/releases/latest</downloadUrl>
 		</li>
 	</modDependencies>
-		<loadAfter>
+	<loadAfter>
 		<li>brrainz.harmony</li>
+		<li>BiomesTeam.BiomesIslands</li>
     </loadAfter>
 	<packageId>LtBob.PreemptiveStrike.Rimworld</packageId>
 	<description>

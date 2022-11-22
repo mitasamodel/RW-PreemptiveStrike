@@ -21,25 +21,25 @@ namespace PreemptiveStrike.Harmony
 			if (PES_Settings.DebugModeOn)
 			{
 				Messages.Message("-=PS=- Caught Patch_IncidentWorker_TryExecute Prefix", MessageTypeDefOf.NeutralEvent, true);
-				Log.Message("-=PS=- Patch_IncidentWorker_TryExecute Prefix", false);
+				Log.Message("-=PS=- Patch_IncidentWorker_TryExecute Prefix");
 				IncidentInterceptorUtility.DebugParms(parms, __instance.ToString());
 			}
 			if (parms.quest != null || parms.questScriptDef != null)
 			{
-				Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!", false);
+				Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!");
 				return true;
 			}
 			if (__instance.def == null)
 			{
-				Log.Error("-=PS=- __instance.def=NULL", false);
-				Log.Error("   PS=- Returning true", false);
+				Log.Error("-=PS=- __instance.def=NULL");
+				Log.Error("   PS=- Returning true");
 				return true;
 			}
-			Log.Message("   PS=- __instance.def= " + __instance.def.ToString(), false);
+			Log.Message("   PS=- __instance.def= " + __instance.def.ToString());
 			if (__instance.def.ToString() == "RRY_PowerCut_Xenomorph")  //Lt.Bob - Handling for AvP powercut event
 			{
-				Log.Message("-=PS=- AVP PowerCut event", false);
-				Log.Message("   PS=- Returning true", false);
+				Log.Message("-=PS=- AVP PowerCut event");
+				Log.Message("   PS=- Returning true");
 				return true;
 			}
 
@@ -65,8 +65,8 @@ namespace PreemptiveStrike.Harmony
         {
 			if (PES_Settings.DebugModeOn)
 			{
-				Log.Message("-=PS=- Patch_IncidentWorker_TryExecute Postfix", false);
-				Log.Message("   PS=- IsHoaxingStoryTeller=" + IncidentInterceptorUtility.IsHoaxingStoryTeller.ToString(), false);
+				Log.Message("-=PS=- Patch_IncidentWorker_TryExecute Postfix");
+				Log.Message("   PS=- IsHoaxingStoryTeller=" + IncidentInterceptorUtility.IsHoaxingStoryTeller.ToString());
 			}
 
 			if (IncidentInterceptorUtility.IsHoaxingStoryTeller)
@@ -108,7 +108,7 @@ namespace PreemptiveStrike.Harmony
 			}
             if (parms != null && parms.questTag != null || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest") //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
             {
-				Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!", false);
+				Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!");
 				return;
 
 			}
@@ -133,12 +133,12 @@ namespace PreemptiveStrike.Harmony
         {
 			if (PES_Settings.DebugModeOn)
 			{
-				Log.Message("-=PS=- Patch_EdgeWalkInGroups_TryResolveRaidSpawnCenter Postfix", false);
+				Log.Message("-=PS=- Patch_EdgeWalkInGroups_TryResolveRaidSpawnCenter Postfix");
 				IncidentInterceptorUtility.DebugParms(parms, __instance.ToString());
 			}
 			if (parms.quest != null || parms.questScriptDef != null)
 			{
-				Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!", false);
+				Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!");
 				return;
 			}
 
@@ -203,19 +203,19 @@ namespace PreemptiveStrike.Harmony
         {
 			if (PES_Settings.DebugModeOn)
 			{
-				Log.Message("-=PS=- Patch_IncidentWorker_TraderCaravanArrival_TryExecuteWorker Prefix", false);
+				Log.Message("-=PS=- Patch_IncidentWorker_TraderCaravanArrival_TryExecuteWorker Prefix");
 				IncidentInterceptorUtility.DebugParms(parms, __instance.ToString());
 			}
 			if (parms.quest != null || parms.questScriptDef != null)
 			{
-				Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!", false);
+				Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!");
 				return true;
 			}
 			if (parms != null && parms.questTag != null)	//Lt.Bob - May be redundant
 			{
-				Log.Error("-=PS=- Not redundant", false);
-				Log.Message("-=PS=- Patch_IncidentWorker_TraderCaravanArrival_TryExecuteWorker - questTag!=Null == " + parms.questTag, false);
-				Log.Message("-=PS=- Returning true", false);
+				Log.Error("-=PS=- Not redundant");
+				Log.Message("-=PS=- Patch_IncidentWorker_TraderCaravanArrival_TryExecuteWorker - questTag!=Null == " + parms.questTag);
+				Log.Message("-=PS=- Returning true");
 				return true;
 			}
 
@@ -233,19 +233,19 @@ namespace PreemptiveStrike.Harmony
         {
 			if (PES_Settings.DebugModeOn)
 			{
-				Log.Message("-=PS=- Patch_IncidentWorker_VisitorGroup_TryExecuteWorker Prefix", false);
+				Log.Message("-=PS=- Patch_IncidentWorker_VisitorGroup_TryExecuteWorker Prefix");
 				IncidentInterceptorUtility.DebugParms(parms, __instance.ToString());
 			}
 			if (parms.quest != null || parms.questScriptDef != null)
 			{
-				Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!", false);
+				Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!");
 				return true;
 			}
 			if (parms != null && parms.questTag != null)	//Lt.Bob - May be redundant
 			{
-				Log.Error("-=PS=- Not redundant", false);
-				Log.Message("-=PS=- Patch_IncidentWorker_TravelerGroup_TryExecuteWorker - questTag!=Null == " + parms.questTag, false);
-				Log.Message("-=PS=- Returning true", false);
+				Log.Error("-=PS=- Not redundant");
+				Log.Message("-=PS=- Patch_IncidentWorker_TravelerGroup_TryExecuteWorker - questTag!=Null == " + parms.questTag);
+				Log.Message("-=PS=- Returning true");
 				return true;
 			}
 			if (IncidentInterceptorUtility.isIntercepting_TravelerGroup)
@@ -284,7 +284,7 @@ namespace PreemptiveStrike.Harmony
         {
 			if (PES_Settings.DebugModeOn)
 			{
-				Log.Message("-=PS=- Patch_IncidentWorker_FarmAnimalsWanderIn_TryExecuteWorker Prefix", false);
+				Log.Message("-=PS=- Patch_IncidentWorker_FarmAnimalsWanderIn_TryExecuteWorker Prefix");
 				IncidentInterceptorUtility.DebugParms(parms, __instance.ToString());
 			}
 
@@ -309,7 +309,7 @@ namespace PreemptiveStrike.Harmony
         {
 			if (PES_Settings.DebugModeOn)
 			{
-				Log.Message("-=PS=- Patch_IncidentWorker_HerdMigration_TryExecuteWorker Prefix", false);
+				Log.Message("-=PS=- Patch_IncidentWorker_HerdMigration_TryExecuteWorker Prefix");
 				IncidentInterceptorUtility.DebugParms(parms, __instance.ToString());
 			}
 
@@ -334,7 +334,7 @@ namespace PreemptiveStrike.Harmony
         {
 			if (PES_Settings.DebugModeOn)
 			{
-				Log.Message("-=PS=- Patch_IncidentWorker_ThrumboPasses_TryExecuteWorker Prefix", false);
+				Log.Message("-=PS=- Patch_IncidentWorker_ThrumboPasses_TryExecuteWorker Prefix");
 				IncidentInterceptorUtility.DebugParms(parms, __instance.ToString());
 			}
 
@@ -357,7 +357,7 @@ namespace PreemptiveStrike.Harmony
         {
 			if (PES_Settings.DebugModeOn)
 			{
-				Log.Message("-=PS=- Patch_IncidentWorker_Alphabeavers_TryExecuteWorker Prefix", false);
+				Log.Message("-=PS=- Patch_IncidentWorker_Alphabeavers_TryExecuteWorker Prefix");
 				IncidentInterceptorUtility.DebugParms(parms, __instance.ToString());
 			}
 
@@ -382,12 +382,12 @@ namespace PreemptiveStrike.Harmony
         {
 			if (PES_Settings.DebugModeOn)
 			{
-				Log.Message("-=PS=- Patch_IncidentWorker_ManhunterPack_TryExecuteWorker Prefix", false);
+				Log.Message("-=PS=- Patch_IncidentWorker_ManhunterPack_TryExecuteWorker Prefix");
 				IncidentInterceptorUtility.DebugParms(parms, __instance.ToString());
 			}
 			if (parms.quest != null || parms.questScriptDef != null)
 			{
-				Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!", false);
+				Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!");
 				return true;
 			}
 			if (IncidentInterceptorUtility.isIntercepting_ManhunterPack == WorkerPatchType.ExecuteOrigin)
