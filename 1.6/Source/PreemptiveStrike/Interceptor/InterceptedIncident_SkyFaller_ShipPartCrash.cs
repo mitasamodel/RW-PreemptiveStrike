@@ -36,7 +36,8 @@ namespace PreemptiveStrike.Interceptor
         {
             Map map = parms.target as Map;
             IncidentInterceptorUtility.IsIntercepting_SkyfallerCell_Loose = GeneratorPatchFlag.Generate;
-            if (!CellFinderLoose.TryFindSkyfallerCell(ThingDefOf.CrashedShipPartIncoming, map, out DropSpot, 14, default, -1, false, true, true, true, true, false, null))
+            if (!CellFinderLoose.TryFindSkyfallerCell(
+				ThingDefOf.CrashedShipPartIncoming, map, TerrainAffordanceDefOf.Heavy, out DropSpot, 14, default, -1, false, true, true, true, true, false, null))
                 return false;
             lookTargets = new TargetInfo(DropSpot, map, false);
             return true;

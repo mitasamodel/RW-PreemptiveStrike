@@ -23,7 +23,7 @@ namespace PreemptiveStrike.Harmony
             }
             if (parms != null && parms.questTag != null || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest") //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
             {
-                Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!", false);
+                Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!");
                 return;
             }
             if (IncidentInterceptorUtility.isIntercepting_EdgeDrop)
@@ -44,7 +44,7 @@ namespace PreemptiveStrike.Harmony
             }
             if (parms != null && parms.questTag != null || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest") //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
             {
-                Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!", false);
+                Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!");
                 return;
             }
             if (IncidentInterceptorUtility.isIntercepting_CenterDrop)
@@ -65,7 +65,7 @@ namespace PreemptiveStrike.Harmony
             }
             if (parms != null && parms.questTag != null || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest") //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
             {
-                Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!", false);
+                Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!");
                 return;
             }
             if (IncidentInterceptorUtility.isIntercepting_EdgeDropGroup)
@@ -86,7 +86,7 @@ namespace PreemptiveStrike.Harmony
             }
             if (parms != null && parms.questTag != null  || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest") //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
             {
-                Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!", false);
+                Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!");
                 return;
             }
             if (IncidentInterceptorUtility.isIntercepting_RandomDrop)

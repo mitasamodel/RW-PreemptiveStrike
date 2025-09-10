@@ -78,18 +78,18 @@ namespace PreemptiveStrike.DetectionSystem
 				if (PES_Settings.DebugModeOn)
 				{
 					if (!PES_Settings.DifficultDetect)  //Lt.Bob - DifficultDetect
-						Log.Message("Try Detect Detail with odds " + odds + " : Success", false);
+						Log.Message("Try Detect Detail with odds " + odds + " : Success");
 					else
-						Log.Message("Try Detect Detail (Difficult) with odds " + odds + " : Success", false);
+						Log.Message("Try Detect Detail (Difficult) with odds " + odds + " : Success");
 				}
 				return true;
 			}
 			if (PES_Settings.DebugModeOn)
 			{
 				if (!PES_Settings.DifficultDetect)  //Lt.Bob - DifficultDetect
-					Log.Message("Try Detect Detail with odds " + odds + " : Fail", false);
+					Log.Message("Try Detect Detail with odds " + odds + " : Fail");
 				else
-					Log.Message("Try Detect Detail (Difficult) with odds " + odds + " : Fail", false);
+					Log.Message("Try Detect Detail (Difficult) with odds " + odds + " : Fail");
 			}
 			return false;
         }

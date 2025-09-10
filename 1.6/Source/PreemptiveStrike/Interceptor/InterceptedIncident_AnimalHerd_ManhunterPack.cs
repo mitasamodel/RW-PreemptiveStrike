@@ -46,7 +46,7 @@ namespace PreemptiveStrike.Interceptor
         public override bool ManualDeterminParams()
         {
             Map map = (Map)parms.target;
-            if (!ManhunterPackIncidentUtility.TryFindManhunterAnimalKind(parms.points, map.Tile, out AnimalType))
+            if (!AggressiveAnimalIncidentUtility.TryFindAggressiveAnimalKind(parms.points, map.Tile, out AnimalType))
             {
                 return false;
             }
@@ -54,7 +54,7 @@ namespace PreemptiveStrike.Interceptor
             {
                 return false;
             }
-            pawnList = ManhunterPackIncidentUtility.GenerateAnimals(AnimalType, map.Tile, parms.points * 1f);
+            pawnList = AggressiveAnimalIncidentUtility.GenerateAnimals(AnimalType, map.Tile, parms.points * 1f);
             AnimalNum = pawnList.Count;
             //11/12 Adding Scaria to Manhunter animals
             for(int x=0; x<AnimalNum; x++)
@@ -74,7 +74,7 @@ namespace PreemptiveStrike.Interceptor
                 Pawn pawn = pawnList[i];
                 IntVec3 loc = CellFinder.RandomClosewalkCellNear(intVec, map, 10, null);
                 GenSpawn.Spawn(pawn, loc, map, rot, WipeMode.Vanish, false);
-                pawn.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.ManhunterPermanent, null, false, false, null, false);
+                pawn.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.ManhunterPermanent);
                 pawn.mindState.exitMapAfterTick = Find.TickManager.TicksGame + Rand.Range(60000, 120000);
             }
             Find.LetterStack.ReceiveLetter("LetterLabelManhunterPackArrived".Translate(), "ManhunterPackArrived".Translate(AnimalType.GetLabelPlural(-1)), LetterDefOf.ThreatBig, pawnList[0], null, null);

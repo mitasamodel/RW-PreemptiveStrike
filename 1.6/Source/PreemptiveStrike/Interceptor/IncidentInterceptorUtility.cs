@@ -115,15 +115,15 @@ namespace PreemptiveStrike.Interceptor
         {
 			if (PES_Settings.DebugModeOn)
 			{
-				Log.Message("-=PS=- Intercept_Raid Start", false);
+				Log.Message("-=PS=- Intercept_Raid Start");
 			}
 			if (parms.faction == null)
 			{
 				if (parms.traderKind != null)
 				{
-					Log.Message("-=PS=- parms.traderKind=" + parms.traderKind.ToString(), false);
+					Log.Message("-=PS=- parms.traderKind=" + parms.traderKind.ToString());
 				}
-				Log.Message("-=PS=- parms.faction == null", false);
+				Log.Message("-=PS=- parms.faction == null");
 				return false;
 			}
 			if (parms != null && parms.questTag != null  || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest") //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
@@ -162,7 +162,7 @@ namespace PreemptiveStrike.Interceptor
         {
 			if (PES_Settings.DebugModeOn)
 			{
-				Log.Message("-=PS=- CreateIncidentCaraven_HumanNeutral Start", false);
+				Log.Message("-=PS=- CreateIncidentCaraven_HumanNeutral Start");
 				IncidentInterceptorUtility.DebugParms(parms, incidentDef);
 			}
 			if (incidentDef.defName == "CaravanArrivalTributeCollector")	//Lt. Bob - "Temporary" bypass fix for Tribute Collector 
@@ -192,7 +192,7 @@ namespace PreemptiveStrike.Interceptor
         {
 			if (PES_Settings.DebugModeOn)
 			{
-				Log.Message("-=PS=- CreateIncidentCaravan_Animal Start", false);
+				Log.Message("-=PS=- CreateIncidentCaravan_Animal Start");
 				IncidentInterceptorUtility.DebugParms(parms, incidentDef);
 			}
             if (parms != null && parms.questTag != null || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest") //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
@@ -218,7 +218,7 @@ namespace PreemptiveStrike.Interceptor
         {
 			if (PES_Settings.DebugModeOn)
 			{
-				Log.Message("-=PS=- Intercept_SkyFaller Start", false);
+				Log.Message("-=PS=- Intercept_SkyFaller Start");
 				IncidentInterceptorUtility.DebugParms(parms, incidentDef);
 			}
             if (parms != null && parms.questTag != null || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest") //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
@@ -265,7 +265,7 @@ namespace PreemptiveStrike.Interceptor
         public static bool Intercept_Infestation(IncidentParms parms)
         {
 			if (PES_Settings.DebugModeOn)
-				Log.Message("-=PS=- Intercept_Infestation Start", false);
+				Log.Message("-=PS=- Intercept_Infestation Start");
             if (parms != null && parms.questTag != null || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest") //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
                 Log.Message("-=PS=- Intercept_Infestation - questTag!=Null == " + parms.questTag);
 
@@ -296,7 +296,7 @@ namespace PreemptiveStrike.Interceptor
         public static bool Intercept_SolarFlare(IncidentParms parms)
         {
 			if (PES_Settings.DebugModeOn)
-				Log.Message("-=PS=- Intercept_SolarFlare Start", false);
+				Log.Message("-=PS=- Intercept_SolarFlare Start");
             if (parms != null && parms.questTag != null || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest") //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
                 Log.Message("-=PS=- Intercept_SolarFlare - questTag!=Null == " + parms.questTag);
 
@@ -321,25 +321,31 @@ namespace PreemptiveStrike.Interceptor
         public static List<Pawn> GenerateRaidPawns(IncidentParms parms)
         {
 			if (PES_Settings.DebugModeOn)
-				Log.Message("-=PS=- GenerateRaidPawns Start", false);
+				Log.Message("-=PS=- GenerateRaidPawns Start");
             if (parms != null && parms.questTag != null || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest") //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
                 Log.Message("-=PS=- GenerateRaidPawns - questTag!=Null == " + parms.questTag);
 
 			IsIntercepting_PawnGeneration = GeneratorPatchFlag.Generate;
 
             PawnGroupKindDef combat = PawnGroupKindDefOf.Combat;
-            parms.points = IncidentWorker_Raid.AdjustedRaidPoints(parms.points, parms.raidArrivalMode, parms.raidStrategy, parms.faction, combat);
+            parms.points = IncidentWorker_Raid.AdjustedRaidPoints(
+				parms.points, 
+				parms.raidArrivalMode, 
+				parms.raidStrategy, 
+				parms.faction, 
+				combat,
+				parms.target);
             PawnGroupMakerParms defaultPawnGroupMakerParms = IncidentParmsUtility.GetDefaultPawnGroupMakerParms(combat, parms, false);
             List<Pawn> list = PawnGroupMakerUtility.GeneratePawns(defaultPawnGroupMakerParms, true).ToList<Pawn>();
             if (list.Count == 0)
-                Log.Error("Got no pawns spawning raid from parms " + parms, false);
+                Log.Error("Got no pawns spawning raid from parms " + parms);
             return list;
         }
 
         public static List<Pawn> GenerateNeutralPawns(PawnGroupKindDef pawnGroupKind, IncidentParms parms)
         {
 			if (PES_Settings.DebugModeOn)
-				Log.Message("-=PS=- GenerateNeutralPawns Start", false);
+				Log.Message("-=PS=- GenerateNeutralPawns Start");
             if (parms != null && parms.questTag != null || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest") //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
                 Log.Message("-=PS=- GenerateNeutralPawns - questTag!=Null == " + parms.questTag);
 
@@ -367,28 +373,28 @@ namespace PreemptiveStrike.Interceptor
 		/// <param name="__instance"></param>
 		public static void DebugParms(IncidentParms parms, string __instance = null)
 		{
-			Log.Message("   PS=- parms= " + parms.ToString(), false);
+			Log.Message("   PS=- parms= " + parms.ToString());
 			if (parms.quest != null)
 			{
-				Log.Message("   PS=- parms.quest= " + parms.quest.ToString(), false);
-				Log.Message("   PS=- parms.quest.PartsListForReading= " + parms.quest.PartsListForReading, false);
+				Log.Message("   PS=- parms.quest= " + parms.quest.ToString());
+				Log.Message("   PS=- parms.quest.PartsListForReading= " + parms.quest.PartsListForReading);
 			}
 			else
-				Log.Message("   PS=- parms.quest= NULL", false);
+				Log.Message("   PS=- parms.quest= NULL");
 			if (parms.questTag != null)
-				Log.Message("   PS=- parms.questTag= " + parms.questTag.ToString(), false);
+				Log.Message("   PS=- parms.questTag= " + parms.questTag.ToString());
 			else
-				Log.Message("   PS=- parms.questTag= NULL", false);
+				Log.Message("   PS=- parms.questTag= NULL");
 			if (parms.questScriptDef != null)
-				Log.Message("   PS=- parms.questScriptDef= " + parms.questScriptDef.ToString(), false);
+				Log.Message("   PS=- parms.questScriptDef= " + parms.questScriptDef.ToString());
 			else
-				Log.Message("   PS=- parms.questScriptDef= NULL", false);
+				Log.Message("   PS=- parms.questScriptDef= NULL");
 			if (__instance != null)
 			{
-				Log.Message("   PS=- __instance= " + __instance, false);
+				Log.Message("   PS=- __instance= " + __instance);
 				return;
 			}
-			Log.Message("   PS=- __instance= NULL", false);
+			Log.Message("   PS=- __instance= NULL");
 		}
 
         /// <summary>
@@ -398,34 +404,34 @@ namespace PreemptiveStrike.Interceptor
         /// <param name="IncDef"></param>
         public static void DebugParms(IncidentParms parms, IncidentDef IncDef = null)
 		{
-			Log.Message("   PS=- parms= " + parms.ToString(), false);
+			Log.Message("   PS=- parms= " + parms.ToString());
 			if (parms.quest != null)
 			{
-				Log.Message("   PS=- parms.quest= " + parms.quest.ToString(), false);
-				Log.Message("   PS=- parms.quest.PartsListForReading= " + parms.quest.PartsListForReading, false);
+				Log.Message("   PS=- parms.quest= " + parms.quest.ToString());
+				Log.Message("   PS=- parms.quest.PartsListForReading= " + parms.quest.PartsListForReading);
 			}
 			else
-				Log.Message("   PS=- parms.quest= NULL", false);
+				Log.Message("   PS=- parms.quest= NULL");
 			if (parms.questTag != null)
-				Log.Message("   PS=- parms.questTag= " + parms.questTag.ToString(), false);
+				Log.Message("   PS=- parms.questTag= " + parms.questTag.ToString());
 			else
-				Log.Message("   PS=- parms.questTag= NULL", false);
+				Log.Message("   PS=- parms.questTag= NULL");
 			if (parms.questScriptDef != null)
-				Log.Message("   PS=- parms.questScriptDef= " + parms.questScriptDef.ToString(), false);
+				Log.Message("   PS=- parms.questScriptDef= " + parms.questScriptDef.ToString());
 			else
-				Log.Message("   PS=- parms.questScriptDef= NULL", false);
+				Log.Message("   PS=- parms.questScriptDef= NULL");
 			if (IncDef == null)
 			{
-				Log.Message("   PS=- IncidentDef= NULL", false);
+				Log.Message("   PS=- IncidentDef= NULL");
 				return;
 			}
-			Log.Message("   PS=- IncidentDef= " + IncDef.ToString(), false);
+			Log.Message("   PS=- IncidentDef= " + IncDef.ToString());
 			if (IncDef.defName != null)
 			{
-				Log.Message("   PS=- IncidentDef.defName= " + IncDef.defName, false);
+				Log.Message("   PS=- IncidentDef.defName= " + IncDef.defName);
 				return;
 			}
-			Log.Message("   PS=- IncidentDef.defName= NULL", false);
+			Log.Message("   PS=- IncidentDef.defName= NULL");
 		}
 	}
 }
