@@ -1,0 +1,10 @@
+<Project>
+	<ItemDefinitionGroup>
+		<Reference>
+			<Private>false</Private><!-- Default Copy Local = False -->
+		</Reference>
+		<PackageReference>
+			<ExcludeAssets>runtime</ExcludeAssets>
+		</PackageReference>
+	</ItemDefinitionGroup>
+</Project>
