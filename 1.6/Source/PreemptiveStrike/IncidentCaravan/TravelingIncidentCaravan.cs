@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using Verse;
-using PES.RW_JustUtils;
 
 namespace PreemptiveStrike.IncidentCaravan
 {

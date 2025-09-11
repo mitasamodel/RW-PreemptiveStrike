@@ -7,6 +7,7 @@ using HarmonyLib;
 using RimWorld;
 using PreemptiveStrike.Interceptor;
 using Verse;
+using PES.RW_JustUtils;
 
 namespace PreemptiveStrike.Harmony
 {
@@ -39,12 +40,14 @@ namespace PreemptiveStrike.Harmony
         {
             if (PreemptiveStrike.Mod.PES_Settings.DebugModeOn)
             {
-                Log.Message("-=PS=- Patch_CenterDrop_TryResolveRaidSpawnCenter Postfix"); //Lt. Bob - Logging
+				Logger.ResetTab();
+				Logger.LogNL($"[PawnsArrivalModeWorker_CenterDrop.TryResolveRaidSpawnCenter] Postfix.");
+				Logger.IncreaseTab();
                 Debug.DebugParms(parms, IncidentInterceptorUtility.CurrentIncidentDef);
             }
-            if (parms != null && parms.questTag != null || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest") //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
+			if (IncidentInterceptorUtility.IsQuest(parms))
             {
-                Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!");
+				Logger.LogNL("Quest");
                 return;
             }
             if (IncidentInterceptorUtility.isIntercepting_CenterDrop)

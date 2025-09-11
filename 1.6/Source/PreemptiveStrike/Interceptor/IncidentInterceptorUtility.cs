@@ -220,19 +220,21 @@ namespace PreemptiveStrike.Interceptor
 		{
 			if (PES_Settings.DebugModeOn)
 			{
-				Log.Message("-=PS=- Intercept_SkyFaller Start");
+				Logger.ResetTab();
+				Logger.LogNL($"[IncidentInterceptorUtility.Intercept_SkyFaller]");
+				Logger.IncreaseTab();
 				Debug.DebugParms(parms, incidentDef);
 			}
-			if (parms != null && parms.questTag != null || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest") //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
+			if (IsQuest(parms)) //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
 			{
-				Log.Message("-=PS=- Intercept_SkyFaller - questTag!=Null == " + parms.questTag);
+				Logger.LogNL($"Quest: Tags[{parms.questTag}]");
 				return false;
 			}
 
 			//Lt.Bob - Moved null check in front of hostile faction check.  Attempt to resolve issue with quest rewards of pawns.
 			if (incidentDef == null)
 			{
-				Log.Message("PES: A raid incident that is not compatible with Preemptive Strike is trying to execute. So this incident won't be intercepted by PES and will be executed in it vanilla way");    //Lt.Bob: Changed to message
+				Logger.Log_Warning($"A raid incident is not compatible with Preemptive Strike. Run vanilla execution.");
 				return false;
 			}
 
