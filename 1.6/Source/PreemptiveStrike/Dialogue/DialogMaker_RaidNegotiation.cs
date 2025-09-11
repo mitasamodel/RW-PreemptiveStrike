@@ -132,7 +132,7 @@ namespace PreemptiveStrike.Dialogue
 
             DiaNode diaNode = new DiaNode("PES_RaidNeg_NegDeeper_Prolog".Translate());
             DiaOption option;
-            StringBuilder sb;
+            //StringBuilder sb;
             string failReason;
 
             //surrender

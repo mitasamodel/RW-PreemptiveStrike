@@ -3,6 +3,7 @@ using Verse;
 
 namespace PreemptiveStrike
 {
+#pragma warning disable CS0649
 	[DefOf]
 	static class PESDefOf
 	{
@@ -39,4 +40,5 @@ namespace PreemptiveStrike
 
 		public static RulePackDef PES_NamerArmy;
 	}
+#pragma warning restore CS0649
 }

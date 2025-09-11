@@ -19,7 +19,7 @@ namespace PreemptiveStrike.Harmony
             if (PreemptiveStrike.Mod.PES_Settings.DebugModeOn)
             {
                 Log.Message("-=PS=- Patch_EdgeDrop_TryResolveRaidSpawnCenter Postfix"); //Lt. Bob - Logging
-                IncidentInterceptorUtility.DebugParms(parms, IncidentInterceptorUtility.CurrentIncidentDef);
+				Debug.DebugParms(parms, IncidentInterceptorUtility.CurrentIncidentDef);
             }
             if (parms != null && parms.questTag != null || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest") //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
             {
@@ -40,7 +40,7 @@ namespace PreemptiveStrike.Harmony
             if (PreemptiveStrike.Mod.PES_Settings.DebugModeOn)
             {
                 Log.Message("-=PS=- Patch_CenterDrop_TryResolveRaidSpawnCenter Postfix"); //Lt. Bob - Logging
-                IncidentInterceptorUtility.DebugParms(parms, IncidentInterceptorUtility.CurrentIncidentDef);
+                Debug.DebugParms(parms, IncidentInterceptorUtility.CurrentIncidentDef);
             }
             if (parms != null && parms.questTag != null || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest") //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
             {
@@ -61,7 +61,7 @@ namespace PreemptiveStrike.Harmony
             if (PreemptiveStrike.Mod.PES_Settings.DebugModeOn)
             {
                 Log.Message("-=PS=- Patch_EdgeDropGroups_TryResolveRaidSpawnCenter Postfix"); //Lt. Bob - Logging
-                IncidentInterceptorUtility.DebugParms(parms, IncidentInterceptorUtility.CurrentIncidentDef);
+                Debug.DebugParms(parms, IncidentInterceptorUtility.CurrentIncidentDef);
             }
             if (parms != null && parms.questTag != null || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest") //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
             {
@@ -82,7 +82,7 @@ namespace PreemptiveStrike.Harmony
             if (PreemptiveStrike.Mod.PES_Settings.DebugModeOn)
             {
                 Log.Message("-=PS=- Patch_RandomDrop_TryResolveRaidSpawnCenter Postfix"); //Lt. Bob - Logging
-                IncidentInterceptorUtility.DebugParms(parms, IncidentInterceptorUtility.CurrentIncidentDef);
+                Debug.DebugParms(parms, IncidentInterceptorUtility.CurrentIncidentDef);
             }
             if (parms != null && parms.questTag != null  || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest") //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
             {

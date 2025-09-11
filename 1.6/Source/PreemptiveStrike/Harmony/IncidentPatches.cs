@@ -4,38 +4,43 @@ using PreemptiveStrike.Mod;
 using RimWorld;
 using System.Collections.Generic;
 using Verse;
+using PES.RW_JustUtils;
 
 namespace PreemptiveStrike.Harmony
 {
-	[HarmonyPatch(typeof(IncidentWorker), "TryExecute")]
-	class Patch_IncidentWorker_TryExecute
+	[HarmonyPatch(typeof(IncidentWorker), nameof(IncidentWorker.TryExecute))]
+	public static class Patch_IncidentWorker_TryExecute
 	{
-
-		[HarmonyPrefix]
-		static bool Prefix(IncidentWorker __instance, ref bool __result, IncidentParms parms)
+		public static bool Prefix(IncidentWorker __instance, ref bool __result, IncidentParms parms)
 		{
 			if (PES_Settings.DebugModeOn)
 			{
 				Messages.Message("-=PS=- Caught Patch_IncidentWorker_TryExecute Prefix", MessageTypeDefOf.NeutralEvent, true);
 				Log.Message("-=PS=- Patch_IncidentWorker_TryExecute Prefix");
-				IncidentInterceptorUtility.DebugParms(parms, __instance.ToString());
+				Logger.LogNL($"[IncidentWorker: TryExecute] Start.");
+				var type = __instance.GetType();
+				Logger.LogNL($"\t Real type [{type}]");
+				Debug.DebugParms(parms, __instance.ToString());
 			}
-			if (parms.quest != null || parms.questScriptDef != null)
-			{
-				Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!");
-				return true;
-			}
+
+			// Quest incident.
+			if (parms.quest != null || parms.questScriptDef != null) return true;
+
+			// instance def.
+			if (PES_Settings.DebugModeOn)
+				Logger.LogNL($"\t Instance Def[{__instance.def.defName}]");
 			if (__instance.def == null)
 			{
-				Log.Error("-=PS=- __instance.def=NULL");
-				Log.Error("   PS=- Returning true");
+				Logger.Log_Error($"[Patch_IncidentWorker_TryExecute: Prefix] Unexpected null __instance.def.");
+				Logger.Log_Warning($"Please report it to the mod author.");
+				Verse.Log.Message($"Parms [{parms}]");
 				return true;
 			}
-			Log.Message("   PS=- __instance.def= " + __instance.def.ToString());
-			if (__instance.def.ToString() == "RRY_PowerCut_Xenomorph")  //Lt.Bob - Handling for AvP powercut event
+
+			if (__instance.def.defName == "RRY_PowerCut_Xenomorph")  //Lt.Bob - Handling for AvP powercut event
 			{
-				Log.Message("-=PS=- AVP PowerCut event");
-				Log.Message("   PS=- Returning true");
+				if (PES_Settings.DebugModeOn)
+					Logger.LogNL($"\t RRY_PowerCut_Xenomorph");
 				return true;
 			}
 
@@ -61,6 +66,8 @@ namespace PreemptiveStrike.Harmony
 		{
 			if (PES_Settings.DebugModeOn)
 			{
+				Logger.LogNL($"[IncidentWorker: Postfix] Start.");
+				Logger.LogNL($"IsHoaxingStoryTeller[{IncidentInterceptorUtility.IsHoaxingStoryTeller}]");
 				Log.Message("-=PS=- Patch_IncidentWorker_TryExecute Postfix");
 				Log.Message("   PS=- IsHoaxingStoryTeller=" + IncidentInterceptorUtility.IsHoaxingStoryTeller.ToString());
 			}
@@ -80,8 +87,11 @@ namespace PreemptiveStrike.Harmony
 		[HarmonyPrefix]
 		static void Prefix(IncidentWorker_RaidEnemy __instance)
 		{
-			if (PreemptiveStrike.Mod.PES_Settings.DebugModeOn)
-				Log.Message("-=PS=- IncidentWorker_RaidEnemy Prefix"); //Lt. Bob - Logging
+			if (PES_Settings.DebugModeOn)
+			{
+				Logger.LogNL($"[IncidentWorker_RaidEnemy: TryExecuteWorker]");
+				Logger.LogNL($"\t Instance Def[{__instance.def}]");
+			}
 
 			IncidentInterceptorUtility.CurrentIncidentDef = __instance.def;
 		}
@@ -97,14 +107,15 @@ namespace PreemptiveStrike.Harmony
 		static void Postfix(PawnsArrivalModeWorker_EdgeWalkIn __instance, IncidentParms parms, ref bool __result)
 		{
 			//return;
-			if (PreemptiveStrike.Mod.PES_Settings.DebugModeOn)
+			if (PES_Settings.DebugModeOn)
 			{
-				Log.Message("-=PS=- Patch_EdgeWalkIn_TryResolveRaidSpawnCenter Postfix"); //Lt. Bob - Logging
-				IncidentInterceptorUtility.DebugParms(parms, __instance.ToString());
+				Logger.LogNL($"[PawnsArrivalModeWorker_EdgeWalkIn: TryResolveRaidSpawnCenter] Postfix.");
+				Debug.DebugParms(parms, __instance.ToString());
 			}
 			if (parms != null && parms.questTag != null || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest") //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
 			{
-				Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!");
+				if (PES_Settings.DebugModeOn)
+					Logger.LogNL($"\t Quest.");
 				return;
 
 			}
@@ -130,7 +141,7 @@ namespace PreemptiveStrike.Harmony
 			if (PES_Settings.DebugModeOn)
 			{
 				Log.Message("-=PS=- Patch_EdgeWalkInGroups_TryResolveRaidSpawnCenter Postfix");
-				IncidentInterceptorUtility.DebugParms(parms, __instance.ToString());
+				Debug.DebugParms(parms, __instance.ToString());
 			}
 			if (parms.quest != null || parms.questScriptDef != null)
 			{
@@ -200,7 +211,7 @@ namespace PreemptiveStrike.Harmony
 			if (PES_Settings.DebugModeOn)
 			{
 				Log.Message("-=PS=- Patch_IncidentWorker_TraderCaravanArrival_TryExecuteWorker Prefix");
-				IncidentInterceptorUtility.DebugParms(parms, __instance.ToString());
+				Debug.DebugParms(parms, __instance.ToString());
 			}
 			if (parms.quest != null || parms.questScriptDef != null)
 			{
@@ -230,7 +241,7 @@ namespace PreemptiveStrike.Harmony
 			if (PES_Settings.DebugModeOn)
 			{
 				Log.Message("-=PS=- Patch_IncidentWorker_VisitorGroup_TryExecuteWorker Prefix");
-				IncidentInterceptorUtility.DebugParms(parms, __instance.ToString());
+				Debug.DebugParms(parms, __instance.ToString());
 			}
 			if (parms.quest != null || parms.questScriptDef != null)
 			{
@@ -281,7 +292,7 @@ namespace PreemptiveStrike.Harmony
 			if (PES_Settings.DebugModeOn)
 			{
 				Log.Message("-=PS=- Patch_IncidentWorker_FarmAnimalsWanderIn_TryExecuteWorker Prefix");
-				IncidentInterceptorUtility.DebugParms(parms, __instance.ToString());
+				Debug.DebugParms(parms, __instance.ToString());
 			}
 
 			if (IncidentInterceptorUtility.isIntercepting_FarmAnimalsWanderIn == WorkerPatchType.ExecuteOrigin)
@@ -306,7 +317,7 @@ namespace PreemptiveStrike.Harmony
 			if (PES_Settings.DebugModeOn)
 			{
 				Log.Message("-=PS=- Patch_IncidentWorker_HerdMigration_TryExecuteWorker Prefix");
-				IncidentInterceptorUtility.DebugParms(parms, __instance.ToString());
+				Debug.DebugParms(parms, __instance.ToString());
 			}
 
 			if (IncidentInterceptorUtility.isIntercepting_HerdMigration == WorkerPatchType.ExecuteOrigin)
@@ -331,7 +342,7 @@ namespace PreemptiveStrike.Harmony
 			if (PES_Settings.DebugModeOn)
 			{
 				Log.Message("-=PS=- Patch_IncidentWorker_ThrumboPasses_TryExecuteWorker Prefix");
-				IncidentInterceptorUtility.DebugParms(parms, __instance.ToString());
+				Debug.DebugParms(parms, __instance.ToString());
 			}
 
 			if (IncidentInterceptorUtility.isIntercepting_ThrumboPasses == WorkerPatchType.ExecuteOrigin)
@@ -354,7 +365,7 @@ namespace PreemptiveStrike.Harmony
 			if (PES_Settings.DebugModeOn)
 			{
 				Log.Message("-=PS=- Patch_IncidentWorker_Alphabeavers_TryExecuteWorker Prefix");
-				IncidentInterceptorUtility.DebugParms(parms, __instance.ToString());
+				Debug.DebugParms(parms, __instance.ToString());
 			}
 
 			if (IncidentInterceptorUtility.isIntercepting_Alphabeavers == WorkerPatchType.ExecuteOrigin)
@@ -379,7 +390,7 @@ namespace PreemptiveStrike.Harmony
 			if (PES_Settings.DebugModeOn)
 			{
 				Log.Message("-=PS=- Patch_IncidentWorker_ManhunterPack_TryExecuteWorker Prefix");
-				IncidentInterceptorUtility.DebugParms(parms, __instance.ToString());
+				Debug.DebugParms(parms, __instance.ToString());
 			}
 			if (parms.quest != null || parms.questScriptDef != null)
 			{

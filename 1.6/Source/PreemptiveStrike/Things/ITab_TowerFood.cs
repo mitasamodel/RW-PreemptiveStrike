@@ -6,7 +6,7 @@ namespace PreemptiveStrike.Things
 {
 	class ITab_TowerFood : ITab
 	{
-		private Vector2 scrollPosition = default(Vector2);
+		//private Vector2 scrollPosition = default(Vector2);
 
 		private static readonly Vector2 WinSize = new Vector2(300f, 480f);
 
