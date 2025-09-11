@@ -23,17 +23,17 @@ namespace PreemptiveStrike.Harmony
 
 			// Generate a log with info about unpatched PawnsArrivalModeWorker children.
 			if (PES_Settings.DebugModeOn)
-				LogUnpatchedRaidSpawnCenters();
+				LogPatchedMethod("TryResolveRaidSpawnCenter", new[] { typeof(IncidentParms) });
 		}
 
-		private static void LogUnpatchedRaidSpawnCenters()
+		private static void LogPatchedMethod(string methodName, Type[] parameterTypes)
 		{
 			var harmonyId = instance?.Id ?? "DrCarlLuo.Rimworld.PreemptiveStrike";
 			var baseType = typeof(PawnsArrivalModeWorker);
 			var missing = new List<Type>();
 			var patched = new List<Type>();
 
-			// Gather all types safely, even from assemblies that may throw ReflectionTypeLoadException
+			// Gather all types safely, even from assemblies that may throw ReflectionTypeLoadException.
 			static IEnumerable<Type> AllTypes()
 			{
 				// Go through all assemblies in the game.
@@ -53,12 +53,12 @@ namespace PreemptiveStrike.Harmony
 
 			foreach (var t in AllTypes())
 			{
-				// Skip abstract and if it is not subclass of PawnsArrivalModeWorker
+				// Skip abstract and if it is not subclass of PawnsArrivalModeWorker.
 				if (t.IsAbstract || !t.IsSubclassOf(baseType)) continue;
 
-				// Only consider types that DECLARE an override (not just inherit the base implementation)
-				var method = AccessTools.DeclaredMethod(t, nameof(PawnsArrivalModeWorker.TryResolveRaidSpawnCenter),
-													   new[] { typeof(IncidentParms) });
+				// Only consider types that DECLARE an override (not just inherit the base implementation).
+				var method = AccessTools.DeclaredMethod(t, methodName,
+													   parameterTypes);
 				if (method == null) continue;
 
 				var info = HarmonyLib.Harmony.GetPatchInfo(method);
