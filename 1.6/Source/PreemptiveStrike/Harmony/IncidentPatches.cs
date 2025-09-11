@@ -20,20 +20,17 @@ namespace PreemptiveStrike.Harmony
 				Logger.LogNL("");
 				Logger.LogNL(0, $"[IncidentWorker: TryExecute] Prefix.");
 				Logger.LogNL($"Real type [{__instance.GetType()}]");
-				Debug.DebugParms(parms, __instance.ToString());
+				Debug.DebugParms(parms, __instance);
 			}
 
 			if (Helper.IsQuest(parms))
 				return true;
 
-			// instance def.
-			if (PES_Settings.DebugModeOn)
-				Logger.LogNL($"Instance Def[{__instance.def.defName}]");
 			if (__instance.def == null)
 			{
 				Logger.Log_Error($"[Patch_IncidentWorker_TryExecute: Prefix] Unexpected null __instance.def.");
 				Logger.Log_Warning($"Please report it to the mod author.");
-				Verse.Log.Message($"Parms [{parms}]");
+				Verse.Log.Message($"Type [{__instance.GetType()}]");
 				return true;
 			}
 
@@ -66,7 +63,7 @@ namespace PreemptiveStrike.Harmony
 		{
 			if (PES_Settings.DebugModeOn)
 			{
-				Logger.LogNL($"[IncidentWorker: Postfix] Start.");
+				Logger.LogNL($"[IncidentWorker: TryExecute] Postfix.");
 				Logger.LogNL($"\tIsHoaxingStoryTeller [{IncidentInterceptorUtility.IsHoaxingStoryTeller}]");
 			}
 
@@ -82,13 +79,12 @@ namespace PreemptiveStrike.Harmony
 	[HarmonyPatch(typeof(IncidentWorker_RaidEnemy), "TryExecuteWorker")]
 	class Patch_RaidEnemy_TryExecuteWorker
 	{
-		[HarmonyPrefix]
 		static void Prefix(IncidentWorker_RaidEnemy __instance)
 		{
 			if (PES_Settings.DebugModeOn)
 			{
 				Logger.LogNL($"[IncidentWorker_RaidEnemy.TryExecuteWorker] Prefix.");
-				Logger.LogNL($"Instance Def[{__instance.def}]");
+				Logger.LogNL($"\tInstance Def[{__instance.def}]");
 			}
 
 			IncidentInterceptorUtility.CurrentIncidentDef = __instance.def;
@@ -98,17 +94,27 @@ namespace PreemptiveStrike.Harmony
 	//----------------------------------------------------------
 
 	#region Raid Patches
-	[HarmonyPatch(typeof(PawnsArrivalModeWorker_EdgeWalkIn), "TryResolveRaidSpawnCenter")]
-	static class Patch_EdgeWalkIn_TryResolveRaidSpawnCenter
+	[HarmonyPatch]
+	public static class Patch_PawnsArrivalModeWorker_WalkIn_Common
 	{
-		[HarmonyPostfix]
-		static void Postfix(PawnsArrivalModeWorker_EdgeWalkIn __instance, IncidentParms parms, ref bool __result)
+		private static IEnumerable<MethodBase> TargetMethods()
+		{
+			yield return AccessTools.Method(typeof(PawnsArrivalModeWorker_EdgeWalkIn), "TryResolveRaidSpawnCenter");
+			yield return AccessTools.Method(typeof(PawnsArrivalModeWorker_EdgeWalkInGroups), "TryResolveRaidSpawnCenter");
+
+
+		}
+
+		public static void Postfix(PawnsArrivalModeWorker __instance, IncidentParms parms, ref bool __result)
 		{
 			if (PES_Settings.DebugModeOn)
-				Logger.LogNL($"[PawnsArrivalModeWorker_EdgeWalkIn: TryResolveRaidSpawnCenter] Postfix.");
+				Logger.LogNL($"[Patch_PawnsArrivalModeWorker_WalkIn_Common] Postfix.");
 			using var _ = Logger.Scope();
 			if (PES_Settings.DebugModeOn)
-				Debug.DebugParms(parms, __instance.ToString());
+			{
+				Logger.LogNL($"Real type [{__instance.GetType()}]");
+				Debug.DebugParms(parms, __instance.def);
+			}
 
 			if (Helper.IsQuest(parms))
 				return;
@@ -124,29 +130,6 @@ namespace PreemptiveStrike.Harmony
 			if (IncidentInterceptorUtility.IsIntercepting_IncidentExcecution)
 			{
 				if (IncidentInterceptorUtility.Intercept_Raid(parms))
-					__result = false;
-			}
-		}
-	}
-
-	[HarmonyPatch(typeof(PawnsArrivalModeWorker_EdgeWalkInGroups), "TryResolveRaidSpawnCenter")]
-	static class Patch_EdgeWalkInGroups_TryResolveRaidSpawnCenter
-	{
-		[HarmonyPostfix]
-		static void Postfix(PawnsArrivalModeWorker_EdgeWalkIn __instance, IncidentParms parms, ref bool __result)
-		{
-			if (PES_Settings.DebugModeOn)
-				Logger.LogNL($"[PawnsArrivalModeWorker_EdgeWalkInGroups: TryResolveRaidSpawnCenter] Postfix.");
-			using var _ = Logger.Scope();
-			if (PES_Settings.DebugModeOn)
-				Debug.DebugParms(parms, __instance.ToString());
-
-			if (Helper.IsQuest(parms))
-				return;
-
-			if (IncidentInterceptorUtility.IsIntercepting_IncidentExcecution)
-			{
-				if (IncidentInterceptorUtility.Intercept_Raid(parms, true))
 					__result = false;
 			}
 		}

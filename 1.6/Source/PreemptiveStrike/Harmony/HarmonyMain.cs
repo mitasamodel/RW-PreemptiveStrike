@@ -1,7 +1,12 @@
 ﻿using HarmonyLib;
 using RimWorld;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Verse;
+using PES.RW_JustUtils;
+using PreemptiveStrike.Mod;
 
 namespace PreemptiveStrike.Harmony
 {
@@ -15,6 +20,64 @@ namespace PreemptiveStrike.Harmony
 			instance = new HarmonyLib.Harmony("DrCarlLuo.Rimworld.PreemptiveStrike");   //Lt. Bob: 1.1
 			instance.PatchAll(Assembly.GetExecutingAssembly());
 			ManualPatchings();
+
+			// Generate a log with info about unpatched PawnsArrivalModeWorker children.
+			if (PES_Settings.DebugModeOn)
+				LogUnpatchedRaidSpawnCenters();
+		}
+
+		private static void LogUnpatchedRaidSpawnCenters()
+		{
+			var harmonyId = instance?.Id ?? "DrCarlLuo.Rimworld.PreemptiveStrike";
+			var baseType = typeof(PawnsArrivalModeWorker);
+			var missing = new List<Type>();
+			var patched = new List<Type>();
+
+			// Gather all types safely, even from assemblies that may throw ReflectionTypeLoadException
+			static IEnumerable<Type> AllTypes()
+			{
+				// Go through all assemblies in the game.
+				foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
+				{
+					Type[] types;
+
+					// Try to collect all types (class, struct, interface).
+					try { types = asm.GetTypes(); }
+					// Exception contains a property Type with array of all types including failed (they are null here).
+					catch (ReflectionTypeLoadException ex) { types = ex.Types; }
+					if (types == null) continue;
+					foreach (var t in types)
+						if (t != null) yield return t;  // Stream result one by one instead of building huge array.
+				}
+			}
+
+			foreach (var t in AllTypes())
+			{
+				// Skip abstract and if it is not subclass of PawnsArrivalModeWorker
+				if (t.IsAbstract || !t.IsSubclassOf(baseType)) continue;
+
+				// Only consider types that DECLARE an override (not just inherit the base implementation)
+				var method = AccessTools.DeclaredMethod(t, nameof(PawnsArrivalModeWorker.TryResolveRaidSpawnCenter),
+													   new[] { typeof(IncidentParms) });
+				if (method == null) continue;
+
+				var info = HarmonyLib.Harmony.GetPatchInfo(method);
+				var hasOurPatch = info?.Owners?.Contains(harmonyId) == true;
+				if (!hasOurPatch) missing.Add(t);
+				else patched.Add(t);
+			}
+
+			if (patched.Count > 0)
+			{
+				Logger.LogNL($"[Patched PawnsArrivalModeWorker]");
+				Logger.LogNL(string.Join("\n", patched.Select(x => x.FullName)));
+			}
+
+			if (missing.Count > 0)
+			{
+				Logger.LogNL($"[Missing PawnsArrivalModeWorker]");
+				Logger.LogNL(string.Join("\n", missing.Select(x => x.FullName)));
+			}
 		}
 
 		static void ManualPatchings()

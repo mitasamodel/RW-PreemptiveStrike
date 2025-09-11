@@ -1,10 +1,6 @@
-﻿using RimWorld;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PES.RW_JustUtils;
+﻿using PES.RW_JustUtils;
+using RimWorld;
+using Verse;
 
 namespace PreemptiveStrike
 {
@@ -25,7 +21,7 @@ namespace PreemptiveStrike
 		/// </summary>
 		/// <param name="parms"></param>
 		/// <param name="IncDef"></param>
-		public static void DebugParms(IncidentParms parms, IncidentDef def)
+		public static void DebugParms(IncidentParms parms, Def def)
 		{
 			DebugParms(parms, def?.defName);
 		}

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
+	<PES_setting_debug>Debug mode</PES_setting_debug>
+	<PES_setting_DifficultDetection>Difficult detection</PES_setting_DifficultDetection>
+	<PES_setting_debug_Tooltip>Log file location: steam\RimWorld\Mods\PES.log</PES_setting_debug_Tooltip>
     <PES_setting_default>Reset to default</PES_setting_default>
     <PES_setting_notes>Notes:\n1. There is a detailed explanation on the formulas of the setting below. Hover your mouse on it and it will show up\n2. 1 hour = 2500 ticks</PES_setting_notes>
     <PES_setting_detectioncoefficient>Detection Coefficient</PES_setting_detectioncoefficient>
@@ -7,7 +10,7 @@
     <PES_setting_detectionFormula>Detection probability Formula: P = ( c - y ) / c * k\nThen this value will be clamped to [0.1, 0.8] (detect unknown caravan) or [0.2, 0.95] (detect detail information)</PES_setting_detectionFormula>
     <PES_setting_detectionExplain>A = Detection range\nB = Vision Range\nC = A - B\nx = remaining tiles\ny = x - B\nk = the coefficient below\nP is the final probability</PES_setting_detectionExplain>
 
-    <PES_setting_caravanSpeed>Time for an incident caravan to cover one tile on the world map (in ticks)</PES_setting_caravanSpeed>
+    <PES_setting_caravanSpeed>Ticks for an incident caravan to cover one tile on the world map</PES_setting_caravanSpeed>
 
     <PES_setting_skyObject>Sky Objects:</PES_setting_skyObject>
     <PES_setting_skyObject_Large_a>Warning time before large sky object impacts (in ticks)</PES_setting_skyObject_Large_a>
