@@ -20,15 +20,15 @@
   <PES_Odds_Low>&lt;color=#f0a1aa&gt;低確率：&lt;/color&gt;</PES_Odds_Low>
   <PES_Odds_VeryLow>&lt;color=red&gt;非常に低確率：&lt;/color&gt;</PES_Odds_VeryLow>
 
-  <PES_ASHAME>残念だ。</PES_ASHAME>
-  <PES_Reassuring>安心した。</PES_Reassuring>
-  <PES_Nice>素晴らしい。</PES_Nice>
+  <PES_ASHAME>残念だ.</PES_ASHAME>
+  <PES_Reassuring>安心した.</PES_Reassuring>
+  <PES_Nice>素晴らしい.</PES_Nice>
   <PES_RaiseAlarm>敵の襲来だ！警報を出してください！</PES_RaiseAlarm>
   <PES_trembling>恐ろしい...</PES_trembling>
   <PES_DAMNIT>ちくしょうめ！</PES_DAMNIT>
 
-  <PES_Friendly_Greeting>{0}の人々は{1}に優しく挨拶を交わして、すぐに到着すると言っています。</PES_Friendly_Greeting>
-  <PES_Friendly_Dismiss>彼らに「今ここに来るべきではないので引き返して欲しい」と伝えます。</PES_Friendly_Dismiss>
-  <PES_Friendly_Dismissed>彼らはその話を聞いて我々のコロニーに向かうのを中止しました。</PES_Friendly_Dismissed>
+  <PES_Friendly_Greeting>{0}の人々は{1}に優しく挨拶を交わして,すぐに到着すると言っています.</PES_Friendly_Greeting>
+  <PES_Friendly_Dismiss>彼らに「今ここに来るべきではないので引き返して欲しい」と伝えます.</PES_Friendly_Dismiss>
+  <PES_Friendly_Dismissed>彼らはその話を聞いて我々のコロニーに向かうのを中止しました.</PES_Friendly_Dismissed>
 
 </LanguageData>
