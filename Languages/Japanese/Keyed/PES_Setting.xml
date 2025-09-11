@@ -1,8 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <PES_setting_debug>デバッグモード</PES_setting_debug>
-  <PES_setting_DifficultDetection>検出が難しい</PES_setting_DifficultDetection>
   <PES_setting_default>リセットして初期化する</PES_setting_default>
+  <!--Lt.Bob: Added debug and Difficult Detection translation -->
+  <PES_setting_debug>デバッグモード</PES_setting_debug>
+  <PES_setting_debug_Tooltip>これをオンにしないでください.これは開発者テスト用です.</PES_setting_debug_Tooltip>
+  <PES_setting_DifficultDetection>検出が難しい</PES_setting_DifficultDetection>
+  <PES_setting_DifficultDetection_Tooltip>所属する派閥や動物の種類や目的の意図などを可視化する範囲を制限します.</PES_setting_DifficultDetection_Tooltip>
+  <!--Lt.Bob: Added debug and Difficult Detection translation -->
   <PES_setting_notes>注意：\n1．以下の設定の計算式に関してそれぞれ詳細な説明があります.各項目の上にマウスポインターを重ねると表示されます\n2．ゲーム内1時間＝2500ティック(ticks)</PES_setting_notes>
   <PES_setting_detectioncoefficient>探知係数：</PES_setting_detectioncoefficient>
   <PE_setting_detectionMechanism>探知方式の設定</PE_setting_detectionMechanism>
