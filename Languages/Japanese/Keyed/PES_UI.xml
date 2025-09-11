@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
+  <PES_RefuelTab>備蓄設定</PES_RefuelTab>
   <PES_UI_Title>セキュリティ報告</PES_UI_Title>
   <PES_UI_Ranges>現在の視界範囲：{0}　索敵範囲：{1}</PES_UI_Ranges>
   <PES_UI_Bulletins>脅威：{0}　中立：{1}　未確認：{2}</PES_UI_Bulletins>

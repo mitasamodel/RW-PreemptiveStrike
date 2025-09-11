@@ -2,9 +2,12 @@
 <LanguageData>
 
   <PES_CombatFervor.label>戦闘興奮状態</PES_CombatFervor.label>
+  <PES_CombatFervor.description>戦闘のスリルで興奮状態にある.</PES_CombatFervor.description>
   <PES_CombatFervor.stages.Combat_Fervor.label>戦闘興奮状態</PES_CombatFervor.stages.Combat_Fervor.label>
 
   <PES_CombatTiredness.label>戦闘疲労 </PES_CombatTiredness.label>
+  <PES_CombatTiredness.description>戦闘で疲労状態にある.</PES_CombatTiredness.description>
   <PES_CombatTiredness.stages.Combat_Tiredness.label>戦闘疲労 </PES_CombatTiredness.stages.Combat_Tiredness.label>
+
 
 </LanguageData>
