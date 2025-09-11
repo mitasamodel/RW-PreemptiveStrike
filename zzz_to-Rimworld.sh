@@ -27,6 +27,8 @@ echo "=== Sync started at $(date '+%Y-%m-%d %H:%M:%S') ===" >> "$log_file"
 
 # Array of relative subfolders to check
 folders_to_check=(
+	"1.4"
+	"1.5"
 	"1.6"
 	"About"
 	"Defs"

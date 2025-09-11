@@ -3,6 +3,8 @@
 	<name>Preemptive Strike 1.6</name>
 	<author>v1.0: DrCarl, v1.1: Lt.Bob, v1.4: Ogliss</author>
 	<supportedVersions>
+		<li>1.4</li>
+		<li>1.5</li>
 		<li>1.6</li>
 	</supportedVersions>
 	<modDependencies>
@@ -24,6 +26,6 @@ Known Incompatibilities:
 Enemy Self Preservation: https://steamcommunity.com/sharedfiles/filedetails/?id=2006638530
 Contributing work:
 Lt. Bob: v1.1 updates
-Ogliss: v1.4 updates
+Ogliss: v1.4, v1.5 updates
 	</description>
 </ModMetaData>
