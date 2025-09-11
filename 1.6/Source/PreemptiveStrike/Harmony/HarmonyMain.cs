@@ -23,13 +23,12 @@ namespace PreemptiveStrike.Harmony
 
 			// Generate a log with info about unpatched PawnsArrivalModeWorker children.
 			if (PES_Settings.DebugModeOn)
-				LogPatchedMethod("TryResolveRaidSpawnCenter", new[] { typeof(IncidentParms) });
+				LogPatchedMethod(typeof(PawnsArrivalModeWorker), "TryResolveRaidSpawnCenter", new[] { typeof(IncidentParms) });
 		}
 
-		private static void LogPatchedMethod(string methodName, Type[] parameterTypes)
+		private static void LogPatchedMethod(Type baseType, string methodName, Type[] parameterTypes)
 		{
 			var harmonyId = instance?.Id ?? "DrCarlLuo.Rimworld.PreemptiveStrike";
-			var baseType = typeof(PawnsArrivalModeWorker);
 			var missing = new List<Type>();
 			var patched = new List<Type>();
 
@@ -69,13 +68,13 @@ namespace PreemptiveStrike.Harmony
 
 			if (patched.Count > 0)
 			{
-				Logger.LogNL($"[Patched PawnsArrivalModeWorker]");
+				Logger.LogNL($"[Patched {baseType.Name}]");
 				Logger.LogNL(string.Join("\n", patched.Select(x => x.FullName)));
 			}
 
 			if (missing.Count > 0)
 			{
-				Logger.LogNL($"[Missing PawnsArrivalModeWorker]");
+				Logger.LogNL($"[Missing {baseType.Name}]");
 				Logger.LogNL(string.Join("\n", missing.Select(x => x.FullName)));
 			}
 		}

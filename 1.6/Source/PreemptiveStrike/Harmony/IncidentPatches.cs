@@ -84,7 +84,7 @@ namespace PreemptiveStrike.Harmony
 			if (PES_Settings.DebugModeOn)
 			{
 				Logger.LogNL($"[IncidentWorker_RaidEnemy.TryExecuteWorker] Prefix.");
-				Logger.LogNL($"\tInstance Def[{__instance.def}]");
+				Logger.LogNL($"\tSave instance Def[{__instance.def}]");
 			}
 
 			IncidentInterceptorUtility.CurrentIncidentDef = __instance.def;
@@ -127,9 +127,10 @@ namespace PreemptiveStrike.Harmony
 				return;
 			}
 
-			if (IncidentInterceptorUtility.IsIntercepting_IncidentExcecution)
+			if (IncidentInterceptorUtility.IsIntercepting_IncidentExecution)
 			{
-				if (IncidentInterceptorUtility.Intercept_Raid(parms))
+				bool inGroups = __instance is PawnsArrivalModeWorker_EdgeWalkInGroups;
+				if (IncidentInterceptorUtility.Intercept_Raid(parms, inGroups))
 					__result = false;
 			}
 		}

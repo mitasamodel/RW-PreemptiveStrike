@@ -32,7 +32,7 @@ namespace PreemptiveStrike.Interceptor
 
 		#region Intercepting Switches
 		//Used in harmony Patches
-		public static bool IsIntercepting_IncidentExcecution;
+		public static bool IsIntercepting_IncidentExecution;
 		public static GeneratorPatchFlag IsIntercepting_PawnGeneration;
 		public static GeneratorPatchFlag IsIntercepting_GroupSpliter;
 
@@ -76,7 +76,7 @@ namespace PreemptiveStrike.Interceptor
 
 		static IncidentInterceptorUtility()
 		{
-			IsIntercepting_IncidentExcecution = true;
+			IsIntercepting_IncidentExecution = true;
 			IsIntercepting_PawnGeneration = GeneratorPatchFlag.Generate;
 
 			IsIntercepting_GroupSpliter = GeneratorPatchFlag.Generate;

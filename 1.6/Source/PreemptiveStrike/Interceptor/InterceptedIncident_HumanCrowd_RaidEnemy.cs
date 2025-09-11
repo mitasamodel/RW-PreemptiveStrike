@@ -118,23 +118,32 @@ namespace PreemptiveStrike.Interceptor
 
         public override void ExecuteNow()
         {
-            IncidentInterceptorUtility.IsIntercepting_IncidentExcecution = false;
+			// Disable interception, set pawn generation to return the list, set the list.
+            IncidentInterceptorUtility.IsIntercepting_IncidentExecution = false;
             IncidentInterceptorUtility.IsIntercepting_PawnGeneration = GeneratorPatchFlag.ReturnTempList;
             IncidentInterceptorUtility.tmpPawnList = this.pawnList;
 
-            if (incidentDef != null && this.parms != null)
-            {
-                if(incidentDef.Worker.TryExecute(this.parms))
-                {
-                    RaidingGoalUtility.CombatMoralResolver(this);
-                }
-            }
-            else
-                Log.Error("No IncidentDef or parms in InterceptedIncident!");
-
-            IncidentInterceptorUtility.tmpPawnList = null;
-            IncidentInterceptorUtility.IsIntercepting_PawnGeneration = GeneratorPatchFlag.Generate;
-            IncidentInterceptorUtility.IsIntercepting_IncidentExcecution = true;
+			try
+			{
+				if (incidentDef != null && this.parms != null)
+				{
+					// Run the original incident execution.
+					if (incidentDef.Worker.TryExecute(this.parms))
+					{
+						RaidingGoalUtility.CombatMoralResolver(this);
+					}
+				}
+				else
+					Log.Error("No IncidentDef or parms in InterceptedIncident!");
+			}
+			// Force re-enable even on exception fail.
+			finally
+			{
+				// Re-enable.
+				IncidentInterceptorUtility.tmpPawnList = null;
+				IncidentInterceptorUtility.IsIntercepting_PawnGeneration = GeneratorPatchFlag.Generate;
+				IncidentInterceptorUtility.IsIntercepting_IncidentExecution = true;
+			}
         }
 
         public override void RevealRandomInformation()
