@@ -6,6 +6,7 @@ using PreemptiveStrike.RaidGoal;
 using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Verse;
 
 namespace PreemptiveStrike.Interceptor
@@ -112,21 +113,20 @@ namespace PreemptiveStrike.Interceptor
 
 		public static bool Intercept_Raid(IncidentParms parms, bool splitInGroups = false)
 		{
+			string method;
 			if (PES_Settings.DebugModeOn)
 			{
-				Log.Message("-=PS=- Intercept_Raid Start");
+				method = MethodBase.GetCurrentMethod().DeclaringType.Name + "." + MethodBase.GetCurrentMethod().Name;
+				Logger.ResetTab();
+				Logger.LogNL($"[{method}]");
+				Logger.IncreaseTab();
+				Logger.LogNL($"Split in groups [{splitInGroups}]");
+				Logger.LogNL($"Faction[{parms?.faction}] Relation[{parms?.faction?.PlayerRelationKind}] Trader[{parms?.traderKind}]");
+				Debug.LogIfQuest(parms);
 			}
+
 			if (parms.faction == null)
-			{
-				if (parms.traderKind != null)
-				{
-					Log.Message("-=PS=- parms.traderKind=" + parms.traderKind.ToString());
-				}
-				Log.Message("-=PS=- parms.faction == null");
 				return false;
-			}
-			if (parms != null && parms.questTag != null || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest") //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
-				Log.Message("-=PS=- Intercept_Raid - questTag!=Null == " + parms.questTag);
 			if (parms.faction.PlayerRelationKind != FactionRelationKind.Hostile)
 				return false;
 			InterceptedIncident incident;
@@ -134,29 +134,29 @@ namespace PreemptiveStrike.Interceptor
 				incident = new InterceptedIncident_HumanCrowd_RaidEnemy_Groups();
 			else
 				incident = new InterceptedIncident_HumanCrowd_RaidEnemy();
-
 			if (CurrentIncidentDef == null)
 			{
-				Log.Message("PES: A raid incident that is not compatible with Preemptive Strike is trying to execute. So this incident won't be intercepted by PES and will be executed in it vanilla way");    //Lt.Bob: Changed to message
+				Logger.Log_Warning($"A raid incident [{parms}] is not compatible with Preemptive Strike. Vanilla execution will run.");
 				return false; //Fix v1.1.4: In some mods, their raids are implemented without a incidentworker
 			}
 
 			incident.incidentDef = CurrentIncidentDef;
 			incident.parms = parms;
 			if (!incident.ManualDeterminParams())
+			{
+				if (PES_Settings.DebugModeOn)
+					Logger.LogNL($"ManualDeterminParams returned false");
 				return false;
+			}
 			RaidingGoalUtility.ResolveRaidGoal(incident as InterceptedIncident_HumanCrowd_RaidEnemy);
 			if (!IncidentCaravanUtility.AddNewIncidentCaravan(incident))
 			{
-				Log.Error("Fail to create Incident Caravan");
+				Logger.Log_Error("Fail to create Incident Caravan");
 				return false;
 			}
 			IsHoaxingStoryTeller = true;
 			if (PES_Settings.DebugModeOn)
-			{
-				Messages.Message("PES_Debug: Successfully intercepted a raid Incident", MessageTypeDefOf.NeutralEvent);
-				Log.Message("[PES] Successfully intercepted a raid Incident");
-			}
+				Logger.LogNL($"Successfully intercepted a raid Incident");
 			return true;
 		}
 
@@ -322,10 +322,18 @@ namespace PreemptiveStrike.Interceptor
 
 		public static List<Pawn> GenerateRaidPawns(IncidentParms parms)
 		{
+			string method;
 			if (PES_Settings.DebugModeOn)
-				Log.Message("-=PS=- GenerateRaidPawns Start");
-			if (parms != null && parms.questTag != null || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest") //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
-				Log.Message("-=PS=- GenerateRaidPawns - questTag!=Null == " + parms.questTag);
+			{
+				method = MethodBase.GetCurrentMethod().DeclaringType.Name + "." + MethodBase.GetCurrentMethod().Name;
+				Logger.ResetTab();
+				Logger.LogNL($"[{method}]");
+				Logger.IncreaseTab();
+
+				if (parms?.questTag != null ||
+					(parms?.quest != null && parms.quest.ToString() == "RimWorld.Quest")) //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
+					Logger.LogNL($"Quest: [{parms?.quest}] Tag[{parms?.questTag}]");
+			}
 
 			IsIntercepting_PawnGeneration = GeneratorPatchFlag.Generate;
 
@@ -340,8 +348,10 @@ namespace PreemptiveStrike.Interceptor
 			PawnGroupMakerParms defaultPawnGroupMakerParms = IncidentParmsUtility.GetDefaultPawnGroupMakerParms(combat, parms, false);
 			List<Pawn> list = PawnGroupMakerUtility.GeneratePawns(defaultPawnGroupMakerParms, true).ToList<Pawn>();
 			if (list.Count == 0)
-				Log.Error("Got no pawns spawning raid from parms " + parms);
-			return list;
+				Logger.Log_Error("Got no pawns spawning raid from parms " + parms);
+			else
+				Logger.LogNL($"Generated [{list.Count}] Pawns");
+				return list;
 		}
 
 		public static List<Pawn> GenerateNeutralPawns(PawnGroupKindDef pawnGroupKind, IncidentParms parms)
@@ -365,6 +375,13 @@ namespace PreemptiveStrike.Interceptor
 				if (qi.FiringIncident.parms == parms && qi.FiringIncident.def == incidentDef)
 					return true;
 			}
+			return false;
+		}
+
+		public static bool IsQuest(IncidentParms parms)
+		{
+			if (parms != null && parms.questTag != null || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest")
+				return true;
 			return false;
 		}
 	}

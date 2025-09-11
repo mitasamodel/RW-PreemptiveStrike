@@ -10,6 +10,12 @@ namespace PreemptiveStrike
 {
 	public static class Debug
 	{
+		public static void LogIfQuest(IncidentParms parms)
+		{
+			if (parms?.questTag != null || parms?.quest?.ToString() == "RimWorld.Quest")
+				Logger.LogNL($"Quest: [{parms?.quest}] Tag[{parms?.questTag}]");
+		}
+
 		/// <summary>
 		/// Lt.Bob - Unifies debug information to central command (__instance)
 		/// </summary>
@@ -17,13 +23,15 @@ namespace PreemptiveStrike
 		/// <param name="__instance"></param>
 		public static void DebugParms(IncidentParms parms, string __instance = null)
 		{
-			Logger.LogNL("\t IncidentParms:");
-			Logger.LogNL($"\t\t Full[{parms}]");
-			Logger.LogNL($"\t\t Quest: [{parms.quest}] " +
+			Logger.LogNL("IncidentParms:");
+			Logger.IncreaseTab();
+			Logger.LogNL($"Full[{parms}]");
+			Logger.LogNL($"Quest: [{parms.quest}] " +
 				$"Parts[{parms.quest?.PartsListForReading}] " +
 				$"Tag[{parms.questTag}] " +
 				$"ScriptDef[{parms.questScriptDef}]");
-			Logger.LogNL($"\t\t Instance[{__instance}]");
+			Logger.LogNL($"Instance[{__instance}]");
+			Logger.DecreaseTab();
 		}
 
 		/// <summary>
@@ -33,13 +41,15 @@ namespace PreemptiveStrike
 		/// <param name="IncDef"></param>
 		public static void DebugParms(IncidentParms parms, IncidentDef IncDef = null)
 		{
-			Logger.LogNL("\t IncidentParms:");
-			Logger.LogNL($"\t\t Full[{parms}]");
-			Logger.LogNL($"\t\t Quest: [{parms.quest}] " +
+			Logger.LogNL("IncidentParms:");
+			Logger.IncreaseTab();
+			Logger.LogNL($"Full[{parms}]");
+			Logger.LogNL($"Quest: [{parms.quest}] " +
 				$"Parts[{parms.quest?.PartsListForReading}] " +
 				$"Tag[{parms.questTag}] " +
 				$"ScriptDef[{parms.questScriptDef}]");
-			Logger.LogNL($"\t\t IncidentDef[{IncDef?.defName}]");
+			Logger.LogNL($"IncidentDef[{IncDef?.defName}]");
+			Logger.DecreaseTab();
 		}
 	}
 }

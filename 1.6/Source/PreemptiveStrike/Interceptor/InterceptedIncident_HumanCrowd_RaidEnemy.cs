@@ -7,6 +7,7 @@ using Verse;
 using PreemptiveStrike.Mod;
 using PreemptiveStrike.IncidentCaravan;
 using PreemptiveStrike.RaidGoal;
+using PES.RW_JustUtils;
 
 namespace PreemptiveStrike.Interceptor
 {
@@ -78,7 +79,7 @@ namespace PreemptiveStrike.Interceptor
 
             if (PES_Settings.DebugModeOn)
             {
-                Log.Message("CrowedSize revealed!!!");
+                Logger.LogNL("[RevealCrowdSize] CrowedSize revealed!!!");
                 StringBuilder sb = new StringBuilder("pawn number:");
                 sb.Append(pawnList.Count + " ");
                 foreach (var x in pawnList)
@@ -86,7 +87,7 @@ namespace PreemptiveStrike.Interceptor
                     sb.Append("\n");
                     sb.Append(x.Name);
                 }
-                Log.Message(sb.ToString());
+				Logger.LogNL(sb.ToString());
             }
         }
 

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using Verse;
+using PES.RW_JustUtils;
 
 namespace PreemptiveStrike.IncidentCaravan
 {
@@ -273,10 +274,7 @@ namespace PreemptiveStrike.IncidentCaravan
 		protected void Arrive()
 		{
 			if (PES_Settings.DebugModeOn)
-			{
-				Log.Message("Carravan try arrive");
-				Log.Message("arrived==" + arrived + " Should be FALSE");
-			}
+				PES.RW_JustUtils.Logger.LogNL($"[TravelingIncidentCaravan.Arrive] arrived[{arrived}] (should be false)");
 			if (arrived) return;
 			arrived = true;
 			if (!confirmed) incident.RevealAllInformation();

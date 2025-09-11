@@ -5,6 +5,7 @@ using System.Text;
 using RimWorld;
 using PreemptiveStrike.Mod;
 using Verse;
+using PES.RW_JustUtils;
 
 namespace PreemptiveStrike.Interceptor
 {
@@ -54,7 +55,7 @@ namespace PreemptiveStrike.Interceptor
             intention_revealed = true;
             EventManger.NotifyCaravanListChange?.Invoke();
             if (PES_Settings.DebugModeOn)
-                Log.Message("Intention Revealed!!!");
+				Logger.LogNL("[RevealIntention] Intention Revealed!!!");
         }
 
         protected virtual void RevealFaction()
@@ -62,14 +63,14 @@ namespace PreemptiveStrike.Interceptor
             faction_revealed = true;
             EventManger.NotifyCaravanListChange?.Invoke();
             if (PES_Settings.DebugModeOn)
-                Log.Message("faction Revealed!!!");
+                Logger.LogNL("[RevealFaction] Faction Revealed!!!");
         }
 
         protected virtual void RevealSpawnPosition()
         {
             spawnPosition_revealed = true;
             if (PES_Settings.DebugModeOn)
-                Log.Message("SpawnPosition Revealed!!!");
+				Logger.LogNL("[RevealSpawnPosition] SpawnPosition Revealed!!!");
         }
 
         protected abstract void RevealCrowdSize();

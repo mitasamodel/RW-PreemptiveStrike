@@ -5,6 +5,7 @@ using System.Text;
 using RimWorld;
 using Verse;
 using PreemptiveStrike.Mod;
+using PES.RW_JustUtils;
 
 namespace PreemptiveStrike.Interceptor
 {
@@ -56,28 +57,28 @@ namespace PreemptiveStrike.Interceptor
             EventManger.NotifyCaravanListChange?.Invoke();
 
             if (PES_Settings.DebugModeOn)
-                Log.Message("Intention Revealed!!!");
+                Logger.LogNL("[RevealIntention] Intention Revealed!!!");
         }
 
         protected virtual void RevealSpawnPosition()
         {
             spawnPosition_revealed = true;
             if (PES_Settings.DebugModeOn)
-                Log.Message("SpawnPosition Revealed!!!");
+                Logger.LogNL("[RevealSpawnPosition] SpawnPosition Revealed!!!");
         }
 
         protected virtual void RevealAnimalType()
         {
             animalType_revealed = true;
             if (PES_Settings.DebugModeOn)
-                Log.Message("AnimalType Revealed: " + AnimalType.label);
+				Logger.LogNL("[RevealAnimalType] AnimalType Revealed: " + AnimalType.label);
         }
 
         protected virtual void RevealAnimalNum()
         {
             animalNum_revealed = true;
             if (PES_Settings.DebugModeOn)
-                Log.Message("AnimalNum Revealed: " + AnimalNum);
+				Logger.LogNL("[RevealAnimalNum] AnimalNum Revealed: " + AnimalNum);
         }
 
         public override void RevealAllInformation()
