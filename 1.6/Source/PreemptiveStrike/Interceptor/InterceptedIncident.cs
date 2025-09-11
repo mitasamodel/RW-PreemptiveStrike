@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using PES.RW_JustUtils;
+using PreemptiveStrike.Mod;
 using RimWorld;
 using Verse;
 
@@ -53,7 +55,7 @@ namespace PreemptiveStrike.Interceptor
 
         public virtual bool ManualDeterminParams()
         {
-            Log.Error("Manual Params Determination not implemented!!!");
+            Logger.Log_Error("Manual Params Determination not implemented!!!");
             return false;
         }
 

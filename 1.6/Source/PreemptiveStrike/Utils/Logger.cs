@@ -1,8 +1,10 @@
-﻿using RimWorld;
+﻿using PreemptiveStrike.Mod;
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Verse;
@@ -15,72 +17,89 @@ namespace PES.RW_JustUtils
 	{
 		private static bool _init = false;
 		static readonly string logFile = @Environment.CurrentDirectory + @"\Mods\PES.log";
+
+		[ThreadStatic]
 		private static int _tabLevel = 0;
 
 		public static void Init()
 		{
-#if DEBUG
 			if (!_init)
 			{
 				_init = true;
-				File.WriteAllText(logFile, "[PES] Debug start\n");    //force in debug
+				File.WriteAllText(logFile, "[PES] Debug start\n");
 			}
-#endif
 		}
 
 		public static void LogNL(string msg)
 		{
-#if DEBUG
 			if (!_init) Init();
 			File.AppendAllText(logFile, GetTabs() + msg + "\n");
-#endif
+		}
+
+		// Log from the beginning no matter tabs.
+		public static void LogNL(int tab, string msg)
+		{
+			if (!_init) Init();
+			File.AppendAllText(logFile, msg + "\n");
 		}
 
 		public static void Log(string msg)
 		{
-#if DEBUG
 			if (!_init) Init();
 			File.AppendAllText(logFile, msg);
-#endif
 		}
 
 		public static void Log_Warning(string str)
 		{
 			Verse.Log.Warning($"[Preemptive Strike] " + str);
-#if DEBUG
-			LogNL(str);
-#endif
+			if (PES_Settings.DebugModeOn)
+				LogNL(str);
 		}
 
 		public static void Log_Error(string str)
 		{
 			Verse.Log.Error($"[Preemptive Strike] " + str);
-#if DEBUG
-			LogNL(str);
-#endif
+			if (PES_Settings.DebugModeOn)
+				LogNL(str);
 		}
 
 		private static string GetTabs()
 		{
-			string str = "";
-			for (int i = 0; i < _tabLevel; i++)
-				str += "\t";
-			return str;
+			if (_tabLevel <= 0) return string.Empty;
+			return new string('\t', _tabLevel);
 		}
 
-		public static void IncreaseTab()
+		public static void IncreaseTab() => _tabLevel++;
+
+		public static void DecreaseTab() { if (_tabLevel > 0) _tabLevel--; }
+
+		public static void ResetTab() => _tabLevel = 0;
+
+		/// <summary>
+		/// Increase the tab at the call.
+		/// Automatically decrease the tab at local variable's termination (end of block/method).
+		/// </summary>
+		/// <returns></returns>
+		public static IDisposable Scope()
 		{
-			_tabLevel++;
+			if (PES_Settings.DebugModeOn)
+			{
+				IncreaseTab();
+				return new IndentPopper();
+			}
+			else
+				return default;
 		}
 
-		public static void DecreaseTab()
+		/// <summary>
+		/// Simple object, which implements IDisposable.
+		/// </summary>
+		private readonly struct IndentPopper : IDisposable
 		{
-			_tabLevel--;
-		}
-
-		public static void ResetTab()
-		{
-			_tabLevel = 0;
+			public void Dispose()
+			{
+				DecreaseTab();
+			}
 		}
 	}
 }

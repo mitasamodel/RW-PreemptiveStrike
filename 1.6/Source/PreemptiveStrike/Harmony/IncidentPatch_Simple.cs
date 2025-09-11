@@ -38,18 +38,15 @@ namespace PreemptiveStrike.Harmony
         [HarmonyPostfix]
         static void PostFix(IncidentParms parms, ref bool __result)
         {
-            if (PreemptiveStrike.Mod.PES_Settings.DebugModeOn)
-            {
-				Logger.ResetTab();
+			if (PreemptiveStrike.Mod.PES_Settings.DebugModeOn)
 				Logger.LogNL($"[PawnsArrivalModeWorker_CenterDrop.TryResolveRaidSpawnCenter] Postfix.");
-				Logger.IncreaseTab();
+			using var _ = Logger.Scope();
+			if (PreemptiveStrike.Mod.PES_Settings.DebugModeOn)
                 Debug.DebugParms(parms, IncidentInterceptorUtility.CurrentIncidentDef);
-            }
-			if (IncidentInterceptorUtility.IsQuest(parms))
-            {
-				Logger.LogNL("Quest");
-                return;
-            }
+
+			if (Helper.IsQuest(parms))
+				return;
+
             if (IncidentInterceptorUtility.isIntercepting_CenterDrop)
                 __result = !IncidentInterceptorUtility.Intercept_SkyFaller<InterceptedIncident_SkyFaller_CenterDrop>(IncidentInterceptorUtility.CurrentIncidentDef, parms, true, true);
         }

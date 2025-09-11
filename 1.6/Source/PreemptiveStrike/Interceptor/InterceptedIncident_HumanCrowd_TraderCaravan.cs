@@ -37,6 +37,7 @@ namespace PreemptiveStrike.Interceptor
 
         public override bool ManualDeterminParams()
         {
+
             MethodInfo vanillaParmsResolver = typeof(IncidentWorker_NeutralGroup).GetMethod("TryResolveParms", BindingFlags.NonPublic | BindingFlags.Instance);
             bool result = (bool)vanillaParmsResolver.Invoke(new IncidentWorker_TraderCaravanArrival(), new object[] { parms });
             if (!result)

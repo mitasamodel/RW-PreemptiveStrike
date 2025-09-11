@@ -14,13 +14,11 @@ namespace PreemptiveStrike.Harmony
 	{
 		public static bool Prefix(IncidentWorker __instance, ref bool __result, IncidentParms parms)
 		{
-			string method;
+			using var _ = Logger.Scope();
 			if (PES_Settings.DebugModeOn)
 			{
-				method = MethodBase.GetCurrentMethod().DeclaringType.Name + "." + MethodBase.GetCurrentMethod().Name;
-				Logger.ResetTab();
-				Logger.LogNL($"[IncidentWorker: TryExecute] Prefix.");
-				Logger.IncreaseTab();
+				Logger.LogNL("");
+				Logger.LogNL(0, $"[IncidentWorker: TryExecute] Prefix.");
 				Logger.LogNL($"Real type [{__instance.GetType()}]");
 				Debug.DebugParms(parms, __instance.ToString());
 			}
@@ -68,10 +66,8 @@ namespace PreemptiveStrike.Harmony
 		{
 			if (PES_Settings.DebugModeOn)
 			{
-				Logger.ResetTab();
 				Logger.LogNL($"[IncidentWorker: Postfix] Start.");
-				Logger.IncreaseTab();
-				Logger.LogNL($"IsHoaxingStoryTeller [{IncidentInterceptorUtility.IsHoaxingStoryTeller}]");
+				Logger.LogNL($"\tIsHoaxingStoryTeller [{IncidentInterceptorUtility.IsHoaxingStoryTeller}]");
 			}
 
 			if (IncidentInterceptorUtility.IsHoaxingStoryTeller)
@@ -91,9 +87,7 @@ namespace PreemptiveStrike.Harmony
 		{
 			if (PES_Settings.DebugModeOn)
 			{
-				Logger.ResetTab();
 				Logger.LogNL($"[IncidentWorker_RaidEnemy.TryExecuteWorker] Prefix.");
-				Logger.IncreaseTab();
 				Logger.LogNL($"Instance Def[{__instance.def}]");
 			}
 
@@ -111,19 +105,13 @@ namespace PreemptiveStrike.Harmony
 		static void Postfix(PawnsArrivalModeWorker_EdgeWalkIn __instance, IncidentParms parms, ref bool __result)
 		{
 			if (PES_Settings.DebugModeOn)
-			{
-				Logger.ResetTab();
 				Logger.LogNL($"[PawnsArrivalModeWorker_EdgeWalkIn: TryResolveRaidSpawnCenter] Postfix.");
-				Logger.IncreaseTab();
+			using var _ = Logger.Scope();
+			if (PES_Settings.DebugModeOn)
 				Debug.DebugParms(parms, __instance.ToString());
-			}
-			if (parms != null && parms.questTag != null || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest") //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
-			{
-				if (PES_Settings.DebugModeOn)
-					Logger.LogNL($"Quest.");
-				return;
 
-			}
+			if (Helper.IsQuest(parms))
+				return;
 
 			//This is a temporary fix for refugee chased
 			if (IncidentInterceptorUtility.IncidentInQueue(parms, IncidentDefOf.RaidEnemy))
@@ -148,17 +136,13 @@ namespace PreemptiveStrike.Harmony
 		static void Postfix(PawnsArrivalModeWorker_EdgeWalkIn __instance, IncidentParms parms, ref bool __result)
 		{
 			if (PES_Settings.DebugModeOn)
-			{
-				Logger.ResetTab();
 				Logger.LogNL($"[PawnsArrivalModeWorker_EdgeWalkInGroups: TryResolveRaidSpawnCenter] Postfix.");
-				Logger.IncreaseTab();
+			using var _ = Logger.Scope();
+			if (PES_Settings.DebugModeOn)
 				Debug.DebugParms(parms, __instance.ToString());
-			}
-			if (parms.quest != null || parms.questScriptDef != null)
-			{
-				Logger.LogNL("Quest.");
+
+			if (Helper.IsQuest(parms))
 				return;
-			}
 
 			if (IncidentInterceptorUtility.IsIntercepting_IncidentExcecution)
 			{
@@ -177,12 +161,10 @@ namespace PreemptiveStrike.Harmony
 		static bool Prefix(ref IEnumerable<Pawn> __result)
 		{
 			if (PES_Settings.DebugModeOn)
-			{
-				Logger.ResetTab();
 				Logger.LogNL($"[PawnGroupMakerUtility.GeneratePawns] Prefix.");
-				Logger.IncreaseTab();
+			using var _ = Logger.Scope();
+			if (PES_Settings.DebugModeOn)
 				Logger.LogNL($"GeneratorPatchFlag [{IncidentInterceptorUtility.IsIntercepting_PawnGeneration}]");
-			}
 
 			if (IncidentInterceptorUtility.IsIntercepting_PawnGeneration == GeneratorPatchFlag.Generate)
 				return true;
@@ -224,26 +206,16 @@ namespace PreemptiveStrike.Harmony
 		[HarmonyPrefix]
 		static bool Prefix(IncidentWorker_TraderCaravanArrival __instance, ref bool __result, IncidentParms parms)
 		{
+			using var _ = Logger.Scope();
 			if (PES_Settings.DebugModeOn)
 			{
-				Log.Message("-=PS=- Patch_IncidentWorker_TraderCaravanArrival_TryExecuteWorker Prefix");
+				Logger.LogNL(0, $"[IncidentWorker_TraderCaravanArrival.TryExecuteWorker] Prefix.");
 				Debug.DebugParms(parms, __instance.ToString());
 			}
-			if (parms.quest != null || parms.questScriptDef != null)
-			{
-				Log.Message("-=PS=- It's a quest! Bailout! MAYDAY!");
+			if (Helper.IsQuest(parms))
 				return true;
-			}
-			if (parms != null && parms.questTag != null)    //Lt.Bob - May be redundant
-			{
-				Log.Error("-=PS=- Not redundant");
-				Log.Message("-=PS=- Patch_IncidentWorker_TraderCaravanArrival_TryExecuteWorker - questTag!=Null == " + parms.questTag);
-				Log.Message("-=PS=- Returning true");
-				return true;
-			}
-
 			if (IncidentInterceptorUtility.isIntercepting_TraderCaravan_Worker)
-				return !IncidentInterceptorUtility.CreateIncidentCaraven_HumanNeutral<InterceptedIncident_HumanCrowd_TraderCaravan>(__instance.def, parms);
+				return !IncidentInterceptorUtility.CreateIncidentCaravan_HumanNeutral<InterceptedIncident_HumanCrowd_TraderCaravan>(__instance.def, parms);
 			return true;
 		}
 	}
@@ -272,7 +244,7 @@ namespace PreemptiveStrike.Harmony
 				return true;
 			}
 			if (IncidentInterceptorUtility.isIntercepting_TravelerGroup)
-				return !IncidentInterceptorUtility.CreateIncidentCaraven_HumanNeutral<InterceptedIncident_HumanCrowd_TravelerGroup>(__instance.def, parms);
+				return !IncidentInterceptorUtility.CreateIncidentCaravan_HumanNeutral<InterceptedIncident_HumanCrowd_TravelerGroup>(__instance.def, parms);
 			return true;
 		}
 	}
@@ -292,7 +264,7 @@ namespace PreemptiveStrike.Harmony
 				return true;
 			}
 			if (IncidentInterceptorUtility.isIntercepting_VisitorGroup)
-				return !IncidentInterceptorUtility.CreateIncidentCaraven_HumanNeutral<InterceptedIncident_HumanCrowd_VisitorGroup>(__instance.def, parms);
+				return !IncidentInterceptorUtility.CreateIncidentCaravan_HumanNeutral<InterceptedIncident_HumanCrowd_VisitorGroup>(__instance.def, parms);
 			return true;
 		}
 	}

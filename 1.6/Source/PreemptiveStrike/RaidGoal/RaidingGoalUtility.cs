@@ -18,12 +18,10 @@ namespace PreemptiveStrike.RaidGoal
 		public static void ResolveRaidGoal(InterceptedIncident_HumanCrowd_RaidEnemy incident)
 		{
 			if (PES_Settings.DebugModeOn)
-			{
-				Logger.ResetTab();
 				Logger.LogNL($"[RaidingGoalUtility.ResolveRaidGoal]");
-				Logger.IncreaseTab();
+			using var _ = Logger.Scope();
+			if (PES_Settings.DebugModeOn)
 				Logger.LogNL($"Faction[{incident.SourceFaction}]");
-			}
 
 			if (incident.SourceFaction == Faction.OfMechanoids)
 			{

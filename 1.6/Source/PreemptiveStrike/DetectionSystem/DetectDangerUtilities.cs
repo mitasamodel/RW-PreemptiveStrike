@@ -66,14 +66,6 @@ namespace PreemptiveStrike.DetectionSystem
 
 		public static bool TryDetectIncidentCaravanDetail(TravelingIncidentCaravan caravan)
 		{
-			string method;
-			if (PES_Settings.DebugModeOn)
-			{
-				method = MethodBase.GetCurrentMethod().DeclaringType.Name + "." + MethodBase.GetCurrentMethod().Name;
-				Logger.ResetTab();
-				Logger.LogNL($"[{method}]");
-				Logger.IncreaseTab();
-			}
 			float odds = 0;
 			if (!DitectionOddsOfCaravan(caravan, out odds))
 				return false;
@@ -82,7 +74,8 @@ namespace PreemptiveStrike.DetectionSystem
 			bool result = new FloatRange(0f, 1f).RandomInRange <= odds;
 
 			if (PES_Settings.DebugModeOn)
-				Logger.LogNL($"[TryDetectIncidentCaravanDetail] Try detect: Difficult[{PES_Settings.DifficultDetect}] Odds[{odds}] Result[{result}]");
+				Logger.LogNL($"[DetectDangerUtilities.TryDetectIncidentCaravanDetail] " +
+					$"Try detect: Difficult[{PES_Settings.DifficultDetect}] Odds[{odds}] Result[{result}]");
 
 			return result;
 		}

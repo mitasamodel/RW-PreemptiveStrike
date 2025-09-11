@@ -113,16 +113,14 @@ namespace PreemptiveStrike.Interceptor
 
 		public static bool Intercept_Raid(IncidentParms parms, bool splitInGroups = false)
 		{
-			string method;
+			if (PES_Settings.DebugModeOn)
+				Logger.LogNL($"[IncidentInterceptorUtility.Intercept_Raid]");
+			using var _ = Logger.Scope();
 			if (PES_Settings.DebugModeOn)
 			{
-				method = MethodBase.GetCurrentMethod().DeclaringType.Name + "." + MethodBase.GetCurrentMethod().Name;
-				Logger.ResetTab();
-				Logger.LogNL($"[{method}]");
-				Logger.IncreaseTab();
 				Logger.LogNL($"Split in groups [{splitInGroups}]");
 				Logger.LogNL($"Faction[{parms?.faction}] Relation[{parms?.faction?.PlayerRelationKind}] Trader[{parms?.traderKind}]");
-				Debug.LogIfQuest(parms);
+				Helper.IsQuest(parms);
 			}
 
 			if (parms.faction == null)
@@ -160,32 +158,39 @@ namespace PreemptiveStrike.Interceptor
 			return true;
 		}
 
-		public static bool CreateIncidentCaraven_HumanNeutral<T>(IncidentDef incidentDef, IncidentParms parms) where T : InterceptedIncident, new()
+		public static bool CreateIncidentCaravan_HumanNeutral<T>(IncidentDef incidentDef, IncidentParms parms) where T : InterceptedIncident, new()
 		{
 			if (PES_Settings.DebugModeOn)
-			{
-				Log.Message("-=PS=- CreateIncidentCaraven_HumanNeutral Start");
+				Logger.LogNL($"[IncidentInterceptorUtility.CreateIncidentCaravan_HumanNeutral]");
+			using var _ = Logger.Scope();
+			if (PES_Settings.DebugModeOn)
 				Debug.DebugParms(parms, incidentDef);
-			}
+
 			if (incidentDef.defName == "CaravanArrivalTributeCollector")    //Lt. Bob - "Temporary" bypass fix for Tribute Collector 
 			{
-				Log.Message("-=PS=- CaravanArrivalTributeCollector caught - Exiting CreateIncidentCaraven_HumanNeutral as false");
-				Log.Message("   PS=- questTag == " + parms.questTag);
+				if (PES_Settings.DebugModeOn)
+					Logger.LogNL($"Tribute Collector: skipping.");
 				return false;
 			}
 			InterceptedIncident incident = new T();
 			incident.incidentDef = incidentDef;
 			incident.parms = parms;
 			if (!incident.ManualDeterminParams())
+			{
+				Logger.LogNL($"incident.ManualDeterminParams is false");
 				return false;
+			}
 			if (!IncidentCaravanUtility.AddNewIncidentCaravan(incident))
 			{
-				Log.Error("Fail to create Incident Caravan");
+				Logger.Log_Error($"Fail to create Incident Caravan");
 				return false;
 			}
 			IsHoaxingStoryTeller = true;
 			if (PES_Settings.DebugModeOn)
+			{
+				Logger.LogNL("Intercepted");
 				Messages.Message("PES_Debug: Successfully intercepted a neutral Incident", MessageTypeDefOf.NeutralEvent);
+			}
 			//IsIntercepting_PawnGeneration = GeneratorPatchFlag.ReturnZero;
 			return true;
 		}
@@ -219,17 +224,13 @@ namespace PreemptiveStrike.Interceptor
 		public static bool Intercept_SkyFaller<T>(IncidentDef incidentDef, IncidentParms parms, bool needHoaxing = false, bool checkHostileFaction = false) where T : InterceptedIncident_SkyFaller, new()
 		{
 			if (PES_Settings.DebugModeOn)
-			{
-				Logger.ResetTab();
 				Logger.LogNL($"[IncidentInterceptorUtility.Intercept_SkyFaller]");
-				Logger.IncreaseTab();
+			using var _ = Logger.Scope();
+			if (PES_Settings.DebugModeOn)
 				Debug.DebugParms(parms, incidentDef);
-			}
-			if (IsQuest(parms)) //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
-			{
-				Logger.LogNL($"Quest: Tags[{parms.questTag}]");
+
+			if (Helper.IsQuest(parms))
 				return false;
-			}
 
 			//Lt.Bob - Moved null check in front of hostile faction check.  Attempt to resolve issue with quest rewards of pawns.
 			if (incidentDef == null)
@@ -262,7 +263,10 @@ namespace PreemptiveStrike.Interceptor
 			if (needHoaxing)
 				IsHoaxingStoryTeller = true;
 			if (PES_Settings.DebugModeOn)
+			{
 				Messages.Message("PES_Debug: Successfully intercepted a skyfaller Incident", MessageTypeDefOf.NeutralEvent);
+				Logger.LogNL("Intercepted");
+			}
 			return true;
 		}
 
@@ -324,18 +328,11 @@ namespace PreemptiveStrike.Interceptor
 
 		public static List<Pawn> GenerateRaidPawns(IncidentParms parms)
 		{
-			string method;
 			if (PES_Settings.DebugModeOn)
-			{
-				method = MethodBase.GetCurrentMethod().DeclaringType.Name + "." + MethodBase.GetCurrentMethod().Name;
-				Logger.ResetTab();
-				Logger.LogNL($"[{method}]");
-				Logger.IncreaseTab();
-
-				if (parms?.questTag != null ||
-					(parms?.quest != null && parms.quest.ToString() == "RimWorld.Quest")) //Lt. Bob - "Temporary" bypass fix? for Quest handling; 11/9 Added  parms.quest check
-					Logger.LogNL($"Quest: [{parms?.quest}] Tag[{parms?.questTag}]");
-			}
+				Logger.LogNL($"[IncidentInterceptorUtility.GenerateRaidPawns]");
+			using var _ = Logger.Scope();
+			if (PES_Settings.DebugModeOn)
+				Helper.IsQuest(parms);
 
 			IsIntercepting_PawnGeneration = GeneratorPatchFlag.Generate;
 
@@ -353,7 +350,7 @@ namespace PreemptiveStrike.Interceptor
 				Logger.Log_Error("Got no pawns spawning raid from parms " + parms);
 			else
 				Logger.LogNL($"Generated [{list.Count}] Pawns");
-				return list;
+			return list;
 		}
 
 		public static List<Pawn> GenerateNeutralPawns(PawnGroupKindDef pawnGroupKind, IncidentParms parms)
@@ -377,13 +374,6 @@ namespace PreemptiveStrike.Interceptor
 				if (qi.FiringIncident.parms == parms && qi.FiringIncident.def == incidentDef)
 					return true;
 			}
-			return false;
-		}
-
-		public static bool IsQuest(IncidentParms parms)
-		{
-			if (parms != null && parms.questTag != null || parms.quest != null && parms.quest.ToString() == "RimWorld.Quest")
-				return true;
 			return false;
 		}
 	}
