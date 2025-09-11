@@ -11,20 +11,13 @@ namespace PreemptiveStrike
 	public static class Debug
 	{
 		/// <summary>
-		/// Lt.Bob - Unifies debug information to central command (__instance)
+		/// 
 		/// </summary>
 		/// <param name="parms"></param>
-		/// <param name="__instance"></param>
-		public static void DebugParms(IncidentParms parms, string __instance = null)
+		/// <param name="instance"></param>
+		public static void DebugParms(IncidentParms parms, IncidentWorker instance)
 		{
-			Logger.LogNL("IncidentParms:");
-			using var _ = Logger.Scope();
-			Logger.LogNL($"Full[{parms}]");
-			Logger.LogNL($"Quest: [{parms.quest}] " +
-				$"Parts[{parms.quest?.PartsListForReading}] " +
-				$"Tag[{parms.questTag}] " +
-				$"ScriptDef[{parms.questScriptDef}]");
-			Logger.LogNL($"Instance[{__instance}]");
+			DebugParms(parms, instance?.def?.defName);
 		}
 
 		/// <summary>
@@ -32,7 +25,12 @@ namespace PreemptiveStrike
 		/// </summary>
 		/// <param name="parms"></param>
 		/// <param name="IncDef"></param>
-		public static void DebugParms(IncidentParms parms, IncidentDef IncDef = null)
+		public static void DebugParms(IncidentParms parms, IncidentDef def)
+		{
+			DebugParms(parms, def?.defName);
+		}
+
+		public static void DebugParms(IncidentParms parms, string name = null)
 		{
 			Logger.LogNL("IncidentParms:");
 			using var _ = Logger.Scope();
@@ -41,7 +39,8 @@ namespace PreemptiveStrike
 				$"Parts[{parms.quest?.PartsListForReading}] " +
 				$"Tag[{parms.questTag}] " +
 				$"ScriptDef[{parms.questScriptDef}]");
-			Logger.LogNL($"IncidentDef[{IncDef?.defName}]");
+			Logger.LogNL($"IncidentDef[{name}]");
 		}
+
 	}
 }

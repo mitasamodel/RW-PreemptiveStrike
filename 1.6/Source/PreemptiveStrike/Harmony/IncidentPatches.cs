@@ -23,8 +23,8 @@ namespace PreemptiveStrike.Harmony
 				Debug.DebugParms(parms, __instance.ToString());
 			}
 
-			// Quest incident.
-			if (parms.quest != null || parms.questScriptDef != null) return true;
+			if (Helper.IsQuest(parms))
+				return true;
 
 			// instance def.
 			if (PES_Settings.DebugModeOn)
