@@ -94,6 +94,8 @@ namespace PreemptiveStrike.Interceptor
         public override bool ManualDeterminParams()
         {
             pawnList = IncidentInterceptorUtility.GenerateRaidPawns(parms);
+			if (pawnList == null || pawnList.Count == 0)
+				return false;
             ResolveLookTargets();
             return true;
         }
