@@ -334,8 +334,8 @@ namespace PreemptiveStrike.Interceptor
 			if (PES_Settings.DebugModeOn)
 				Logger.LogNL($"[IncidentInterceptorUtility.GenerateRaidPawns]");
 			using var _ = Logger.Scope();
-			if (PES_Settings.DebugModeOn)
-				Helper.IsQuest(parms);
+			//if (PES_Settings.DebugModeOn)
+			//	Helper.IsQuest(parms);
 
 			IsIntercepting_PawnGeneration = GeneratorPatchFlag.Generate;
 
