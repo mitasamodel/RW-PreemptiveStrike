@@ -41,7 +41,7 @@ namespace PreemptiveStrike.IncidentCaravan
 				if (confirmed || CommunicationEstablished)
 					return incident.IncidentTitle_Confirmed;
 				else
-					return incident.IncidentTitle_Unknow;
+					return incident.IncidentTitle_Unknown;
 			}
 		}
 

@@ -45,6 +45,9 @@ namespace PreemptiveStrike.Interceptor
 		public static WorkerPatchType isIntercepting_ThrumboPasses;
 		public static WorkerPatchType isIntercepting_Alphabeavers;
 		public static WorkerPatchType isIntercepting_ManhunterPack;
+		
+		// Used in Prefixes to skip re-calculations.
+		public static IncidentParms ActiveExecutionParms;
 		#endregion
 
 		#region Simple Interception Switches
@@ -336,15 +339,16 @@ namespace PreemptiveStrike.Interceptor
 
 			IsIntercepting_PawnGeneration = GeneratorPatchFlag.Generate;
 
-			PawnGroupKindDef combat = PawnGroupKindDefOf.Combat;
+			PawnGroupKindDef groupKind = parms.pawnGroupKind ?? PawnGroupKindDefOf.Combat;
 			parms.points = IncidentWorker_Raid.AdjustedRaidPoints(
 				parms.points,
 				parms.raidArrivalMode,
 				parms.raidStrategy,
 				parms.faction,
-				combat,
-				parms.target);
-			PawnGroupMakerParms defaultPawnGroupMakerParms = IncidentParmsUtility.GetDefaultPawnGroupMakerParms(combat, parms, false);
+				groupKind,
+				parms.target,
+				parms.raidAgeRestriction);
+			PawnGroupMakerParms defaultPawnGroupMakerParms = IncidentParmsUtility.GetDefaultPawnGroupMakerParms(groupKind, parms, false);
 			List<Pawn> list = PawnGroupMakerUtility.GeneratePawns(defaultPawnGroupMakerParms, true).ToList<Pawn>();
 			if (list.Count == 0)
 				Logger.Log_Error("Got no pawns spawning raid from parms " + parms);

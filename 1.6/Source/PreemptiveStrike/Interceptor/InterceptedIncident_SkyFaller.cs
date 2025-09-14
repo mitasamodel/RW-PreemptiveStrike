@@ -19,7 +19,7 @@ namespace PreemptiveStrike.Interceptor
 	{
 		public abstract SkyFallerType FallerType { get; }
 
-		public override string IncidentTitle_Unknow
+		public override string IncidentTitle_Unknown
 		{
 			get
 			{

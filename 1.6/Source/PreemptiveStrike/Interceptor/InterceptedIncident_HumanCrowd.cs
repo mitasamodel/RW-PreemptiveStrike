@@ -21,7 +21,7 @@ namespace PreemptiveStrike.Interceptor
         public virtual int CrowdSize => pawnList != null ? pawnList.Count : 0;
         public virtual IntVec3 SpawnPosition => parms.spawnCenter;
 
-        public override string IncidentTitle_Unknow
+        public override string IncidentTitle_Unknown
         {
             get
             {

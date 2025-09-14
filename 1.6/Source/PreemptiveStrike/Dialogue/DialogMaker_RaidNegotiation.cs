@@ -22,7 +22,7 @@ namespace PreemptiveStrike.Dialogue
             RaidingGoal goal = incident.goal;
 
             if (incident == null) return null;
-            if (incident.raidGoalType == RaidGoalType.Smite) return null;
+            if (incident.RaidGoalType == RaidGoalType.Smite) return null;
 
             if (incident.SourceFaction == Faction.OfMechanoids)
                 return DialogMaker_TryToContact.MechanoidAnswers();
@@ -32,12 +32,12 @@ namespace PreemptiveStrike.Dialogue
             sb.AppendLine();
 
             bool polite = false;
-            if (incident.raidGoalType == RaidGoalType.Rescue)
+            if (incident.RaidGoalType == RaidGoalType.Rescue)
             {
                 if (new FloatRange(0f, 1f).RandomInRange < 0.5f)
                     polite = true;
             }
-            if (incident.raidGoalType == RaidGoalType.Extortion)
+            if (incident.RaidGoalType == RaidGoalType.Extortion)
             {
                 if (new FloatRange(0f, 1f).RandomInRange < 0.2f)
                     polite = true;
@@ -59,7 +59,7 @@ namespace PreemptiveStrike.Dialogue
 
             DiaOption option;
 
-            string rebuffStr = "PES_RaidNeg_Rebuff_Head".Translate() + ("PES_RaidNeg_Rebuff_" + incident.raidGoalType.ToString()).Translate() + "\n";
+            string rebuffStr = "PES_RaidNeg_Rebuff_Head".Translate() + ("PES_RaidNeg_Rebuff_" + incident.RaidGoalType.ToString()).Translate() + "\n";
             option = new DiaOption(rebuffStr);
             option.link = RebuffNode();
             diaNode.options.Add(option);
@@ -89,12 +89,12 @@ namespace PreemptiveStrike.Dialogue
             Pawn pawn = DialogUtilities.tempPawn;
             InterceptedIncident_HumanCrowd_RaidEnemy incident = caravan.incident as InterceptedIncident_HumanCrowd_RaidEnemy;
             if (incident == null) return null;
-            if (incident.raidGoalType == RaidGoalType.Smite) return null;
+            if (incident.RaidGoalType == RaidGoalType.Smite) return null;
             StringBuilder sb = new StringBuilder("PES_RaidNeg_Rebuff_Confirmation".Translate());
             sb.AppendLine();
-            if (incident.raidGoalType == RaidGoalType.Rescue)
+            if (incident.RaidGoalType == RaidGoalType.Rescue)
             {
-                Log.Message(incident.raidGoalType.ToString());
+                Log.Message(incident.RaidGoalType.ToString());
                 sb.AppendLine("PES_RaidNeg_Rebuff_Confirmation_Rescue".Translate());
                 RaidingGoal_Rescue goal = incident.goal as RaidingGoal_Rescue;
                 foreach (var p in goal.Prisoners)
@@ -128,7 +128,7 @@ namespace PreemptiveStrike.Dialogue
             RaidingGoal goal = incident.goal;
 
             if (incident == null) return null;
-            if (incident.raidGoalType == RaidGoalType.Smite) return null;
+            if (incident.RaidGoalType == RaidGoalType.Smite) return null;
 
             DiaNode diaNode = new DiaNode("PES_RaidNeg_NegDeeper_Prolog".Translate());
             DiaOption option;
@@ -188,7 +188,7 @@ namespace PreemptiveStrike.Dialogue
                 {
                     DiaNode rNode = new DiaNode("PES_RaidNeg_Sub_Intro".Translate());
                     DiaOption rOption;
-                    if (incident.raidGoalType != RaidGoalType.Rescue)
+                    if (incident.RaidGoalType != RaidGoalType.Rescue)
                     {
                         rOption = new DiaOption("PES_RaidNeg_Sub_Rescue".Translate());
                         if (!RaidingGoal_Rescue.IsAvailableToIncident(incident, out failReason))
@@ -197,7 +197,7 @@ namespace PreemptiveStrike.Dialogue
                         rNode.options.Add(rOption);
                     }
 
-                    if (incident.raidGoalType != RaidGoalType.Extortion)
+                    if (incident.RaidGoalType != RaidGoalType.Extortion)
                     {
                         rOption = new DiaOption("PES_RaidNeg_Sub_Extortion".Translate());
                         rOption.link = RemedyDetail(() => { (new RaidingGoal_Extortion()).ApplyToIncident(incident); });
@@ -224,7 +224,7 @@ namespace PreemptiveStrike.Dialogue
             RaidingGoal goal = incident.goal;
 
             if (incident == null) return null;
-            if (incident.raidGoalType == RaidGoalType.Smite) return null;
+            if (incident.RaidGoalType == RaidGoalType.Smite) return null;
 
             DiaNode bargainSuccessNode()
             {
@@ -303,7 +303,7 @@ namespace PreemptiveStrike.Dialogue
             RaidingGoal goal = incident.goal;
 
             if (incident == null) return null;
-            if (incident.raidGoalType == RaidGoalType.Smite) return null;
+            if (incident.RaidGoalType == RaidGoalType.Smite) return null;
 
             DiaNode RemedySuccessNode()
             {
@@ -381,7 +381,7 @@ namespace PreemptiveStrike.Dialogue
             InterceptedIncident_HumanCrowd_RaidEnemy incident = caravan.incident as InterceptedIncident_HumanCrowd_RaidEnemy;
 
             if (incident == null) return null;
-            if (incident.raidGoalType == RaidGoalType.Smite) return null;
+            if (incident.RaidGoalType == RaidGoalType.Smite) return null;
 
             DiaNode delaySuccessNode()
             {
@@ -427,7 +427,7 @@ namespace PreemptiveStrike.Dialogue
             //Intimidation
             successOdds = Mathf.Clamp01(PES_Settings.BaseDelayIntimidationSuccessChance * pawn.NegotiatePowerFactor());
             float smiteOdds = Mathf.Clamp01(PES_Settings.BaseDelayIntimidationSmiteChance * pawn.NegotiatePowerFactorNeg());
-            string intimidationText = ("PES_RaidNeg_Delay_Intimidation_" + incident.raidGoalType.ToString()).Translate();
+            string intimidationText = ("PES_RaidNeg_Delay_Intimidation_" + incident.RaidGoalType.ToString()).Translate();
             sb = new StringBuilder(string.Format("[{0}]: {1}\n", "PES_intimidate_noun".Translate(), intimidationText));
             sb.AppendLine(OddsIndicator(successOdds, "PES_RaidNeg_Delay_Success_Name", smiteOdds, "PES_RaidNeg_Delay_Smite_Name"));
             option = new DiaOption(sb.ToString());
@@ -438,7 +438,7 @@ namespace PreemptiveStrike.Dialogue
             if (pawn.skills.GetSkill(SkillDefOf.Social).Level >= 15)
             {
                 successOdds = Mathf.Clamp01(PES_Settings.BaseDelayBeguilementChance * pawn.NegotiatePowerFactor());
-                string beguilementText = ("PES_RaidNeg_Delay_Beguilement_" + incident.raidGoalType.ToString()).Translate();
+                string beguilementText = ("PES_RaidNeg_Delay_Beguilement_" + incident.RaidGoalType.ToString()).Translate();
                 sb = new StringBuilder(string.Format("[{0}]: {1}\n", "PES_beguile_noun".Translate(), beguilementText));
                 sb.AppendLine(OddsIndicator(successOdds, "PES_RaidNeg_Delay_Success_Name"));
                 option = new DiaOption(sb.ToString());

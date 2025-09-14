@@ -23,7 +23,13 @@ namespace PreemptiveStrike.Harmony
 
 			// Generate a log with info about unpatched PawnsArrivalModeWorker children.
 			if (PES_Settings.DebugModeOn)
+			{
+				// Generate a log with info about unpatched PawnsArrivalModeWorker children.
 				LogPatchedMethod(typeof(PawnsArrivalModeWorker), "TryResolveRaidSpawnCenter", new[] { typeof(IncidentParms) });
+				Logger.LogNL("");
+				// Unpatched IncidentWorker.
+				LogPatchedMethod(typeof(IncidentWorker), "TryExecuteWorker", new[] { typeof(IncidentParms) });
+			}
 		}
 
 		private static void LogPatchedMethod(Type baseType, string methodName, Type[] parameterTypes)

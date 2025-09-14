@@ -20,7 +20,7 @@ namespace PreemptiveStrike.Interceptor
         public int AnimalNum;
 
 
-        public override string IncidentTitle_Unknow
+        public override string IncidentTitle_Unknown
         {
             get
             {

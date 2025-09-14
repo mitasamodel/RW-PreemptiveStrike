@@ -11,7 +11,7 @@ namespace PreemptiveStrike.Interceptor
     {
         public override string IncidentTitle_Confirmed => "PES_Warning_Flare_Early".Translate();
 
-        public override string IncidentTitle_Unknow => "PES_Warning_Flare_Early".Translate();
+        public override string IncidentTitle_Unknown => "PES_Warning_Flare_Early".Translate();
 
         public override string IntentionStr => "";
 

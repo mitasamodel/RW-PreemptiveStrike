@@ -13,7 +13,7 @@ namespace PreemptiveStrike.Interceptor
 {
     class InterceptedIncident_HumanCrowd_RaidEnemy : InterceptedIncident_HumanCrowd
     {
-        public RaidGoalType raidGoalType => goal.RaidType;
+        public RaidGoalType RaidGoalType => goal.RaidType;
         public RaidingGoal goal;
 
         public override bool IsHostileToPlayer => true;
@@ -122,7 +122,7 @@ namespace PreemptiveStrike.Interceptor
             IncidentInterceptorUtility.IsIntercepting_IncidentExecution = false;
             IncidentInterceptorUtility.IsIntercepting_PawnGeneration = GeneratorPatchFlag.ReturnTempList;
             IncidentInterceptorUtility.tmpPawnList = this.pawnList;
-
+			IncidentInterceptorUtility.ActiveExecutionParms = this.parms;
 			try
 			{
 				if (incidentDef != null && this.parms != null)
@@ -140,6 +140,7 @@ namespace PreemptiveStrike.Interceptor
 			finally
 			{
 				// Re-enable.
+				IncidentInterceptorUtility.ActiveExecutionParms = null;
 				IncidentInterceptorUtility.tmpPawnList = null;
 				IncidentInterceptorUtility.IsIntercepting_PawnGeneration = GeneratorPatchFlag.Generate;
 				IncidentInterceptorUtility.IsIntercepting_IncidentExecution = true;

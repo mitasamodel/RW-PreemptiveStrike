@@ -14,12 +14,12 @@ namespace PreemptiveStrike.Harmony
 	{
 		public static bool Prefix(IncidentWorker __instance, ref bool __result, IncidentParms parms)
 		{
+			if (PES_Settings.DebugModeOn)
+				Logger.LogNL($"\n[IncidentWorker: TryExecute] Prefix.");
 			using var _ = Logger.Scope();
 			if (PES_Settings.DebugModeOn)
 			{
-				Logger.LogNL("");
-				Logger.LogNL(0, $"[IncidentWorker: TryExecute] Prefix.");
-				Logger.LogNL($"Real type [{__instance.GetType()}]");
+				Logger.LogNL($"Worker Class [{__instance.GetType()}]");
 				Debug.DebugParms(parms, __instance);
 			}
 
@@ -89,9 +89,21 @@ namespace PreemptiveStrike.Harmony
 
 			IncidentInterceptorUtility.CurrentIncidentDef = __instance.def;
 		}
+
+		static void Postfix(IncidentWorker_RaidEnemy __instance, IncidentParms parms)
+		{
+			if (PES_Settings.DebugModeOn)
+			{
+				Logger.LogNL($"[IncidentWorker_RaidEnemy.TryExecuteWorker] Postfix.");
+				Logger.LogNL($"\traidArrivalMode [{parms.raidArrivalMode}]");
+			}
+		}
 	}
 
 	//----------------------------------------------------------
+
+	//PawnsArrivalModeWorker_EdgeWalkInDarkness
+	//IncidentWorker_RaidEnemy
 
 	#region Raid Patches
 	[HarmonyPatch]
@@ -101,19 +113,50 @@ namespace PreemptiveStrike.Harmony
 		{
 			yield return AccessTools.Method(typeof(PawnsArrivalModeWorker_EdgeWalkIn), "TryResolveRaidSpawnCenter");
 			yield return AccessTools.Method(typeof(PawnsArrivalModeWorker_EdgeWalkInGroups), "TryResolveRaidSpawnCenter");
-
-
+			yield return AccessTools.Method(typeof(PawnsArrivalModeWorker_EdgeWalkInDarkness), "TryResolveRaidSpawnCenter");
 		}
 
-		public static void Postfix(PawnsArrivalModeWorker __instance, IncidentParms parms, ref bool __result)
+		/// <summary>
+		/// Some Workers now can re-calculate the spawnCenter based on surroundings conditions.
+		/// By the time a caravan achieve our base, the calculations will drift.
+		/// To avoid recalculations (we already shown the invasion location to the Player) use the same result as before.
+		/// </summary>
+		public static bool Prefix(PawnsArrivalModeWorker __instance, MethodBase __originalMethod, IncidentParms parms, ref bool __result)
+		{
+			if (PES_Settings.DebugModeOn)
+			{
+				Logger.LogNL($"[Patch_PawnsArrivalModeWorker_WalkIn_Common] Prefix.");
+				Logger.LogNL($"\tMethod [{__instance.GetType().Name}.{__originalMethod.Name}]");
+			}
+
+			// If it is not the incident we are waiting, then continue.
+			var active = IncidentInterceptorUtility.ActiveExecutionParms;
+			if (!ReferenceEquals(parms, active)) return true;
+
+			// Or continue if the spawnCenter by some reason is not valid anymore.
+			if (!parms.spawnCenter.IsValid) return true;
+
+			// Otherwise - skip new calculations.
+			if (PES_Settings.DebugModeOn)
+			{
+				Logger.LogNL($"\tSkip it. Will use [{parms.spawnCenter}]");
+			}
+			// Report that we're good.
+			__result = true;
+			// But don't execute.
+			return false;
+		}
+
+		public static void Postfix(PawnsArrivalModeWorker __instance, MethodBase __originalMethod, IncidentParms parms, ref bool __result)
 		{
 			if (PES_Settings.DebugModeOn)
 				Logger.LogNL($"[Patch_PawnsArrivalModeWorker_WalkIn_Common] Postfix.");
 			using var _ = Logger.Scope();
 			if (PES_Settings.DebugModeOn)
 			{
-				Logger.LogNL($"Real type [{__instance.GetType()}]");
-				Debug.DebugParms(parms, __instance.def);
+				Logger.LogNL($"Method [{__instance.GetType().Name}.{__originalMethod.Name}]");
+				Logger.LogNL($"SpawnCenter [{parms.spawnCenter}]");
+				//Debug.DebugParms(parms, __instance.def);
 			}
 
 			if (Helper.IsQuest(parms))
@@ -129,10 +172,14 @@ namespace PreemptiveStrike.Harmony
 
 			if (IncidentInterceptorUtility.IsIntercepting_IncidentExecution)
 			{
+				if (PES_Settings.DebugModeOn)
+					Logger.LogNL($"Intercepting...");
 				bool inGroups = __instance is PawnsArrivalModeWorker_EdgeWalkInGroups;
 				if (IncidentInterceptorUtility.Intercept_Raid(parms, inGroups))
 					__result = false;
 			}
+			else if (PES_Settings.DebugModeOn)
+				Logger.LogNL($"Not intercepting...");
 		}
 	}
 	#endregion
@@ -167,8 +214,11 @@ namespace PreemptiveStrike.Harmony
 		[HarmonyPrefix]
 		static bool Prefix(ref List<Pair<List<Pawn>, IntVec3>> __result)
 		{
-			if (PreemptiveStrike.Mod.PES_Settings.DebugModeOn)
-				Log.Message("-=PS=- Patch_PawnsArrivalModeWorkerUtility_SplitIntoRandomGroupsNearMapEdge Prefix"); //Lt. Bob - Logging
+			if (PES_Settings.DebugModeOn)
+			{
+				Logger.LogNL($"[PawnsArrivalModeWorkerUtility.SplitIntoRandomGroupsNearMapEdge] Prefix.");
+				Logger.LogNL($"\t IsIntercepting_GroupSpliter flag [{IncidentInterceptorUtility.IsIntercepting_GroupSpliter}]");
+			}
 
 			if (IncidentInterceptorUtility.IsIntercepting_GroupSpliter == GeneratorPatchFlag.Generate)
 				return true;

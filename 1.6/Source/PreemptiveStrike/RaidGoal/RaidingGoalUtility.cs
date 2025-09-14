@@ -83,7 +83,7 @@ namespace PreemptiveStrike.RaidGoal
 			if (!(caravan.incident is InterceptedIncident_HumanCrowd_RaidEnemy incident))
 				return;
 			caravan.Communicable = false;
-			if (incident.raidGoalType == RaidGoalType.Rescue)
+			if (incident.RaidGoalType == RaidGoalType.Rescue)
 			{
 				RaidingGoal_Rescue goal = incident.goal as RaidingGoal_Rescue;
 				foreach (var p in goal.Prisoners)

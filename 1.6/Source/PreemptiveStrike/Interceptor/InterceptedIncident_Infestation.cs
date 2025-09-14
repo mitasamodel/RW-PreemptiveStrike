@@ -14,7 +14,7 @@ namespace PreemptiveStrike.Interceptor
 
         public override string IncidentTitle_Confirmed => "PES_Infestation_Title".Translate();
 
-        public override string IncidentTitle_Unknow => "";
+        public override string IncidentTitle_Unknown => "";
 
         public override string IntentionStr => "";
 

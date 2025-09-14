@@ -52,7 +52,7 @@ namespace PreemptiveStrike.IncidentCaravan
 			get
 			{
 				if (incident.IntelLevel == IncidentIntelLevel.Unknown)
-					return incident.IncidentTitle_Unknow;
+					return incident.IncidentTitle_Unknown;
 				else
 					return incident.IncidentTitle_Confirmed;
 			}

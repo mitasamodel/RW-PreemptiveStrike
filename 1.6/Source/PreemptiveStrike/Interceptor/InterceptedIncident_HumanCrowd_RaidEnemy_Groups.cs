@@ -9,29 +9,37 @@ namespace PreemptiveStrike.Interceptor
 {
     class InterceptedIncident_HumanCrowd_RaidEnemy_Groups : InterceptedIncident_HumanCrowd_RaidEnemy
     {
-        private List<Pair<List<Pawn>, IntVec3>> GroupList;
-        private GroupListStorage storage;
+        private List<Pair<List<Pawn>, IntVec3>> _groupList;
+        private GroupListStorage _storage;
 
         public override string IntentionStr => "PES_Intention_RaidGroup".Translate();
 
         protected override void ResolveLookTargets()
         {
             IncidentInterceptorUtility.IsIntercepting_GroupSpliter = GeneratorPatchFlag.Generate;
-            GroupList = PawnsArrivalModeWorkerUtility.SplitIntoRandomGroupsNearMapEdge(pawnList, parms.target as Map, false);
-            storage = new GroupListStorage(GroupList);
-            PawnsArrivalModeWorkerUtility.SetPawnGroupsInfo(parms, GroupList);
-            var list1 = new List<TargetInfo>();
-            foreach (var pair in GroupList)
+
+			// Generate groups from pawn list.
+            _groupList = PawnsArrivalModeWorkerUtility.SplitIntoRandomGroupsNearMapEdge(pawnList, parms.target as Map, false);
+
+			// Convert the list of pairs into something, which can be stored in save file with Expose.
+            _storage = new GroupListStorage(_groupList);
+
+			// Create Dictionary and store in parms.
+            PawnsArrivalModeWorkerUtility.SetPawnGroupsInfo(parms, _groupList);
+
+			// List of targets for indication.
+            var lookList = new List<TargetInfo>();
+            foreach (var pair in _groupList)
             {
                 if (pair.First.Count > 0)
-                    list1.Add(new TargetInfo(pair.Second, parms.target as Map, false));
+                    lookList.Add(new TargetInfo(pair.Second, parms.target as Map, false));
             }
-            lookTargets = list1;
+            lookTargets = lookList;
         }
 
-        public override void ExecuteNow()
+		public override void ExecuteNow()
         {
-            IncidentInterceptorUtility.tempGroupList = storage.RebuildList();
+            IncidentInterceptorUtility.tempGroupList = _storage.RebuildList();
             IncidentInterceptorUtility.IsIntercepting_GroupSpliter = GeneratorPatchFlag.ReturnTempList;
             base.ExecuteNow();
             IncidentInterceptorUtility.IsIntercepting_GroupSpliter = GeneratorPatchFlag.Generate;
@@ -40,7 +48,7 @@ namespace PreemptiveStrike.Interceptor
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Deep.Look(ref storage, "storage");
+            Scribe_Deep.Look(ref _storage, "storage");
         }
     }
 }
