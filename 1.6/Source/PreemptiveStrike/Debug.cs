@@ -1,5 +1,6 @@
 ﻿using PES.RW_JustUtils;
 using RimWorld;
+using System.Text;
 using Verse;
 
 namespace PreemptiveStrike
@@ -26,16 +27,31 @@ namespace PreemptiveStrike
 			DebugParms(parms, def?.defName);
 		}
 
-		public static void DebugParms(IncidentParms parms, string name = null)
+		public static void DebugParms(IncidentParms parms, string name = null, bool toConsole = false)
 		{
-			Logger.LogNL("IncidentParms:");
-			using var _ = Logger.Scope();
-			Logger.LogNL($"Full[{parms}]");
-			Logger.LogNL($"Quest: [{parms.quest}] " +
-				$"Parts[{parms.quest?.PartsListForReading}] " +
-				$"Tag[{parms.questTag}] " +
-				$"ScriptDef[{parms.questScriptDef}]");
-			Logger.LogNL($"IncidentDef[{name}]");
+			if (!toConsole)
+			{
+				Logger.LogNL("IncidentParms:");
+				Logger.LogNL($"\tFull[{parms}]");
+				Logger.LogNL($"\tQuest: [{parms.quest}] " +
+					$"Parts[{parms.quest?.PartsListForReading}] " +
+					$"Tag[{parms.questTag}] " +
+					$"ScriptDef[{parms.questScriptDef}]");
+				Logger.LogNL($"\tIncidentDef[{name}]");
+			}
+			else
+			{
+				var sb = new StringBuilder();
+				sb.Append("IncidentParms:\n" +
+					$"Full[{parms}]\n" +
+					$"Quest: [{parms.quest}] " +
+					$"Parts[{parms.quest?.PartsListForReading}] " +
+					$"Tag[{parms.questTag}] " +
+					$"ScriptDef[{parms.questScriptDef}]\n" +
+					$"IncidentDef[{name}]");
+
+				Verse.Log.Message(sb.ToString());
+			}
 		}
 
 	}
