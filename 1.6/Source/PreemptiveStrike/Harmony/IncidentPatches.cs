@@ -3,9 +3,11 @@ using PES.RW_JustUtils;
 using PreemptiveStrike.Interceptor;
 using PreemptiveStrike.Mod;
 using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Verse;
+using Verse.Noise;
 
 namespace PreemptiveStrike.Harmony
 {
@@ -100,20 +102,55 @@ namespace PreemptiveStrike.Harmony
 		}
 	}
 
-	//----------------------------------------------------------
+	#region PawnsArrivalModeWorker patches
+	/// <summary>
+	/// Helper: list of classes to patch.
+	/// </summary>
+	internal static class Helper_PawnsArrivalModeWorker_Classes
+	{
+		internal static readonly Type[] TargetTypes = new[]
+		{
+			typeof(PawnsArrivalModeWorker_EdgeWalkIn),
+			typeof(PawnsArrivalModeWorker_EdgeWalkInGroups),
+			typeof(PawnsArrivalModeWorker_EdgeWalkInDarkness),
+			typeof(PawnsArrivalModeWorker_EdgeWalkInDistributed),
+			//typeof(PawnsArrivalModeWorker_EdgeWalkInDistributedGroups),
+			//typeof(PawnsArrivalModeWorker_EdgeWalkInHateChanters),
+		};
+	}
 
-	//PawnsArrivalModeWorker_EdgeWalkInDarkness
-	//IncidentWorker_RaidEnemy
+	/// <summary>
+	/// Logging purpose.
+	/// </summary>
+	[HarmonyPatch]
+	public static class Patch_PawnsArrivalModeWorker_Arrive
+	{
+		private static IEnumerable<MethodBase> TargetMethods()
+		{
+			foreach (var type in Helper_PawnsArrivalModeWorker_Classes.TargetTypes)
+				yield return AccessTools.Method(type, "Arrive");
+		}
 
-	#region Raid Patches
+		public static bool Prefix(object __instance, MethodBase __originalMethod, List<Pawn> pawns)
+		{
+			if (PES_Settings.DebugModeOn)
+			{
+				Logger.LogNL($"[{__instance.GetType().Name}.{__originalMethod.Name}] Prefix.");
+				Logger.LogNL($"\tIs about to generate [{pawns?.Count ?? 0}] pawns.");
+			}
+
+			return true;
+		}
+	}
+
+	//---------------------------------------------------------
 	[HarmonyPatch]
 	public static class Patch_PawnsArrivalModeWorker_WalkIn_Common
 	{
 		private static IEnumerable<MethodBase> TargetMethods()
 		{
-			yield return AccessTools.Method(typeof(PawnsArrivalModeWorker_EdgeWalkIn), "TryResolveRaidSpawnCenter");
-			yield return AccessTools.Method(typeof(PawnsArrivalModeWorker_EdgeWalkInGroups), "TryResolveRaidSpawnCenter");
-			yield return AccessTools.Method(typeof(PawnsArrivalModeWorker_EdgeWalkInDarkness), "TryResolveRaidSpawnCenter");
+			foreach (var type in Helper_PawnsArrivalModeWorker_Classes.TargetTypes)
+				yield return AccessTools.Method(type, "TryResolveRaidSpawnCenter");
 		}
 
 		/// <summary>
@@ -133,7 +170,7 @@ namespace PreemptiveStrike.Harmony
 			var active = IncidentInterceptorUtility.ActiveExecutionParms;
 			if (!ReferenceEquals(parms, active)) return true;
 
-			// Or continue if the spawnCenter by some reason is not valid anymore.
+			// Or continue if the spawnCenter is not valid (it might never have been and will not be).
 			if (!parms.spawnCenter.IsValid) return true;
 
 			// Otherwise - skip new calculations.
@@ -155,8 +192,11 @@ namespace PreemptiveStrike.Harmony
 			if (PES_Settings.DebugModeOn)
 			{
 				Logger.LogNL($"Method [{__instance.GetType().Name}.{__originalMethod.Name}]");
-				Logger.LogNL($"SpawnCenter [{parms.spawnCenter}]");
-				//Debug.DebugParms(parms, __instance.def);
+				if (parms.spawnCenter.IsValid)
+					Logger.LogNL($"SpawnCenter [{parms.spawnCenter}]");
+				else
+					// It is ok for some arrival modes.
+					Logger.LogNL($"No valid SpawnCenter");
 			}
 
 			if (Helper.IsQuest(parms))
@@ -174,8 +214,8 @@ namespace PreemptiveStrike.Harmony
 			{
 				if (PES_Settings.DebugModeOn)
 					Logger.LogNL($"Intercepting...");
-				bool inGroups = __instance is PawnsArrivalModeWorker_EdgeWalkInGroups;
-				if (IncidentInterceptorUtility.Intercept_Raid(parms, inGroups))
+
+				if (IncidentInterceptorUtility.Intercept_Raid(parms, __instance))
 					__result = false;
 			}
 			else if (PES_Settings.DebugModeOn)
@@ -184,7 +224,7 @@ namespace PreemptiveStrike.Harmony
 	}
 	#endregion
 
-	#region Pawn Generation Patches
+	#region Generation Patches
 	[HarmonyPatch(typeof(PawnGroupMakerUtility), "GeneratePawns")]
 	static class Patch_PawnGroupMakerUtility_GeneratePawns
 	{
@@ -228,6 +268,33 @@ namespace PreemptiveStrike.Harmony
 				__result = new List<Pair<List<Pawn>, IntVec3>>();
 			IncidentInterceptorUtility.IsIntercepting_GroupSpliter = GeneratorPatchFlag.Generate;
 			return false;
+		}
+	}
+
+	[HarmonyPatch(typeof(RCellFinder), "TryFindRandomPawnEntryCell")]
+	public static class Patch_RCellFinder_TryFindRandomPawnEntryCell
+	{
+		/// <summary>
+		/// It is used to generate random entry cell for pawns.
+		/// If we pre-generated it, then we simple return the cells one by one.
+		/// </summary>
+		public static bool Prefix(ref bool __result, ref IntVec3 result, Map map)
+		{
+			if (IncidentInterceptorUtility.TryFindRandomPawnEntryCell == GeneratorPatchFlag.ReturnTempList &&
+				IncidentInterceptorUtility.tempEntryCells != null &&
+				IncidentInterceptorUtility.tempEntryCells.Count > 0 &&
+				IncidentInterceptorUtility.ActiveExecutionParms?.target == map)
+			{
+				var list = IncidentInterceptorUtility.tempEntryCells;
+				
+				// Return first cell and remove it from the list. Next pawn will get the next saved cell.
+				result = list[0];
+				list.RemoveAt(0);
+				__result = true;	// original return.
+				return false;		// skip original execution.
+			}
+
+			return true;
 		}
 	}
 	#endregion

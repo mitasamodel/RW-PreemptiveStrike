@@ -45,9 +45,10 @@ namespace PreemptiveStrike.Interceptor
 		public static WorkerPatchType isIntercepting_ThrumboPasses;
 		public static WorkerPatchType isIntercepting_Alphabeavers;
 		public static WorkerPatchType isIntercepting_ManhunterPack;
-		
+
 		// Used in Prefixes to skip re-calculations.
 		public static IncidentParms ActiveExecutionParms;
+		public static GeneratorPatchFlag TryFindRandomPawnEntryCell = GeneratorPatchFlag.Generate;
 		#endregion
 
 		#region Simple Interception Switches
@@ -76,6 +77,7 @@ namespace PreemptiveStrike.Interceptor
 		public static IntVec3 tempSkyfallerCellLoose;
 		public static IntVec3 tempRandomDropCell;
 		public static IntVec3 tempInfestationCell;
+		public static List<IntVec3> tempEntryCells;
 
 		static IncidentInterceptorUtility()
 		{
@@ -114,14 +116,14 @@ namespace PreemptiveStrike.Interceptor
 			IsHoaxingStoryTeller = false;
 		}
 
-		public static bool Intercept_Raid(IncidentParms parms, bool splitInGroups = false)
+		public static bool Intercept_Raid(IncidentParms parms, PawnsArrivalModeWorker worker)
 		{
 			if (PES_Settings.DebugModeOn)
 				Logger.LogNL($"[IncidentInterceptorUtility.Intercept_Raid]");
 			using var _ = Logger.Scope();
 			if (PES_Settings.DebugModeOn)
 			{
-				Logger.LogNL($"Split in groups [{splitInGroups}]");
+				//Logger.LogNL($"Split in groups [{splitInGroups}]");
 				Logger.LogNL($"Faction[{parms?.faction}] Relation[{parms?.faction?.PlayerRelationKind}] Trader[{parms?.traderKind}]");
 				Helper.IsQuest(parms);
 			}
@@ -130,11 +132,14 @@ namespace PreemptiveStrike.Interceptor
 				return false;
 			if (parms.faction.PlayerRelationKind != FactionRelationKind.Hostile)
 				return false;
-			InterceptedIncident incident;
-			if (splitInGroups)
-				incident = new InterceptedIncident_HumanCrowd_RaidEnemy_Groups();
-			else
-				incident = new InterceptedIncident_HumanCrowd_RaidEnemy();
+
+			InterceptedIncident incident = worker switch
+			{
+				PawnsArrivalModeWorker_EdgeWalkInDistributed _ => new InterceptedIncident_HumanCrowd_RaidEnemy_Distributed(),
+				PawnsArrivalModeWorker_EdgeWalkInGroups _ => new InterceptedIncident_HumanCrowd_RaidEnemy_Groups(),
+				_ => new InterceptedIncident_HumanCrowd_RaidEnemy(),
+			};
+
 			if (CurrentIncidentDef == null)
 			{
 				Logger.Log_Warning($"A raid incident [{parms}] is not compatible with Preemptive Strike. Vanilla execution will run.");
@@ -334,8 +339,6 @@ namespace PreemptiveStrike.Interceptor
 			if (PES_Settings.DebugModeOn)
 				Logger.LogNL($"[IncidentInterceptorUtility.GenerateRaidPawns]");
 			using var _ = Logger.Scope();
-			//if (PES_Settings.DebugModeOn)
-			//	Helper.IsQuest(parms);
 
 			IsIntercepting_PawnGeneration = GeneratorPatchFlag.Generate;
 
