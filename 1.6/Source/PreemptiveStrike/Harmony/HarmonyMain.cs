@@ -25,14 +25,25 @@ namespace PreemptiveStrike.Harmony
 			if (PES_Settings.DebugModeOn)
 			{
 				// Generate a log with info about unpatched PawnsArrivalModeWorker children.
-				LogPatchedMethod(typeof(PawnsArrivalModeWorker), "TryResolveRaidSpawnCenter", new[] { typeof(IncidentParms) });
+				LogPatchedMethod(typeof(PawnsArrivalModeWorker), "TryResolveRaidSpawnCenter", new[] { typeof(IncidentParms) },
+					overrides: true);
 				Logger.LogNL("");
+
 				// Unpatched IncidentWorker.
-				LogPatchedMethod(typeof(IncidentWorker), "TryExecuteWorker", new[] { typeof(IncidentParms) });
+				//LogPatchedMethod(typeof(IncidentWorker), "TryExecuteWorker", new[] { typeof(IncidentParms) });
+				//Logger.LogNL("");
+
+				// PawnsArrivalModeWorker_xxx.Arrive
+				LogPatchedMethod(typeof(PawnsArrivalModeWorker), "Arrive", new[] { typeof(List<Pawn>), typeof(IncidentParms) },
+					overrides: true);
+				Logger.LogNL("");
+
+				LogPatchedMethod(typeof(RCellFinder), "TryFindRandomPawnEntryCell");
+				Logger.LogNL("");
 			}
 		}
 
-		private static void LogPatchedMethod(Type baseType, string methodName, Type[] parameterTypes)
+		private static void LogPatchedMethod(Type baseType, string methodName, Type[] parameterTypes = null, bool overrides = false)
 		{
 			var harmonyId = instance?.Id ?? "DrCarlLuo.Rimworld.PreemptiveStrike";
 			var missing = new List<Type>();
@@ -56,14 +67,42 @@ namespace PreemptiveStrike.Harmony
 				}
 			}
 
-			foreach (var t in AllTypes())
-			{
-				// Skip abstract and if it is not subclass of PawnsArrivalModeWorker.
-				if (t.IsAbstract || !t.IsSubclassOf(baseType)) continue;
+			IEnumerable<Type> targetTypes =
+				AllTypes().Where(t => t == baseType || t.IsSubclassOf(baseType));
 
-				// Only consider types that DECLARE an override (not just inherit the base implementation).
-				var method = AccessTools.DeclaredMethod(t, methodName,
-													   parameterTypes);
+			foreach (var t in targetTypes)
+			{
+				MethodInfo method = null;
+
+				// No parameters provided. Try resolve by name only.
+				if (parameterTypes == null)
+				{
+					List<MethodInfo> candidates = new List<MethodInfo>();
+					if (overrides)
+					{
+						if (!t.IsSubclassOf(baseType)) continue;
+						candidates = AccessTools.GetDeclaredMethods(t);
+					}
+					else
+						candidates = t.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static)
+						.Where(m => m.Name == methodName).ToList();
+
+					if (candidates.Count == 1)
+						method = candidates[0];
+					else
+						Logger.LogNL($"Info [{baseType.Name}.{methodName}]\n\tMore than 1 method fit\n");
+				}
+				else
+				{
+					if (overrides)
+					{
+						if (!t.IsSubclassOf(baseType)) continue;
+						method = AccessTools.DeclaredMethod(t, methodName, parameterTypes);
+					}
+					else
+						AccessTools.Method(t, methodName, parameterTypes);
+				}
+
 				if (method == null) continue;
 
 				var info = HarmonyLib.Harmony.GetPatchInfo(method);
@@ -74,15 +113,18 @@ namespace PreemptiveStrike.Harmony
 
 			if (patched.Count > 0)
 			{
-				Logger.LogNL($"[Patched {baseType.Name}]");
-				Logger.LogNL(string.Join("\n", patched.Select(x => x.FullName)));
+				Logger.LogNL($"Patched [{baseType.Name}.{methodName}]");
+				Logger.LogNL("\t" + string.Join("\n\t", patched.Select(x => x.FullName)));
 			}
 
 			if (missing.Count > 0)
 			{
-				Logger.LogNL($"[Missing {baseType.Name}]");
-				Logger.LogNL(string.Join("\n", missing.Select(x => x.FullName)));
+				Logger.LogNL($"Not patched [{baseType.Name}.{methodName}]");
+				Logger.LogNL("\t" + string.Join("\n\t", missing.Select(x => x.FullName)));
 			}
+
+			if (patched.Count == 0 && missing.Count == 0)
+				Logger.LogNL($"No patches for [{baseType.Name}.{methodName}] found");
 		}
 
 		static void ManualPatchings()
