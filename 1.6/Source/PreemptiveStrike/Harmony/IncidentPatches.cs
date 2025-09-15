@@ -115,7 +115,7 @@ namespace PreemptiveStrike.Harmony
 			typeof(PawnsArrivalModeWorker_EdgeWalkInDarkness),
 			typeof(PawnsArrivalModeWorker_EdgeWalkInDistributed),
 			typeof(PawnsArrivalModeWorker_EdgeWalkInDistributedGroups),
-			//typeof(PawnsArrivalModeWorker_EdgeWalkInHateChanters),
+			typeof(PawnsArrivalModeWorker_EdgeWalkInHateChanters),
 		};
 	}
 
@@ -202,11 +202,25 @@ namespace PreemptiveStrike.Harmony
 			if (Helper.IsQuest(parms))
 				return;
 
-			//This is a temporary fix for refugee chased
+			// This is a temporary fix for refugee chased.
 			if (IncidentInterceptorUtility.IncidentInQueue(parms, IncidentDefOf.RaidEnemy))
 			{
 				if (PES_Settings.DebugModeOn)
 					Logger.LogNL("Temporary fix for refugee chased.");
+				return;
+			}
+
+			// Need feedback about gameplay to understand when does it happen exactly.
+			if ( __instance is PawnsArrivalModeWorker_EdgeWalkInHateChanters)
+			{
+				Logger.Log_Warning($"Please report this data to mod author.");
+				if (PES_Settings.DebugModeOn)
+				{
+					Logger.LogNL($"[PawnsArrivalModeWorker_EdgeWalkInHateChanters] Strategy[{parms.raidStrategy.Worker.GetType().Name}]");
+					Debug.DebugParms(parms);
+				}
+				Verse.Log.Message($"[PawnsArrivalModeWorker_EdgeWalkInHateChanters] Strategy[{parms.raidStrategy.Worker.GetType().Name}]");
+				Debug.DebugParms(parms, toConsole: true);
 				return;
 			}
 
