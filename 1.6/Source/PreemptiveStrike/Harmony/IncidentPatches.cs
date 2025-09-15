@@ -271,7 +271,7 @@ namespace PreemptiveStrike.Harmony
 			if (PES_Settings.DebugModeOn)
 			{
 				Logger.LogNL($"[PawnsArrivalModeWorkerUtility.SplitIntoRandomGroupsNearMapEdge] Prefix.");
-				Logger.LogNL($"\t IsIntercepting_GroupSpliter flag [{IncidentInterceptorUtility.IsIntercepting_GroupSpliter}]");
+				Logger.LogNL($"\tIsIntercepting_GroupSpliter flag [{IncidentInterceptorUtility.IsIntercepting_GroupSpliter}]");
 			}
 
 			if (IncidentInterceptorUtility.IsIntercepting_GroupSpliter == GeneratorPatchFlag.Generate)
@@ -296,7 +296,7 @@ namespace PreemptiveStrike.Harmony
 			if (PES_Settings.DebugModeOn)
 			{
 				Logger.LogNL($"[{__instance.GetType().Name}.{__originalMethod.Name}] Prefix.");
-				Logger.LogNL($"\t IsIntercepting_GroupSpliter flag [{IncidentInterceptorUtility.IsIntercepting_GroupSpliter}]");
+				Logger.LogNL($"\tIsIntercepting_GroupSpliter flag [{IncidentInterceptorUtility.IsIntercepting_GroupSpliter}]");
 			}
 
 			if (IncidentInterceptorUtility.IsIntercepting_GroupSpliter == GeneratorPatchFlag.Generate)
@@ -343,11 +343,10 @@ namespace PreemptiveStrike.Harmony
 				result = list[0];
 				list.RemoveAt(0);
 				__result = true;    // original return.
-				IncidentInterceptorUtility.TryFindRandomPawnEntryCell = GeneratorPatchFlag.Generate;
 				return false;       // skip original execution.
 			}
 
-			IncidentInterceptorUtility.TryFindRandomPawnEntryCell = GeneratorPatchFlag.Generate;
+			//IncidentInterceptorUtility.TryFindRandomPawnEntryCell = GeneratorPatchFlag.Generate;
 			return true;
 		}
 	}
