@@ -49,7 +49,7 @@ namespace PreemptiveStrike.Interceptor
             Scribe_Values.Look(ref DropSpot, "DropSpot", IntVec3.Zero);
         }
 
-        public override void confirmMessage()
+        public override void ConfirmMessage()
         {
             SparkUILetter.Make("PES_Warning_ShipPart".Translate(), "PES_Warning_Shippart_Text".Translate(), LetterDefOf.NeutralEvent, parentCaravan);
         }

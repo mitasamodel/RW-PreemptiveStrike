@@ -85,8 +85,7 @@
     <Compile Include="Interceptor\InterceptedIncident_HumanCrowd_RaidEnemy_DistributedGroups.cs" />
     <Compile Include="Interceptor\InterceptedIncident_Infestation.cs" />
     <Compile Include="Interceptor\InterceptedIncident_SkyFaller.cs" />
-    <Compile Include="Interceptor\InterceptedIncident_SkyFaller_CenterDrop.cs" />
-    <Compile Include="Interceptor\InterceptedIncident_SkyFaller_EdgeDrop.cs" />
+    <Compile Include="Interceptor\InterceptedIncident_SkyFaller_DropPodAssault.cs" />
     <Compile Include="Interceptor\InterceptedIncident_SkyFaller_EdgeDropGroup.cs" />
     <Compile Include="Interceptor\InterceptedIncident_SkyFaller_MeteoriteImpact.cs" />
     <Compile Include="Interceptor\InterceptedIncident_SkyFaller_RandomDrop.cs" />

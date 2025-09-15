@@ -18,6 +18,7 @@ namespace PreemptiveStrike.Harmony
 			typeof(PawnsArrivalModeWorker_CenterDrop),
 			typeof(PawnsArrivalModeWorker_EdgeDropGroups),
 			typeof(PawnsArrivalModeWorker_RandomDrop),
+			typeof(PawnsArrivalModeWorker_SpecificLocationDrop),
 		};
 	}
 
@@ -36,39 +37,44 @@ namespace PreemptiveStrike.Harmony
 			if (PES_Settings.DebugModeOn)
 				Logger.LogNL($"[{__instance.GetType().Name}.{__originalMethod.Name}] Postfix.");
 			using var _ = Logger.Scope();
-			if (PES_Settings.DebugModeOn)
-				Debug.DebugParms(parms);
+			//if (PES_Settings.DebugModeOn)
+			//	Debug.DebugParms(parms);
 
 			if (Helper.IsQuest(parms))
 				return;
 
-			switch (__instance)
+			var curIncDef = IncidentInterceptorUtility.CurrentIncidentDef;
+
+			if (IncidentInterceptorUtility.isIntercepting_DropPodAssault)
 			{
-				case PawnsArrivalModeWorker_RandomDrop _:
-					if (IncidentInterceptorUtility.isIntercepting_RandomDrop)
+				switch (__instance)
+				{
+					case PawnsArrivalModeWorker_SpecificLocationDrop _:
+						__result = !IncidentInterceptorUtility.Intercept_SkyFaller<InterceptedIncident_SkyFaller_DropPodAssault>(
+							curIncDef, parms, true, true);
+						break;
+					case PawnsArrivalModeWorker_RandomDrop _:
 						__result = !IncidentInterceptorUtility.Intercept_SkyFaller<InterceptedIncident_SkyFaller_RandomDrop>(
-							IncidentInterceptorUtility.CurrentIncidentDef, parms, true, true);
-					break;
-				case PawnsArrivalModeWorker_EdgeDropGroups _:
-					if (IncidentInterceptorUtility.isIntercepting_EdgeDropGroup)
+							curIncDef, parms, true, true);
+						break;
+					case PawnsArrivalModeWorker_EdgeDropGroups _:
 						__result = !IncidentInterceptorUtility.Intercept_SkyFaller<InterceptedIncident_SkyFaller_EdgeDropGroup>(
-							IncidentInterceptorUtility.CurrentIncidentDef, parms, true);
-					break;
-				case PawnsArrivalModeWorker_CenterDrop _:
-					if (IncidentInterceptorUtility.isIntercepting_CenterDrop)
-						__result = !IncidentInterceptorUtility.Intercept_SkyFaller<InterceptedIncident_SkyFaller_CenterDrop>(
-							IncidentInterceptorUtility.CurrentIncidentDef, parms, true, true);
-					break;
-				case PawnsArrivalModeWorker_EdgeDrop _:
-					if (IncidentInterceptorUtility.isIntercepting_EdgeDrop)
-						__result = !IncidentInterceptorUtility.Intercept_SkyFaller<InterceptedIncident_SkyFaller_EdgeDrop>(
-							IncidentInterceptorUtility.CurrentIncidentDef, parms, true, true);
-					break;
-				default:
-					Logger.Log_Error($"Drop incident not implemented. Please report it to mod author\n" +
-						$"[{__instance.GetType().Name}.{__originalMethod.Name}]");
-					Debug.DebugParms(parms, toConsole: true);
-					break;
+							curIncDef, parms, true);
+						break;
+					case PawnsArrivalModeWorker_CenterDrop _:
+						__result = !IncidentInterceptorUtility.Intercept_SkyFaller<InterceptedIncident_SkyFaller_DropPodAssault>(
+							curIncDef, parms, true, true);
+						break;
+					case PawnsArrivalModeWorker_EdgeDrop _:
+						__result = !IncidentInterceptorUtility.Intercept_SkyFaller<InterceptedIncident_SkyFaller_DropPodAssault>(
+							curIncDef, parms, true, true);
+						break;
+					default:
+						Logger.Log_Error($"Drop incident not implemented. Please report it to mod author\n" +
+							$"[{__instance.GetType().Name}.{__originalMethod.Name}]");
+						Debug.DebugParms(parms, toConsole: true);
+						break;
+				}
 			}
 		}
 	}

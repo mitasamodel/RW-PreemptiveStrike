@@ -26,7 +26,7 @@ namespace PreemptiveStrike.IncidentCaravan
 				{
 					detected = true;
 					if (incident is InterceptedIncident_SkyFaller skyfallincident)
-						skyfallincident.detectMessage();
+						skyfallincident.DetectMessage();
 					EventManger.NotifyCaravanListChange?.Invoke();
 				}
 			}
@@ -83,7 +83,7 @@ namespace PreemptiveStrike.IncidentCaravan
 				return;
 			if (incident is InterceptedIncident_SkyFaller skyfallincident)
 			{
-				skyfallincident.confirmMessage();
+				skyfallincident.ConfirmMessage();
 			}
 			relationInformed = true;
 		}

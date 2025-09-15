@@ -52,8 +52,9 @@ namespace PreemptiveStrike.Interceptor
 		#endregion
 
 		#region Simple Interception Switches
-		public static bool isIntercepting_EdgeDrop;
-		public static bool isIntercepting_CenterDrop;
+		public static bool isIntercepting_DropPodAssault = true;
+		//public static bool isIntercepting_EdgeDrop;
+		//public static bool isIntercepting_CenterDrop;
 		public static bool isIntercepting_EdgeDropGroup;
 		public static bool isIntercepting_RandomDrop;
 
@@ -96,8 +97,8 @@ namespace PreemptiveStrike.Interceptor
 			isIntercepting_Alphabeavers = WorkerPatchType.Forestall;
 			isIntercepting_ManhunterPack = WorkerPatchType.Forestall;
 
-			isIntercepting_EdgeDrop = true;
-			isIntercepting_CenterDrop = true;
+			//isIntercepting_EdgeDrop = true;
+			//isIntercepting_CenterDrop = true;
 			isIntercepting_EdgeDropGroup = true;
 			isIntercepting_RandomDrop = true;
 
@@ -235,11 +236,11 @@ namespace PreemptiveStrike.Interceptor
 			if (PES_Settings.DebugModeOn)
 				Logger.LogNL($"[IncidentInterceptorUtility.Intercept_SkyFaller]");
 			using var _ = Logger.Scope();
-			if (PES_Settings.DebugModeOn)
-				Debug.DebugParms(parms, incidentDef);
+			//if (PES_Settings.DebugModeOn)
+			//	Debug.DebugParms(parms, incidentDef);
 
-			if (Helper.IsQuest(parms))
-				return false;
+			//if (Helper.IsQuest(parms))
+			//	return false;
 
 			//Lt.Bob - Moved null check in front of hostile faction check.  Attempt to resolve issue with quest rewards of pawns.
 			if (incidentDef == null)

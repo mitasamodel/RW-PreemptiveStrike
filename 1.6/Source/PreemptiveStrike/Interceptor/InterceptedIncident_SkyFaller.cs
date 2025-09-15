@@ -43,9 +43,9 @@ namespace PreemptiveStrike.Interceptor
 			}
 		}
 
-		public abstract void confirmMessage();
+		public abstract void ConfirmMessage();
 
-		public virtual void detectMessage()
+		public virtual void DetectMessage()
 		{
 			if (FallerType == SkyFallerType.Big)
 				Messages.Message("PES_Spot_SkyFaller_Big".Translate(), MessageTypeDefOf.NeutralEvent);

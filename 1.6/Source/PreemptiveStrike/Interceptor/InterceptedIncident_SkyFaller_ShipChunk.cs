@@ -51,7 +51,7 @@ namespace PreemptiveStrike.Interceptor
             Scribe_Values.Look(ref DropSpot, "DropSpot", IntVec3.Zero);
         }
 
-        public override void confirmMessage()
+        public override void ConfirmMessage()
         {
             Messages.Message("PES_Notify_ShipChunk".Translate(), MessageTypeDefOf.NeutralEvent);
         }

@@ -52,7 +52,7 @@ namespace PreemptiveStrike.Interceptor
             Scribe_Values.Look(ref DropSpot, "DropSpot", IntVec3.Zero);
         }
 
-        public override void confirmMessage()
+        public override void ConfirmMessage()
         {
             SparkUILetter.Make("PES_Warning_Meteorite".Translate(), "PES_Warning_Meteorite_Text".Translate(), LetterDefOf.NeutralEvent, parentCaravan);
         }
