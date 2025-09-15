@@ -7,48 +7,54 @@ using Verse;
 
 namespace PreemptiveStrike.Interceptor
 {
-    class InterceptedIncident_HumanCrowd_RaidEnemy_Groups : InterceptedIncident_HumanCrowd_RaidEnemy
-    {
-        private List<Pair<List<Pawn>, IntVec3>> _groupList;
-        private GroupListStorage _storage;
+	class InterceptedIncident_HumanCrowd_RaidEnemy_Groups : InterceptedIncident_HumanCrowd_RaidEnemy
+	{
+		private List<Pair<List<Pawn>, IntVec3>> _groupList;
+		private GroupListStorage _storage;
 
-        public override string IntentionStr => "PES_Intention_RaidGroup".Translate();
+		public override string IntentionStr => "PES_Intention_RaidGroup".Translate();
 
-        protected override void ResolveLookTargets()
-        {
-            IncidentInterceptorUtility.IsIntercepting_GroupSpliter = GeneratorPatchFlag.Generate;
+		protected override void ResolveLookTargets()
+		{
+			IncidentInterceptorUtility.IsIntercepting_GroupSpliter = GeneratorPatchFlag.Generate;
 
 			// Generate groups from pawn list.
-            _groupList = PawnsArrivalModeWorkerUtility.SplitIntoRandomGroupsNearMapEdge(pawnList, parms.target as Map, false);
+			_groupList = PawnsArrivalModeWorkerUtility.SplitIntoRandomGroupsNearMapEdge(pawnList, parms.target as Map, false);
 
 			// Convert the list of pairs into something, which can be stored in save file with Expose.
-            _storage = new GroupListStorage(_groupList);
+			_storage = new GroupListStorage(_groupList);
 
 			// Create Dictionary and store in parms.
-            PawnsArrivalModeWorkerUtility.SetPawnGroupsInfo(parms, _groupList);
+			PawnsArrivalModeWorkerUtility.SetPawnGroupsInfo(parms, _groupList);
 
 			// List of targets for indication.
-            var lookList = new List<TargetInfo>();
-            foreach (var pair in _groupList)
-            {
-                if (pair.First.Count > 0)
-                    lookList.Add(new TargetInfo(pair.Second, parms.target as Map, false));
-            }
-            lookTargets = lookList;
-        }
+			var lookList = new List<TargetInfo>();
+			foreach (var pair in _groupList)
+			{
+				if (pair.First.Count > 0)
+					lookList.Add(new TargetInfo(pair.Second, parms.target as Map, false));
+			}
+			lookTargets = lookList;
+		}
 
 		public override void ExecuteNow()
-        {
-            IncidentInterceptorUtility.tempGroupList = _storage.RebuildList();
-            IncidentInterceptorUtility.IsIntercepting_GroupSpliter = GeneratorPatchFlag.ReturnTempList;
-            base.ExecuteNow();
-            IncidentInterceptorUtility.IsIntercepting_GroupSpliter = GeneratorPatchFlag.Generate;
-        }
+		{
+			IncidentInterceptorUtility.tempGroupList = _storage.RebuildList();
+			IncidentInterceptorUtility.IsIntercepting_GroupSpliter = GeneratorPatchFlag.ReturnTempList;
+			try
+			{
+				base.ExecuteNow();
+			}
+			finally
+			{
+				IncidentInterceptorUtility.IsIntercepting_GroupSpliter = GeneratorPatchFlag.Generate;
+			}
+		}
 
-        public override void ExposeData()
-        {
-            base.ExposeData();
-            Scribe_Deep.Look(ref _storage, "storage");
-        }
-    }
+		public override void ExposeData()
+		{
+			base.ExposeData();
+			Scribe_Deep.Look(ref _storage, "storage");
+		}
+	}
 }
