@@ -135,6 +135,7 @@ namespace PreemptiveStrike.Interceptor
 
 			InterceptedIncident incident = worker switch
 			{
+				PawnsArrivalModeWorker_EdgeWalkInDistributedGroups _ => new InterceptedIncident_HumanCrowd_RaidEnemy_DistributedGroups(),
 				PawnsArrivalModeWorker_EdgeWalkInDistributed _ => new InterceptedIncident_HumanCrowd_RaidEnemy_Distributed(),
 				PawnsArrivalModeWorker_EdgeWalkInGroups _ => new InterceptedIncident_HumanCrowd_RaidEnemy_Groups(),
 				_ => new InterceptedIncident_HumanCrowd_RaidEnemy(),

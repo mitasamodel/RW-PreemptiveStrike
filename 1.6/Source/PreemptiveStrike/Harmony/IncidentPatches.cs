@@ -114,7 +114,7 @@ namespace PreemptiveStrike.Harmony
 			typeof(PawnsArrivalModeWorker_EdgeWalkInGroups),
 			typeof(PawnsArrivalModeWorker_EdgeWalkInDarkness),
 			typeof(PawnsArrivalModeWorker_EdgeWalkInDistributed),
-			//typeof(PawnsArrivalModeWorker_EdgeWalkInDistributedGroups),
+			typeof(PawnsArrivalModeWorker_EdgeWalkInDistributedGroups),
 			//typeof(PawnsArrivalModeWorker_EdgeWalkInHateChanters),
 		};
 	}
@@ -271,6 +271,44 @@ namespace PreemptiveStrike.Harmony
 		}
 	}
 
+	/// <summary>
+	/// Patch private method in PawnsArrivalModeWorker_EdgeWalkInDistributedGroups.
+	/// </summary>
+	[HarmonyPatch(typeof(PawnsArrivalModeWorker_EdgeWalkInDistributedGroups), "SplitIntoRandomGroupsNearMapEdge")]
+	static class Patch_PawnsArrivalModeWorker_EdgeWalkInDistributedGroups_SplitIntoRandomGroupsNearMapEdge
+	{
+		static bool Prefix(object __instance, MethodBase __originalMethod, ref List<Pair<List<Pawn>, IntVec3>> __result)
+		{
+			if (PES_Settings.DebugModeOn)
+			{
+				Logger.LogNL($"[{__instance.GetType().Name}.{__originalMethod.Name}] Prefix.");
+				Logger.LogNL($"\t IsIntercepting_GroupSpliter flag [{IncidentInterceptorUtility.IsIntercepting_GroupSpliter}]");
+			}
+
+			if (IncidentInterceptorUtility.IsIntercepting_GroupSpliter == GeneratorPatchFlag.Generate)
+				return true;
+			if (IncidentInterceptorUtility.IsIntercepting_GroupSpliter == GeneratorPatchFlag.ReturnTempList)
+				__result = IncidentInterceptorUtility.tempGroupList;
+			else
+				__result = new List<Pair<List<Pawn>, IntVec3>>();
+			IncidentInterceptorUtility.IsIntercepting_GroupSpliter = GeneratorPatchFlag.Generate;
+			return false;
+		}
+
+		/// <summary>
+		/// This will allow to call this private method from our class.
+		/// </summary>
+		[HarmonyReversePatch]
+		[HarmonyPatch(typeof(PawnsArrivalModeWorker_EdgeWalkInDistributedGroups), "SplitIntoRandomGroupsNearMapEdge")]
+		public static List<Pair<List<Pawn>, IntVec3>> Call(
+			PawnsArrivalModeWorker_EdgeWalkInDistributedGroups __instance,
+			List<Pawn> pawns, Map map)
+		{
+			// This will be replaced at runtime with the private method body.
+			throw new NotImplementedException("Stub for Harmony reverse patch");
+		}
+	}
+
 	[HarmonyPatch(typeof(RCellFinder), "TryFindRandomPawnEntryCell")]
 	public static class Patch_RCellFinder_TryFindRandomPawnEntryCell
 	{
@@ -286,14 +324,16 @@ namespace PreemptiveStrike.Harmony
 				IncidentInterceptorUtility.ActiveExecutionParms?.target == map)
 			{
 				var list = IncidentInterceptorUtility.tempEntryCells;
-				
+
 				// Return first cell and remove it from the list. Next pawn will get the next saved cell.
 				result = list[0];
 				list.RemoveAt(0);
-				__result = true;	// original return.
-				return false;		// skip original execution.
+				__result = true;    // original return.
+				IncidentInterceptorUtility.TryFindRandomPawnEntryCell = GeneratorPatchFlag.Generate;
+				return false;       // skip original execution.
 			}
 
+			IncidentInterceptorUtility.TryFindRandomPawnEntryCell = GeneratorPatchFlag.Generate;
 			return true;
 		}
 	}
