@@ -9,8 +9,8 @@ namespace PreemptiveStrike.Interceptor
 {
 	class InterceptedIncident_HumanCrowd_RaidEnemy_Groups : InterceptedIncident_HumanCrowd_RaidEnemy
 	{
-		private List<Pair<List<Pawn>, IntVec3>> _groupList;
-		private GroupListStorage _storage;
+		protected List<Pair<List<Pawn>, IntVec3>> _groupList;
+		protected GroupListStorage _storage;
 
 		public override string IntentionStr => "PES_Intention_RaidGroup".Translate();
 
@@ -28,13 +28,7 @@ namespace PreemptiveStrike.Interceptor
 			PawnsArrivalModeWorkerUtility.SetPawnGroupsInfo(parms, _groupList);
 
 			// List of targets for indication.
-			var lookList = new List<TargetInfo>();
-			foreach (var pair in _groupList)
-			{
-				if (pair.First.Count > 0)
-					lookList.Add(new TargetInfo(pair.Second, parms.target as Map, false));
-			}
-			lookTargets = lookList;
+			SetLookTargets();
 		}
 
 		public override void ExecuteNow()
@@ -55,6 +49,17 @@ namespace PreemptiveStrike.Interceptor
 		{
 			base.ExposeData();
 			Scribe_Deep.Look(ref _storage, "storage");
+		}
+
+		protected virtual void SetLookTargets()
+		{
+			var lookList = new List<TargetInfo>();
+			foreach (var pair in _groupList)
+			{
+				if (pair.First.Count > 0)
+					lookList.Add(new TargetInfo(pair.Second, parms.target as Map, false));
+			}
+			lookTargets = lookList;
 		}
 	}
 }
