@@ -55,8 +55,8 @@ namespace PreemptiveStrike.Interceptor
 		public static bool isIntercepting_DropPodAssault = true;
 		//public static bool isIntercepting_EdgeDrop;
 		//public static bool isIntercepting_CenterDrop;
-		public static bool isIntercepting_EdgeDropGroup;
-		public static bool isIntercepting_RandomDrop;
+		//public static bool isIntercepting_EdgeDropGroup;
+		//public static bool isIntercepting_RandomDrop;
 
 		public static GeneratorPatchFlag IsIntercepting_SkyfallerCell_Loose;
 		public static GeneratorPatchFlag IsIntercepting_RandomDropSpot;
@@ -99,8 +99,8 @@ namespace PreemptiveStrike.Interceptor
 
 			//isIntercepting_EdgeDrop = true;
 			//isIntercepting_CenterDrop = true;
-			isIntercepting_EdgeDropGroup = true;
-			isIntercepting_RandomDrop = true;
+			//isIntercepting_EdgeDropGroup = true;
+			//isIntercepting_RandomDrop = true;
 
 			IsIntercepting_SkyfallerCell_Loose = GeneratorPatchFlag.Generate;
 			IsIntercepting_RandomDropSpot = GeneratorPatchFlag.Generate;
