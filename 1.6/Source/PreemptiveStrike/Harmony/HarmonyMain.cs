@@ -34,11 +34,16 @@ namespace PreemptiveStrike.Harmony
 				//Logger.LogNL("");
 
 				// PawnsArrivalModeWorker_xxx.Arrive
-				LogPatchedMethod(typeof(PawnsArrivalModeWorker), "Arrive", new[] { typeof(List<Pawn>), typeof(IncidentParms) },
-					overrides: true);
-				Logger.LogNL("");
+				//LogPatchedMethod(typeof(PawnsArrivalModeWorker), "Arrive", new[] { typeof(List<Pawn>), typeof(IncidentParms) },
+				//	overrides: true);
+				//Logger.LogNL("");
 
-				LogPatchedMethod(typeof(RCellFinder), "TryFindRandomPawnEntryCell");
+				//LogPatchedMethod(typeof(RCellFinder), "TryFindRandomPawnEntryCell");
+				//Logger.LogNL("");
+
+				LogPatchedMethod(typeof(RaidStrategyWorker), "TryGenerateThreats");
+				Logger.LogNL("");
+				LogPatchedMethod(typeof(RaidStrategyWorker), "SpawnThreats");
 				Logger.LogNL("");
 			}
 		}
