@@ -18,6 +18,7 @@ namespace PreemptiveStrike.Harmony
 		static HarmonyMain()
 		{
 			instance = new HarmonyLib.Harmony("DrCarlLuo.Rimworld.PreemptiveStrike");   //Lt. Bob: 1.1
+			//HarmonyLib.Harmony.DEBUG = true;
 			instance.PatchAll(Assembly.GetExecutingAssembly());
 			ManualPatchings();
 

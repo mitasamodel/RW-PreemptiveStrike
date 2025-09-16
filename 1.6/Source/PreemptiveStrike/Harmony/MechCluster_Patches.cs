@@ -63,6 +63,12 @@ namespace PreemptiveStrike.Harmony
 			[HarmonyTranspiler]
 			internal static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il)
 			{
+				//Logger.LogNL("==Instructions==");
+				//foreach(var ins in instructions)
+				//{
+				//	Logger.LogNL(ins.ToString());
+				//}
+
 				var matcher = new CodeMatcher(instructions, il);
 
 				// Define label for jumping to second method.
@@ -104,41 +110,42 @@ namespace PreemptiveStrike.Harmony
 				).ThrowIfInvalid("Can not find location of 'center'");
 				int centerLocalIndex = matcher.InstructionAt(0).LocalIndex();
 
-				// Find the call SpawnCluster().
-				matcher.MatchStartForward(
-					new CodeMatch(OpCodes.Call, MI_SpawnCluster)            // Call.
-				).ThrowIfInvalid("Can not find call SpawnCluster()");
-				// But there are a bunch of variables on the stack for SpawnCluster().
-				// Easiest way to deal with them is to go back until we find ldloc for 'center' (and we know the index).
-				matcher.MatchStartBackwards(
-					new CodeMatch(ci => IsLoadOfLocal(ci, centerLocalIndex))
-				).ThrowIfInvalid("Can not find load 'center'");
-				// Label for Spawn.
-				var labelSpawn = il.DefineLabel();
+				// Place our label and Processing method right after that.
+				matcher.Advance(1);
+				// Label to cnotinue.
+				var labelContinue = il.DefineLabel();
 				// Now we can insert our logic here.
 				matcher.Insert(
-					new CodeInstruction(OpCodes.Nop).WithLabels(labelProcessing),
-					//new CodeInstruction(OpCodes.Ldarg_1).WithLabels(labelProcessing),   // Push 'parms'.
-					new CodeInstruction(OpCodes.Ldarg_1),   // Push 'parms'.
+					new CodeInstruction(OpCodes.Ldarg_1).WithLabels(labelProcessing),   // Push 'parms'.
 					new CodeInstruction(OpCodes.Ldloca_S, (short)centerLocalIndex),     // Push address of 'center'.
 					new CodeInstruction(OpCodes.Ldloca_S, (short)sketchLocalIndex),     // Push address of 'sketch'.
 					new CodeInstruction(OpCodes.Ldarg_0),                               // Push '__instance'.
 					new CodeInstruction(OpCodes.Call, MI_Processing),                   // Call Processing(). Returns bool.
 
-					// If true, then continue to SpawnCluster().
+					// If true, then continue.
 					// If false, then return from the main method with false.
-					new CodeInstruction(OpCodes.Brtrue_S, labelSpawn),                  // true -> jump to label for Spawn (params).
+					new CodeInstruction(OpCodes.Brtrue_S, labelContinue),                  // true -> jump to label.
 					new CodeInstruction(OpCodes.Ldc_I4_0),                              // Push '0'
 					new CodeInstruction(OpCodes.Ret),                                   // Return
-					new CodeInstruction(OpCodes.Nop).WithLabels(labelSpawn)             // label for Spawn.
+					new CodeInstruction(OpCodes.Nop).WithLabels(labelContinue)             // label.
 				);
 
-				Logger.LogNL($"sketch index [{sketchLocalIndex}]");
-				Logger.LogNL($"center index [{centerLocalIndex}]");
+				//Logger.LogNL($"sketch index [{sketchLocalIndex}]");
+				//Logger.LogNL($"center index [{centerLocalIndex}]");
+
+				//Logger.LogNL("==Matcher Instructions==");
+				//foreach (var ins in matcher.InstructionEnumeration())
+				//{
+				//	Logger.LogNL(ins.ToString());
+				//}
 
 				return matcher.InstructionEnumeration();
 			}
 
+			/// <summary>
+			/// This was sugested by chatGPT. I decided, that it is good enough, so I will not modify anything.
+			/// Checks if the current instruction is a push of a local with a pre-defined index.
+			/// </summary>
 			static bool IsLoadOfLocal(in CodeInstruction ci, int localIndex)
 			{
 				var op = ci.opcode;
@@ -193,28 +200,30 @@ namespace PreemptiveStrike.Harmony
 				if (PES_Settings.DebugModeOn)
 					Logger.LogNL($"Worker mode [{IncidentInterceptorUtility.Interception_MechCluster}].");
 
-				// First run. Got values calculated.
-				if (IncidentInterceptorUtility.Interception_MechCluster == MechClusterWorkerType.Steady)
-				{
+				Verse.Log.Warning("Processing");
 
-				}
-				// Second run. Execute -> Spawn.
-				else if (IncidentInterceptorUtility.Interception_MechCluster == MechClusterWorkerType.Execute)
-				{
-					// Sketch.
-					if (IncidentInterceptorUtility.tempMechClusterSketch != null)
-						sketch = IncidentInterceptorUtility.tempMechClusterSketch;
-					else
-					{
-						if (PES_Settings.DebugModeOn)
-							Logger.Log_Error($"Sketch is null.");
-					}
+				//// First run. Got values calculated.
+				//if (IncidentInterceptorUtility.Interception_MechCluster == MechClusterWorkerType.Steady)
+				//{
 
-					// Center.
-					center = IncidentInterceptorUtility.tempCenter;
+				//}
+				//// Second run. Execute -> Spawn.
+				//else if (IncidentInterceptorUtility.Interception_MechCluster == MechClusterWorkerType.Execute)
+				//{
+				//	// Sketch.
+				//	if (IncidentInterceptorUtility.tempMechClusterSketch != null)
+				//		sketch = IncidentInterceptorUtility.tempMechClusterSketch;
+				//	else
+				//	{
+				//		if (PES_Settings.DebugModeOn)
+				//			Logger.Log_Error($"Sketch is null.");
+				//	}
 
-					return true;
-				}
+				//	// Center.
+				//	center = IncidentInterceptorUtility.tempCenter;
+
+				//	return true;
+				//}
 
 				return true;
 			}
