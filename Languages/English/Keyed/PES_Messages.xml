@@ -34,6 +34,9 @@
 <PES_Warning_DropPodAssault>Warning: Drop Pod Assault</PES_Warning_DropPodAssault>
 <PES_Warning_DropPodAssault_Text>The colony's reconnaissance system has confirmed that the incoming drop pods actually contain enemies! Their landing spot has been successfully calculated. View the security report for more information.</PES_Warning_DropPodAssault_Text>
 
+<PES_Warning_MechCluster>Warning: Incomming Mech Cluster</PES_Warning_MechCluster>
+<PES_Warning_MechCluster_Text>The colony's reconnaissance system has confirmed that the incoming objects actually contain enemies! Their landing spot has been successfully calculated. View the security report for more information.</PES_Warning_MechCluster_Text>
+
 <PES_Infestation_Letter>Unusual Deep-Ground Motion Detected</PES_Infestation_Letter>
 <PES_Infestation_Text>The ground-penetrating scanner in the colony has detected an anomolous movement deep in the gound. This is a clear sign of an upcoming infestation.</PES_Infestation_Text>
 

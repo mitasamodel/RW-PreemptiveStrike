@@ -42,10 +42,10 @@ namespace PreemptiveStrike.Harmony
 				//LogPatchedMethod(typeof(RCellFinder), "TryFindRandomPawnEntryCell");
 				//Logger.LogNL("");
 
-				LogPatchedMethod(typeof(RaidStrategyWorker), "TryGenerateThreats");
-				Logger.LogNL("");
-				LogPatchedMethod(typeof(RaidStrategyWorker), "SpawnThreats");
-				Logger.LogNL("");
+				//LogPatchedMethod(typeof(RaidStrategyWorker), "TryGenerateThreats");
+				//Logger.LogNL("");
+				//LogPatchedMethod(typeof(RaidStrategyWorker), "SpawnThreats");
+				//Logger.LogNL("");
 			}
 		}
 

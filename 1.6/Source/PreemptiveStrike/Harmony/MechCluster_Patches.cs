@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using PES.RW_JustUtils;
+using PreemptiveStrike.IncidentCaravan;
 using PreemptiveStrike.Interceptor;
 using PreemptiveStrike.Mod;
 using RimWorld;
@@ -40,7 +41,11 @@ namespace PreemptiveStrike.Harmony
 
 				// Arm the interceptor.
 				if (IncidentInterceptorUtility.Interception_MechCluster == MechClusterWorkerType.Ready)
-					IncidentInterceptorUtility.Interception_MechCluster = MechClusterWorkerType.Steady;
+				{
+					if (PES_Settings.DebugModeOn)
+						Logger.LogNL($"Change to [{MechClusterWorkerType.Forestall}]");
+					IncidentInterceptorUtility.Interception_MechCluster = MechClusterWorkerType.Forestall;
+				}
 
 				return true;
 			}
@@ -70,12 +75,24 @@ namespace PreemptiveStrike.Harmony
 				//}
 
 				var matcher = new CodeMatcher(instructions, il);
+				matcher.Start();
 
 				// Define label for jumping to second method.
 				var labelProcessing = il.DefineLabel();
 
+				// Start after the local variable 'map' is set.
+				//// Map map = (Map)parms.target;
+				//IL_0000: ldarg.1
+				//IL_0001: ldfld class RimWorld.IIncidentTarget RimWorld.IncidentParms::target
+				//IL_0006: castclass Verse.Map
+				//IL_000b: stloc.0
+				matcher.MatchEndForward(
+					new CodeMatch(OpCodes.Castclass, typeof(Map)),		// Cast to 'Map'
+					new CodeMatch(cm => cm.IsStloc())					// Store local variable.
+				).ThrowIfInvalid("Can not find location of 'map'");
+				matcher.Advance(1);
+
 				// Insert call for first method and jump.
-				matcher.Start();
 				matcher.Insert(
 					new CodeInstruction(OpCodes.Call, MI_EarlyGate),        // Returns bool.
 					new CodeInstruction(OpCodes.Brtrue, labelProcessing)    // true -> jump.
@@ -178,8 +195,6 @@ namespace PreemptiveStrike.Harmony
 			/// <returns></returns>
 			private static bool EarlyGate()
 			{
-				if (PES_Settings.DebugModeOn)
-					Logger.LogNL($"[Patch_IncidentWorker_MechCluster.EarlyGate]");
 				return IncidentInterceptorUtility.Interception_MechCluster == MechClusterWorkerType.Execute;
 			}
 
@@ -200,34 +215,32 @@ namespace PreemptiveStrike.Harmony
 				if (PES_Settings.DebugModeOn)
 					Logger.LogNL($"Worker mode [{IncidentInterceptorUtility.Interception_MechCluster}].");
 
-				Verse.Log.Warning("Processing");
+				// First run. Got values calculated.
+				if (IncidentInterceptorUtility.Interception_MechCluster == MechClusterWorkerType.Forestall)
+				{
+					// Intercept incident.
+					var res = IncidentInterceptorUtility.Intercept_MechCluster(parms, center, sketch, __instance);
 
-				//// First run. Got values calculated.
-				//if (IncidentInterceptorUtility.Interception_MechCluster == MechClusterWorkerType.Steady)
-				//{
+					// Stop if intercepted.
+					return !res;
 
-				//}
-				//// Second run. Execute -> Spawn.
-				//else if (IncidentInterceptorUtility.Interception_MechCluster == MechClusterWorkerType.Execute)
-				//{
-				//	// Sketch.
-				//	if (IncidentInterceptorUtility.tempMechClusterSketch != null)
-				//		sketch = IncidentInterceptorUtility.tempMechClusterSketch;
-				//	else
-				//	{
-				//		if (PES_Settings.DebugModeOn)
-				//			Logger.Log_Error($"Sketch is null.");
-				//	}
-
-				//	// Center.
-				//	center = IncidentInterceptorUtility.tempCenter;
-
-				//	return true;
-				//}
+					// Transpiler added exit with 'false' from main method if we return 'false' here.
+				}
+				// Execute: set variables for spawn call.
+				else if (IncidentInterceptorUtility.Interception_MechCluster == MechClusterWorkerType.Execute)
+				{
+					if (PES_Settings.DebugModeOn)
+						Logger.LogNL($"Restore 'center' and 'sketch'.");
+					center = IncidentInterceptorUtility.tempCenter;
+					sketch = IncidentInterceptorUtility.tempMechClusterSketch;
+				}
 
 				return true;
 			}
 
+			/// <summary>
+			/// Finished. Either intercepted or executed.
+			/// </summary>
 			internal static void Postfix(IncidentWorker_MechCluster __instance, MethodBase __originalMethod)
 			{
 				if (PES_Settings.DebugModeOn)
@@ -238,31 +251,6 @@ namespace PreemptiveStrike.Harmony
 
 				// Disarm the interceptor.
 				IncidentInterceptorUtility.Interception_MechCluster = MechClusterWorkerType.Ready;
-			}
-		}
-
-		/// <summary>
-		/// Use pre-calculated center.
-		/// </summary>
-		[HarmonyPatch(typeof(MechClusterUtility))]
-		internal static class Patch_MechClusterUtility
-		{
-			[HarmonyPatch("FindClusterPosition")]
-			internal static bool Prefix(ref IntVec3 __result, MethodBase __originalMethod)
-			{
-				if (PES_Settings.DebugModeOn)
-				{
-					Logger.LogNL($"[{__originalMethod.DeclaringType.Name}.{__originalMethod.Name}] Prefix.");
-					Logger.LogNL($"\tWorker mode [{IncidentInterceptorUtility.Interception_MechCluster}].");
-				}
-
-				if (IncidentInterceptorUtility.Interception_MechCluster == MechClusterWorkerType.Execute)
-				{
-
-					return false;
-				}
-
-				return true;
 			}
 		}
 

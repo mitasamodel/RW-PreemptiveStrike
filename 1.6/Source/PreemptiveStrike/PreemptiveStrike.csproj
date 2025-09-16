@@ -77,6 +77,7 @@
     <Compile Include="Harmony\IncidentPatches.cs" />
     <Compile Include="Harmony\IncidentPatch_Simple.cs" />
     <Compile Include="Harmony\MechCluster_Patches.cs" />
+    <Compile Include="Harmony\StorytellerPatches.cs" />
     <Compile Include="Harmony\WorldObjectsHolderPatches.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="IncidentCaravan\IncidentCaravanUtility.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="Interceptor\InterceptedIncident_HumanCrowd_RaidEnemy_Distributed.cs" />
     <Compile Include="Interceptor\InterceptedIncident_HumanCrowd_RaidEnemy_DistributedGroups.cs" />
     <Compile Include="Interceptor\InterceptedIncident_Infestation.cs" />
+    <Compile Include="Interceptor\InterceptedIncident_MechCluster.cs" />
     <Compile Include="Interceptor\InterceptedIncident_SkyFaller.cs" />
     <Compile Include="Interceptor\InterceptedIncident_SkyFaller_DropPodAssault.cs" />
     <Compile Include="Interceptor\InterceptedIncident_SkyFaller_EdgeDropGroup.cs" />

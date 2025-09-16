@@ -27,6 +27,8 @@ namespace PreemptiveStrike.IncidentCaravan
 					detected = true;
 					if (incident is InterceptedIncident_SkyFaller skyfallincident)
 						skyfallincident.DetectMessage();
+					if (incident is InterceptedIncident_MechCluster mechclusterinc)
+						mechclusterinc.DetectMessage();
 					EventManger.NotifyCaravanListChange?.Invoke();
 				}
 			}
@@ -82,9 +84,9 @@ namespace PreemptiveStrike.IncidentCaravan
 			if (relationInformed)
 				return;
 			if (incident is InterceptedIncident_SkyFaller skyfallincident)
-			{
 				skyfallincident.ConfirmMessage();
-			}
+			else if (incident is InterceptedIncident_MechCluster mechclusterinc)
+				mechclusterinc.ConfirmMessage();
 			relationInformed = true;
 		}
 	}

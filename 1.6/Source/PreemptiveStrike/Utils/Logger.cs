@@ -30,7 +30,7 @@ namespace PES.RW_JustUtils
 			}
 		}
 
-		public static void LogNL(string msg)
+		public static void LogNL(string msg = "")
 		{
 			if (!_init) Init();
 			File.AppendAllText(logFile, GetTabs() + msg + "\n");

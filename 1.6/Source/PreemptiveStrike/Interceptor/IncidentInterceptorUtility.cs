@@ -22,14 +22,14 @@ namespace PreemptiveStrike.Interceptor
 	{
 		ExecuteOrigin,
 		Forestall,
-		Substitution
+		Substitution,
 	}
 
 	enum MechClusterWorkerType
 	{
-		Ready,		// Normal operation.
-		Steady,		// Allow to run until the spawning.
-		Execute			// Allow spawn with pre-defined data.
+		Ready,      // Normal operation. Execute origin if nothing changes the flag.
+		Forestall,  // Allow to run until the spawning. Let to calculate the data.
+		Execute     // Allow to spawn with pre-defined data.
 	}
 
 	[StaticConstructorOnStartup]
@@ -248,11 +248,6 @@ namespace PreemptiveStrike.Interceptor
 			if (PES_Settings.DebugModeOn)
 				Logger.LogNL($"[IncidentInterceptorUtility.Intercept_SkyFaller]");
 			using var _ = Logger.Scope();
-			//if (PES_Settings.DebugModeOn)
-			//	Debug.DebugParms(parms, incidentDef);
-
-			//if (Helper.IsQuest(parms))
-			//	return false;
 
 			//Lt.Bob - Moved null check in front of hostile faction check.  Attempt to resolve issue with quest rewards of pawns.
 			if (incidentDef == null)
@@ -289,6 +284,62 @@ namespace PreemptiveStrike.Interceptor
 				Messages.Message("PES_Debug: Successfully intercepted a skyfaller Incident", MessageTypeDefOf.NeutralEvent);
 				Logger.LogNL("Intercepted");
 			}
+			return true;
+		}
+
+		/// <summary>
+		/// Try intercept Mech Cluster
+		/// </summary>
+		/// <param name="parms">Incident parms</param>
+		/// <param name="center">Calcualted center of cluster drop</param>
+		/// <param name="sketch">Pre-calculated sketch</param>
+		/// <param name="__instance">Incident worker</param>
+		/// <returns>true if intercepted; otherwise false</returns>
+		public static bool Intercept_MechCluster(IncidentParms parms, IntVec3 center, MechClusterSketch sketch, IncidentWorker_MechCluster worker)
+		{
+			if (PES_Settings.DebugModeOn)
+				Logger.LogNL($"[Intercept_MechCluster]");
+			using var _ = Logger.Scope();
+
+			if (worker?.def == null || parms == null || center == IntVec3.Invalid || sketch == null)
+			{
+				Logger.Log_Error($"Something is null. def[{worker?.def?.defName}] parms[{parms}] center[{center}] sketch[{sketch}]");
+				return false;
+			}
+
+			if (Helper.IsQuest(parms))
+				return false;
+
+			var incident = new InterceptedIncident_MechCluster
+			{
+				incidentDef = worker.def,
+				parms = parms,
+				sketch = sketch,
+				center = center,
+			};
+
+			if (PES_Settings.DebugModeOn)
+			{
+				Logger.LogNL($"sketch[{sketch}] entities[{sketch?.buildingsSketch?.Entities?.Count}] center[{center}]");
+			}
+
+			if (!incident.PreCalculateDroppingSpot())
+				return false;
+
+			int totDuration = PES_Settings.LargeSkyFallerDuration;
+			int decTime = PES_Settings.LargeSkyFallerIdentificationTime;
+			if (!IncidentCaravanUtility.AddSimpleIncidentCaravan(incident, totDuration, decTime))
+			{
+				Logger.Log_Error("Failed to create Incident Caravan");
+				return false;
+			}
+			IsHoaxingStoryTeller = true;
+			if (PES_Settings.DebugModeOn)
+			{
+				Messages.Message("PES_Debug: Successfully intercepted a Mech Cluster Incident", MessageTypeDefOf.NeutralEvent);
+				Logger.LogNL("Intercepted");
+			}
+
 			return true;
 		}
 
