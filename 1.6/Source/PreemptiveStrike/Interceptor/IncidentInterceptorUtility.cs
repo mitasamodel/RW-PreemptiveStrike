@@ -25,6 +25,13 @@ namespace PreemptiveStrike.Interceptor
 		Substitution
 	}
 
+	enum MechClusterWorkerType
+	{
+		Ready,		// Normal operation.
+		Steady,		// Allow to run until the spawning.
+		Execute			// Allow spawn with pre-defined data.
+	}
+
 	[StaticConstructorOnStartup]
 	class IncidentInterceptorUtility
 	{
@@ -35,6 +42,7 @@ namespace PreemptiveStrike.Interceptor
 		public static bool IsIntercepting_IncidentExecution;
 		public static GeneratorPatchFlag IsIntercepting_PawnGeneration;
 		public static GeneratorPatchFlag IsIntercepting_GroupSpliter;
+		public static GeneratorPatchFlag TryFindRandomPawnEntryCell = GeneratorPatchFlag.Generate;
 
 		public static bool isIntercepting_TraderCaravan_Worker;
 		public static bool isIntercepting_TravelerGroup;
@@ -46,13 +54,15 @@ namespace PreemptiveStrike.Interceptor
 		public static WorkerPatchType isIntercepting_Alphabeavers;
 		public static WorkerPatchType isIntercepting_ManhunterPack;
 
+		public static MechClusterWorkerType Interception_MechCluster = MechClusterWorkerType.Ready;
+
 		// Used in Prefixes to skip re-calculations.
 		public static IncidentParms ActiveExecutionParms;
-		public static GeneratorPatchFlag TryFindRandomPawnEntryCell = GeneratorPatchFlag.Generate;
 		#endregion
 
 		#region Simple Interception Switches
 		public static bool isIntercepting_DropPodAssault = true;
+
 		//public static bool isIntercepting_EdgeDrop;
 		//public static bool isIntercepting_CenterDrop;
 		//public static bool isIntercepting_EdgeDropGroup;
@@ -79,6 +89,8 @@ namespace PreemptiveStrike.Interceptor
 		public static IntVec3 tempRandomDropCell;
 		public static IntVec3 tempInfestationCell;
 		public static List<IntVec3> tempEntryCells;
+		public static MechClusterSketch tempMechClusterSketch;
+		public static IntVec3 tempCenter;
 
 		static IncidentInterceptorUtility()
 		{

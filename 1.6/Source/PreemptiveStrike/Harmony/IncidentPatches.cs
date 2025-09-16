@@ -211,7 +211,7 @@ namespace PreemptiveStrike.Harmony
 			}
 
 			// Need feedback about gameplay to understand when does it happen exactly.
-			if ( __instance is PawnsArrivalModeWorker_EdgeWalkInHateChanters)
+			if (__instance is PawnsArrivalModeWorker_EdgeWalkInHateChanters)
 			{
 				Logger.Log_Warning($"Please report this data to mod author.");
 				if (PES_Settings.DebugModeOn)

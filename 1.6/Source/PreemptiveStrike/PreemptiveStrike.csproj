@@ -76,6 +76,7 @@
     <Compile Include="Harmony\HarmonyMain.cs" />
     <Compile Include="Harmony\IncidentPatches.cs" />
     <Compile Include="Harmony\IncidentPatch_Simple.cs" />
+    <Compile Include="Harmony\MechCluster_Patches.cs" />
     <Compile Include="Harmony\WorldObjectsHolderPatches.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="IncidentCaravan\IncidentCaravanUtility.cs" />
