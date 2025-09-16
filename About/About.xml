@@ -18,6 +18,7 @@
 	<loadAfter>
 		<li>brrainz.harmony</li>
 		<li>BiomesTeam.BiomesIslands</li>
+		<li>Dubwise.Rimatomics</li>
     </loadAfter>
 	<packageId>mitasamodel.preemptivestrike</packageId>
 	<description>
