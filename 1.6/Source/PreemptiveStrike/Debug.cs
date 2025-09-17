@@ -32,7 +32,7 @@ namespace PreemptiveStrike
 			if (!toConsole)
 			{
 				Logger.LogNL("IncidentParms:");
-				Logger.LogNL($"\tFull[{parms}]");
+				Logger.LogNL($"\tBypass[{parms.bypassStorytellerSettings}] Forced[{parms.forced}] Full[{parms}]");
 				Logger.LogNL($"\tQuest: [{parms.quest}] " +
 					$"Parts[{parms.quest?.PartsListForReading}] " +
 					$"Tag[{parms.questTag}] " +

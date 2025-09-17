@@ -176,7 +176,10 @@ namespace PreemptiveStrike.Interceptor
 			}
 			IsHoaxingStoryTeller = true;
 			if (PES_Settings.DebugModeOn)
+			{
 				Logger.LogNL($"Successfully intercepted a raid Incident");
+				Messages.Message("PES_Debug: Successfully intercepted a raid Incident", MessageTypeDefOf.NeutralEvent);
+			}
 			return true;
 		}
 
@@ -248,6 +251,8 @@ namespace PreemptiveStrike.Interceptor
 			if (PES_Settings.DebugModeOn)
 				Logger.LogNL($"[IncidentInterceptorUtility.Intercept_SkyFaller]");
 			using var _ = Logger.Scope();
+			if (PES_Settings.DebugModeOn)
+				Logger.LogNL($"Type[{typeof(T).Name}]");
 
 			//Lt.Bob - Moved null check in front of hostile faction check.  Attempt to resolve issue with quest rewards of pawns.
 			if (incidentDef == null)
@@ -257,24 +262,38 @@ namespace PreemptiveStrike.Interceptor
 			}
 
 			if (checkHostileFaction && parms.faction.PlayerRelationKind != FactionRelationKind.Hostile)
+			{
+				if (PES_Settings.DebugModeOn)
+					Logger.LogNL($"Not a hostile faction. Faction[{parms.faction}] Relation[{parms.faction.PlayerRelationKind}]");
 				return false;
+			}
 
 			InterceptedIncident_SkyFaller incident = new T();
 			incident.incidentDef = incidentDef;
 			incident.parms = parms;
 			if (incident.FallerType == SkyFallerType.Big && !PESDefOf.PES_SkyIDL.IsFinished)
+			{
+				if (PES_Settings.DebugModeOn)
+					Logger.LogNL("Research has not been finished.");
 				return false;
+			}
 			if (incident.FallerType == SkyFallerType.Small && !PESDefOf.PES_SkyIDS.IsFinished)
+			{
+				if (PES_Settings.DebugModeOn)
+					Logger.LogNL("Research has not been finished.");
 				return false;
+			}
 			if (!incident.PreCalculateDroppingSpot())
 			{
+				if (PES_Settings.DebugModeOn)
+					Logger.LogNL("Cannot calculate incident.PreCalculateDroppingSpot");
 				return false;
 			}
 			int totDuration = incident.FallerType == SkyFallerType.Big ? PES_Settings.LargeSkyFallerDuration : PES_Settings.SmallSkyFallerDuration;
 			int decTime = incident.FallerType == SkyFallerType.Big ? PES_Settings.LargeSkyFallerIdentificationTime : PES_Settings.SmallSkyFallerIdentificationTime;
 			if (!IncidentCaravanUtility.AddSimpleIncidentCaravan(incident, totDuration, decTime))
 			{
-				Log.Error("Fail to create Incident Caravan");
+				Logger.Log_Error("Fail to create Incident Caravan");
 				return false;
 			}
 			if (needHoaxing)

@@ -46,11 +46,12 @@ namespace PreemptiveStrike.Interceptor
 			bool result = (bool)vanillaParmsResolver.Invoke(new IncidentWorker_TraderCaravanArrival(), new object[] { parms });
 			if (!result)
 			{
-				Logger.LogNL("\tCannot resolve parms.");
+				Logger.LogNL("Cannot resolve parms.");
 				return false;
 			}
 			if (parms.faction.HostileTo(Faction.OfPlayer))
 			{
+				Logger.LogNL("Hostile faction");
 				return false;
 			}
 			return base.ManualDeterminParams();

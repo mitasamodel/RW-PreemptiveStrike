@@ -47,26 +47,27 @@ namespace PreemptiveStrike.Harmony
 
 			if (IncidentInterceptorUtility.isIntercepting_DropPodAssault)
 			{
+				bool result = true;
 				switch (__instance)
 				{
 					case PawnsArrivalModeWorker_SpecificLocationDrop _:
-						__result = !IncidentInterceptorUtility.Intercept_SkyFaller<InterceptedIncident_SkyFaller_DropPodAssault>(
+						result = !IncidentInterceptorUtility.Intercept_SkyFaller<InterceptedIncident_SkyFaller_DropPodAssault>(
 							curIncDef, parms, true, true);
 						break;
 					case PawnsArrivalModeWorker_RandomDrop _:
-						__result = !IncidentInterceptorUtility.Intercept_SkyFaller<InterceptedIncident_SkyFaller_RandomDrop>(
+						result = !IncidentInterceptorUtility.Intercept_SkyFaller<InterceptedIncident_SkyFaller_RandomDrop>(
 							curIncDef, parms, true, true);
 						break;
 					case PawnsArrivalModeWorker_EdgeDropGroups _:
-						__result = !IncidentInterceptorUtility.Intercept_SkyFaller<InterceptedIncident_SkyFaller_EdgeDropGroup>(
+						result = !IncidentInterceptorUtility.Intercept_SkyFaller<InterceptedIncident_SkyFaller_EdgeDropGroup>(
 							curIncDef, parms, true);
 						break;
 					case PawnsArrivalModeWorker_CenterDrop _:
-						__result = !IncidentInterceptorUtility.Intercept_SkyFaller<InterceptedIncident_SkyFaller_DropPodAssault>(
+						result = !IncidentInterceptorUtility.Intercept_SkyFaller<InterceptedIncident_SkyFaller_DropPodAssault>(
 							curIncDef, parms, true, true);
 						break;
 					case PawnsArrivalModeWorker_EdgeDrop _:
-						__result = !IncidentInterceptorUtility.Intercept_SkyFaller<InterceptedIncident_SkyFaller_DropPodAssault>(
+						result = !IncidentInterceptorUtility.Intercept_SkyFaller<InterceptedIncident_SkyFaller_DropPodAssault>(
 							curIncDef, parms, true, true);
 						break;
 					default:
@@ -75,6 +76,9 @@ namespace PreemptiveStrike.Harmony
 						Debug.DebugParms(parms, toConsole: true);
 						break;
 				}
+				if (PES_Settings.DebugModeOn)
+					Logger.LogNL($"Result[{result}]");
+				__result = result;
 			}
 		}
 	}
