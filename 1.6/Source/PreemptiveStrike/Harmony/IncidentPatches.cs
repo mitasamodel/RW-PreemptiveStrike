@@ -364,13 +364,22 @@ namespace PreemptiveStrike.Harmony
 			if (PES_Settings.DebugModeOn)
 			{
 				Logger.LogNL(0, $"[IncidentWorker_TraderCaravanArrival.TryExecuteWorker] Prefix.");
-				Debug.DebugParms(parms, __instance.ToString());
+				//Debug.DebugParms(parms, __instance.ToString());
 			}
 			if (Helper.IsQuest(parms))
 				return true;
 			if (IncidentInterceptorUtility.isIntercepting_TraderCaravan_Worker)
 				return !IncidentInterceptorUtility.CreateIncidentCaravan_HumanNeutral<InterceptedIncident_HumanCrowd_TraderCaravan>(__instance.def, parms);
 			return true;
+		}
+
+		internal static void Postfix(bool __result, IncidentParms parms, IncidentWorker_TraderCaravanArrival __instance, MethodBase __originalMethod)
+		{
+			if (PES_Settings.DebugModeOn)
+			{
+				Logger.LogNL($"[IncidentWorker_TraderCaravanArrival.TryExecuteWorker] Postfix.");
+				Logger.LogNL($"\tResult[{__result}] spawnCenter[{parms.spawnCenter}] points[{parms.points}] traderKind[{parms.traderKind}]");
+			}
 		}
 	}
 

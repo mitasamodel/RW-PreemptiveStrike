@@ -1,14 +1,15 @@
 ﻿using HarmonyLib;
+using PES;
+using PES.RW_JustUtils;
+using PreemptiveStrike.Mod;
 using RimWorld;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using PES;
-using PreemptiveStrike.Mod;
-using PES.RW_JustUtils;
 using Verse;
 
 namespace PreemptiveStrike.Harmony
@@ -20,16 +21,26 @@ namespace PreemptiveStrike.Harmony
 		/// Debugging only. Log Storeteller fires.
 		/// </summary>
 		[HarmonyPatch(typeof(Storyteller), nameof(Storyteller.TryFire))]
-		internal static void Postfix(bool __result, FiringIncident fi, bool queued, MethodBase __originalMethod)
+		internal static bool Prefix(FiringIncident fi, bool queued, MethodBase __originalMethod)
 		{
 			if (PES_Settings.DebugModeOn)
 			{
-				Logger.LogNL($"[{__originalMethod.DeclaringType.Name}.{__originalMethod.Name}] TickS[{Find.TickManager.TicksSinceSettle / 60}]");
+				Logger.LogNL($"[{__originalMethod.DeclaringType.Name}.{__originalMethod.Name}] Prefix. TickS[{Find.TickManager.TicksSinceSettle / 60}]");
 				using var _ = Logger.Scope();
 
 				Logger.LogNL($"Incident Def[{fi.def}] Queued[{queued}]");
 				Logger.LogNL($"Parms [{fi.parms}]");
-				if (__result) Logger.LogNL($"Fired [{__result}]");
+			}
+			return true;
+		}
+
+		[HarmonyPatch(typeof(Storyteller), nameof(Storyteller.TryFire))]
+		internal static void Postfix(bool __result, FiringIncident fi, bool queued, MethodBase __originalMethod)
+		{
+			if (PES_Settings.DebugModeOn)
+			{
+				Logger.LogNL($"[{__originalMethod.DeclaringType.Name}.{__originalMethod.Name}] Postfix.");
+				if (__result) Logger.LogNL($"\tFired [{__result}]");
 			}
 		}
 	}
