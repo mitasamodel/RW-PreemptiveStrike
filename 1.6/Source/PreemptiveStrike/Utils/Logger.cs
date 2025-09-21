@@ -35,6 +35,10 @@ namespace PES.RW_JustUtils
 			if (!_init) Init();
 			File.AppendAllText(logFile, GetTabs() + msg + "\n");
 		}
+		public static void AppendTab(this StringBuilder sb, string msg)
+		{
+			sb.Append(GetTabs() + msg);
+		}
 
 		// Log from the beginning no matter tabs.
 		public static void LogNL(int tab, string msg)
@@ -59,6 +63,12 @@ namespace PES.RW_JustUtils
 		public static void Log_Error(string str)
 		{
 			Verse.Log.Error($"[Preemptive Strike] " + str);
+			if (PES_Settings.DebugModeOn)
+				LogNL(str);
+		}
+		public static void Log_ErrorOnce(string str, int num)
+		{
+			Verse.Log.ErrorOnce($"[Preemptive Strike] " + str, num);
 			if (PES_Settings.DebugModeOn)
 				LogNL(str);
 		}

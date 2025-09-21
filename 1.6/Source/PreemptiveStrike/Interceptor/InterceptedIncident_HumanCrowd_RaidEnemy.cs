@@ -1,13 +1,14 @@
-﻿using System;
+﻿using PES.RW_JustUtils;
+using PreemptiveStrike.IncidentCaravan;
+using PreemptiveStrike.Mod;
+using PreemptiveStrike.RaidGoal;
+using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
-using RimWorld;
 using Verse;
-using PreemptiveStrike.Mod;
-using PreemptiveStrike.IncidentCaravan;
-using PreemptiveStrike.RaidGoal;
-using PES.RW_JustUtils;
 
 namespace PreemptiveStrike.Interceptor
 {
@@ -77,19 +78,13 @@ namespace PreemptiveStrike.Interceptor
         {
             crowdSize_revealed = true;
 
-            if (PES_Settings.DebugModeOn)
-            {
-                Logger.LogNL("[RevealCrowdSize] CrowedSize revealed!!!");
-                StringBuilder sb = new StringBuilder("pawn number:");
-                sb.Append(pawnList.Count + " ");
-                foreach (var x in pawnList)
-                {
-                    sb.Append("\n");
-                    sb.Append(x.Name);
-                }
-				Logger.LogNL(sb.ToString());
-            }
-        }
+			if (PES_Settings.DebugModeOn)
+			{
+				Logger.LogNL($"[{MethodBase.GetCurrentMethod().DeclaringType.Name}.{MethodBase.GetCurrentMethod().Name}]");
+				using var _ = Logger.Scope();
+				Debug.LogCrowedSize(pawnList);
+			}
+		}
 
         public override bool ManualDeterminParams()
         {

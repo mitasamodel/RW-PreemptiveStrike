@@ -1,5 +1,7 @@
 ﻿using PES.RW_JustUtils;
 using RimWorld;
+using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using Verse;
 
@@ -54,5 +56,42 @@ namespace PreemptiveStrike
 			}
 		}
 
+		public static void IncidentTicks(IncidentParms parms, IncidentDef incDef)
+		{
+			int ticksGame = Find.TickManager.TicksGame;
+			var lastFireTicks = parms.target.StoryState.lastFireTicks;
+			var lastThreatBigTick = parms.target.StoryState.LastThreatBigTick;
+
+			Logger.LogNL($"LastThreatBigTick [{lastThreatBigTick}] TicksGame[{ticksGame}] dd[{(ticksGame - lastThreatBigTick) / GenDate.TicksPerDay}]");
+
+			if (lastFireTicks.TryGetValue(incDef, out var value))
+				Logger.LogNL($"Last fired[{value}] TicksGame[{ticksGame}] dd[{(ticksGame - value) / GenDate.TicksPerDay}] min refire days[{incDef.minRefireDays}]");
+
+			List<IncidentDef> refireCheckIncidents = incDef.RefireCheckIncidents;
+			if (refireCheckIncidents != null)
+			{
+				for (int i = 0; i < refireCheckIncidents.Count; i++)
+				{
+					if (lastFireTicks.TryGetValue(refireCheckIncidents[i], out value))
+						Logger.LogNL($"refire[{refireCheckIncidents[i].defName}]: Last fired[{value}] TicksGame[{ticksGame}] dd[{(ticksGame - value) / GenDate.TicksPerDay}] min refire days[{incDef.minRefireDays}]");
+				}
+			}
+		}
+
+		public static void LogCrowedSize(List<Pawn> pawnList)
+		{
+			Logger.LogNL($"CrowedSize revealed!!!");
+			StringBuilder sb = new StringBuilder();
+			sb.AppendTab($"Pawn number: {pawnList.Count}\n");
+			foreach (var x in pawnList)
+			{
+				if (x.IsAnimal)
+					sb.AppendTab($"{x.KindLabel}\n");
+				else
+					sb.AppendTab($"{x.Name}\n");
+			}
+			Logger.Log(sb.ToString());
+			Logger.LogNL();
+		}
 	}
 }

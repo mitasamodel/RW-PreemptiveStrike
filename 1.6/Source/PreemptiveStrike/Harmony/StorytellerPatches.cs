@@ -30,24 +30,10 @@ namespace PreemptiveStrike.Harmony
 				Logger.LogNL($"[{__originalMethod.DeclaringType.Name}.{__originalMethod.Name}] Prefix. TickS[{Find.TickManager.TicksSinceSettle / 60}]");
 				using var _ = Logger.Scope();
 
-				Logger.LogNL($"Incident Def[{fi.def}] Queued[{queued}]");
+				Logger.LogNL($"Incident Def[{fi.def}] Cat[{fi.def.category}] Queued[{queued}]");
 				Logger.LogNL($"Parms [{fi.parms}]");
 
-				var lastFireTicks = fi.parms.target.StoryState.lastFireTicks;
-				int ticksGame = Find.TickManager.TicksGame;
-
-				if (lastFireTicks.TryGetValue(fi.def, out var value))
-					Logger.LogNL($"Last fired[{value}] TicksGame[{ticksGame}] dd[{(ticksGame-value)/6000}] min refire days[{fi.def.minRefireDays}]");
-
-				List<IncidentDef> refireCheckIncidents = fi.def.RefireCheckIncidents;
-				if (refireCheckIncidents != null)
-				{
-					for (int i = 0; i < refireCheckIncidents.Count; i++)
-					{
-						if (lastFireTicks.TryGetValue(refireCheckIncidents[i], out value))
-							Logger.LogNL($"refire[{i}]: Last fired[{value}] TicksGame[{ticksGame}] dd[{(ticksGame - value)/6000}] min refire days[{fi.def.minRefireDays}]");
-					}
-				}
+				Debug.IncidentTicks(fi.parms, fi.def);
 			}
 			return true;
 		}
@@ -59,6 +45,8 @@ namespace PreemptiveStrike.Harmony
 			{
 				Logger.LogNL($"[{__originalMethod.DeclaringType.Name}.{__originalMethod.Name}] Postfix.");
 				if (__result) Logger.LogNL($"\tFired [{__result}] def[{fi.def.defName}]");
+
+				Debug.IncidentTicks(fi.parms, fi.def);
 			}
 		}
 	}

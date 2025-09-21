@@ -23,6 +23,7 @@ namespace PreemptiveStrike.Harmony
 			{
 				Logger.LogNL($"Worker Class [{__instance.GetType()}]");
 				Debug.DebugParms(parms, __instance);
+				//Debug.IncidentTicks(parms, __instance.def);
 			}
 
 			if (Helper.IsQuest(parms))

@@ -81,22 +81,12 @@ namespace PreemptiveStrike.Interceptor
 		protected override void RevealCrowdSize()
 		{
 			crowdSize_revealed = true;
-			string method;
 			if (PES_Settings.DebugModeOn)
 			{
-				method = MethodBase.GetCurrentMethod().DeclaringType.Name + "." + MethodBase.GetCurrentMethod().Name;
-				Logger.LogNL($"[{method}]");
-				Logger.LogNL($"\t CrowedSize revealed!!!");
-				StringBuilder sb = new StringBuilder("pawn number:");
-				sb.Append(pawnList.Count + " ");
-				foreach (var x in pawnList)
-				{
-					sb.Append("\n");
-					sb.Append(x.Name);
-				}
-				Logger.LogNL(sb.ToString());
+				Logger.LogNL($"[{MethodBase.GetCurrentMethod().DeclaringType.Name}.{MethodBase.GetCurrentMethod().Name}]");
+				using var _ = Logger.Scope();
+				Debug.LogCrowedSize(pawnList);
 			}
 		}
-
 	}
 }
